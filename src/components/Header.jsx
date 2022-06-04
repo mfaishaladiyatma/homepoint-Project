@@ -12,34 +12,35 @@ import { Listbox, Transition } from '@headlessui/react'
 
 const category = [
     {
-        id: 1,
+        // id: 1,
         name: 'Kursi',
     },
     {
-        id: 2,
+        // id: 2,
         name: 'Meja',
     },
     {
-        id: 3,
+        // id: 3,
         name: 'Lampu',
     },
     {
-        id: 4,
+        // id: 4,
         name: 'Kipas',
     },
     {
-        id: 5,
+        // id: 5,
         name: 'Kulkas',
     },
     {
-        id: 6,
+        // id: 6,
         name: 'Lainnya',
     }
 ]
 
 export default function Header() {
-    const [selected, setSelected] = useState(category[0])
-
+    const [selected, setSelected] = useState('')
+    
+    console.log(selected)
     return (
         <header>
             <nav className='bg-blue-pale h-20 flex items-center justify-center font-Inter'>
@@ -52,25 +53,73 @@ export default function Header() {
                         <Listbox value={selected} onChange={setSelected}>
                             <div className='relative h-full '>
                                 <Listbox.Button className='font-[400] px-2 text-left w-44 h-full  flex items-center justify-between'>
-                                    <span>{selected.name}</span>
+                                    {selected ? <span>{selected}</span> : 'Kategori'}
+                                    {/* <span>{selected}</span> */}
                                     <span><img src={arrowDown} alt="" /> </span>
                                 </Listbox.Button>
-                                <Listbox.Options className='w-44 rounded-[10px] border border-slate-400 absolute top-full mt-3 cursor-pointer'>
-                                    {category.map((item) => (
+                                <Transition
+                                    as={Fragment}
+                                    leave='transition ease-in duration-200'
+                                    leaveFrom='opacity-100'
+                                    leaveTo='opacity-0'
+                                >
+                                    <Listbox.Options className='w-44 rounded-[10px] border border-slate-400 absolute top-full mt-3 cursor-pointer'>
                                         <Listbox.Option
-                                            key={item.id}
-                                            value={item}
                                             as={Fragment}
-                                        >
+                                            value={'Kursi'}>
                                             {({ active, selected }) => (
                                                 <li className={`flex items-center px-2 py-2 gap-x-3 rounded-[10px] ${active ? 'bg-blue-300 ' : 'bg-white text-black'} ${selected ? 'font-bold' : 'font-normal'}`}>
                                                     {selected ? (
                                                         <HiCheck className='w-7 h-7 text-blue-500' />
-                                                    ) : null} 
-                                                    {item.name}
+                                                    ) : null}
+                                                    {'Kursi'}
                                                 </li>
                                             )}
-                                            {/* className={({active}) =>
+                                        </Listbox.Option>
+                                        <Listbox.Option
+                                            as={Fragment}
+                                            value={'Kursi 2'}>
+                                            {({ active, selected }) => (
+                                                <>
+                                                <li className={`flex items-center px-2 py-2 gap-x-3 rounded-[10px] ${active ? 'bg-blue-300 ' : 'bg-white text-black'} ${selected ? 'font-bold' : 'font-normal'}`}>
+                                                    {selected ? (
+                                                        <HiCheck className='w-7 h-7 text-blue-500' />
+                                                    ) : null}
+                                                    {'Kursi 2'}
+                                                </li>
+                                                <Listbox.Options
+                                                className={active ? 'block' : 'hidden'}>Test</Listbox.Options>
+                                                </>
+                                            )}
+                                        </Listbox.Option>
+                                        <Listbox.Option
+                                            as={Fragment}
+                                            value={'Kursi 3'}>
+                                            {({ active, selected }) => (
+                                                <li className={`flex items-center px-2 py-2 gap-x-3 rounded-[10px] ${active ? 'bg-blue-300 ' : 'bg-white text-black'} ${selected ? 'font-bold' : 'font-normal'}`}>
+                                                    {selected ? (
+                                                        <HiCheck className='w-7 h-7 text-blue-500' />
+                                                    ) : null}
+                                                    {'Kursi 3'}
+                                                </li>
+                                            )}
+                                        </Listbox.Option>
+                                        
+                                        {/* {category.map((item, index) => (
+                                            <Listbox.Option
+                                                key={index}
+                                                value={item}
+                                                as={Fragment}
+                                            >
+                                                {({ active, selected }) => (
+                                                    <li className={`flex items-center px-2 py-2 gap-x-3 rounded-[10px] ${active ? 'bg-blue-300 ' : 'bg-white text-black'} ${selected ? 'font-bold' : 'font-normal'}`}>
+                                                        {selected ? (
+                                                            <HiCheck className='w-7 h-7 text-blue-500' />
+                                                        ) : null}
+                                                        {item.name}
+                                                    </li>
+                                                )} */}
+                                        {/* className={({active}) =>
                                             `${active ? 'bg-blue-300 text-blue-800' : 'text-black'}`
                                             }>
                                                 {({selected}) => (
@@ -85,16 +134,17 @@ export default function Header() {
                                                     ) : null}
                                                     </>
                                                 )} */}
-                                        </Listbox.Option>
-                                    ))}
-                                </Listbox.Options>
+                                        {/* </Listbox.Option>
+                                        ))} */}
+                                    </Listbox.Options>
+                                </Transition>
                             </div>
                         </Listbox>
 
                         <div className='h-full w-1 rounded-full bg-black'></div>
 
                         <div className=' w-full'>
-                            <input className='w-full h-full px-3' type="search" placeholder='Search'/>
+                            <input className='w-full h-full px-3' type="search" placeholder='Search' />
                         </div>
                     </div>
                     <button>
