@@ -2,9 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
 /* Contoh Penggunaan Font custom */
 
-/* @font-face {
+/* @font-face 
   font-family: "Rubik";
   src: url("../public/fonts/Rubik-VariableFont_wght.ttf");
 } */
@@ -82,3 +84,88 @@
   gridTemplateColumns:{
     'custom-3': '1fr 150px 1fr'
   } */
+
+.before {
+  position: relative;
+  width: fit-content;
+}
+.before::before {
+  content: "";
+  width: 100%;
+  height: 2px;
+  position: absolute;
+  top: 50%;
+  background-color: gray;
+}
+
+.active {
+  color: #fbc646;
+  border-bottom: 2px solid #fbc646;
+  font-weight: bold;
+}
+
+.modal-bg {
+  background-color: rgba(0, 0, 0, 0.3);
+  height: 120vh;
+}
+
+.modal-auto {
+  overflow-y: scroll;
+  height: calc(100% - 26px);
+}
+
+.blue-1::before {
+  content: "";
+  position: absolute;
+  width: 60%;
+  height: 100%;
+  border-radius: 5px 5px 5px 5px;
+  background-color: #316093;
+}
+.blue-2::before {
+  content: "";
+  position: absolute;
+  width: 20%;
+  height: 100%;
+  border-radius: 5px 5px 5px 5px;
+  background-color: #316093;
+}
+.blue-3::before {
+  content: "";
+  position: absolute;
+  width: 10%;
+  height: 100%;
+  border-radius: 5px 5px 5px 5px;
+  background-color: #316093;
+}
+
+.grid {
+  grid-template-columns: repeat(6, 180px);
+}
+
+@media only screen and (max-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 180px);
+  }
+
+  .modal-bg {
+    height: 200vh;
+  }
+
+  .modal-auto {
+    height: 80%;
+  }
+}
+@media only screen and (max-width: 368px) {
+  .grid {
+    grid-template-columns: repeat(2, 140px);
+  }
+
+  .modal-bg {
+    height: 200vh;
+  }
+
+  .modal-auto {
+    height: 70%;
+  }
+}
