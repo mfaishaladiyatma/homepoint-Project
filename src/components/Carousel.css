@@ -1,9 +1,9 @@
 .carouselHero {
-    @apply  h-full flex justify-center 
+    @apply  h-full flex justify-center  px-5 
 }
 
 .carouselHero .swiper-wrapper {
-    @apply container
+    @apply container 
 }
 
 .carouselHero .swiper-slide {
@@ -11,7 +11,7 @@
 }
 
 .carouselHero .swiper-pagination {
-    @apply w-fit flex gap-x-2 items-center justify-center ml-3
+    @apply w-fit flex gap-x-2 items-center justify-center ml-5
 }
 
 .carouselHero .swiper-pagination-bullet {

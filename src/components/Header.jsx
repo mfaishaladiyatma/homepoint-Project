@@ -63,7 +63,7 @@ export default function Header() {
                                     leaveFrom='opacity-100'
                                     leaveTo='opacity-0'
                                 >
-                                    <Listbox.Options className='w-44 rounded-[10px] border border-slate-400 absolute top-full mt-3 cursor-pointer'>
+                                    <Listbox.Options className='w-44 rounded-[10px] border border-slate-400 absolute top-full mt-3 cursor-pointer z-10'>
                                         <Listbox.Option
                                             as={Fragment}
                                             value={'Kursi'}>

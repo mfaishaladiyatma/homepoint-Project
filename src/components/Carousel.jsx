@@ -22,8 +22,8 @@ export default function Carousel() {
 
     return (
         <>
-            <div className=' h-screen border-2 border-yellow-200 flex justify-center'>
-                <div className='container h-[500px]'>
+            <div className='border-2 border-yellow-200 flex justify-center '>
+                <div className='container h-[31.25rem]'>
                     <Swiper
                         spaceBetween={30}
                         pagination={{

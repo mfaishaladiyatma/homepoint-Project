@@ -1,5 +1,5 @@
 import Layout from './common/Layout';
-import Carousel from './components/Carousel';
+import Homepage from './pages/Homepage';
 
 
 import { Routes, Route } from 'react-router-dom'
@@ -9,7 +9,7 @@ function App() {
     <div>
       <Routes>
         <Route path='/' element={<Layout />}>
-          <Route index element={<Carousel />}></Route>
+          <Route index element={<Homepage />}></Route>
         </Route>
       </Routes>
     </div>
