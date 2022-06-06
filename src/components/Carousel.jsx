@@ -22,7 +22,7 @@ export default function Carousel() {
 
     return (
         <>
-            <div className='border-2 border-yellow-200 flex justify-center '>
+            <div className=' flex justify-center '>
                 <div className='container h-[31.25rem]'>
                     <Swiper
                         spaceBetween={30}

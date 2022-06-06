@@ -1,6 +1,7 @@
 import React from 'react'
 import Carousel from '../components/Carousel'
 import CarouselBestOffer from '../components/CarouselBestOffer'
+import CarouselRekomendasi from '../components/CarouselRekomendasi'
 
 import peralatanDapurBanner from '../images/peralatanDapur.svg'
 import peralatanKebersihanBanner from '../images/peralatanKebersihan.svg'
@@ -17,7 +18,7 @@ export default function Homepage() {
         <>
             <Carousel />
 
-            <section className='font-Inter flex border-2 border-black  justify-center '>
+            <section className='font-Inter flex   justify-center '>
                 <div className='mt-7 container flex gap-x-7 justify-center px-5'>
                     <div className='w-full relative  rounded-[10px]'>
                         <img className='rounded-[10px] w-full' src={peralatanDapurBanner} alt="" />
@@ -46,7 +47,7 @@ export default function Homepage() {
                 </div>
             </section>
 
-            <section className='font-Inter border-2 border-red-700 flex justify-center'>
+            <section className='font-Inter  flex justify-center'>
                 <div className='container mt-10 h-fit p-5 gap-y-12 flex flex-col'>
                     <div>
                         <h2 className='font-[500] text-[40px]'>Kitchenware Weeks</h2>
@@ -81,6 +82,8 @@ export default function Homepage() {
             </section>
 
             <CarouselBestOffer />
+
+            <CarouselRekomendasi />
         </>
     )
 }
