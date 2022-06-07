@@ -29,7 +29,7 @@ export default function CarouselRekomendasi() {
                     <div className='flex container  h-full  '>
                         <div className='container h-[400px] w-full  '>
                             <Swiper
-                                slidesPerView={5}
+                                slidesPerView={6}
                                 spaceBetween={30}
                                 // loop={true}
                                 navigation={{

@@ -15,11 +15,11 @@ module.exports = {
     },
     screens: {
       sm: {'max': '640px'},
-      'md': {'min': '641px', 'max': '768px'},
-      'lg': {'min': '769px', 'max': '1024px'},
-      'xl': {'min': '1025px', 'max': '1280px'},
-      '2xl': {'min': '1281px', 'max': '1440px'},
-      '3xl': {'min': '1441px', 'max': '1920px'},
+      'md': { 'max': '768px'},
+      'lg': { 'max': '1024px'},
+      'xl': { 'max': '1280px'},
+      '2xl': { 'max': '1440px'},
+      '3xl': { 'max': '1920px'},
     },
     extend: {
       colors: {

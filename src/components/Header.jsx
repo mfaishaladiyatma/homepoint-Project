@@ -43,7 +43,7 @@ export default function Header() {
     console.log(selected)
     return (
         <header>
-            <nav className='bg-blue-pale h-20 flex items-center justify-center font-Inter'>
+            <nav className='bg-blue-pale md:bg-red-500 h-20 flex items-center justify-center font-Inter'>
                 <div className='container px-3 flex items-center justify-between'>
                     <button>
                         <img src={CompanyLogo} alt="Homepoint" />
