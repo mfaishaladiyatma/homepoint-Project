@@ -25,12 +25,16 @@ module.exports = {
       colors: {
         'blue-pale': '#6999B8',
         'light-blue-pale': "#DBE4EA",
+        'white-transparent': 'rgba(255, 255, 255, 0.51)',
 
       },
       fontFamily: {
         'helvetica': ['Helvetica', 'sans-serif'], //untuk custom font
         Inter: ['Inter', 'sans-serif'],
       },
+      // backgroundImage: {
+      //   'backgroundRegisLogin': "url('./')",
+      // }
     },
   },
   plugins: [],
