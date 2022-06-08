@@ -22,8 +22,8 @@ export default function Login() {
                             </div>
                             
                             <div className='flex flex-col gap-y-3 bg-white p-2 justify-between rounded-[10px] w-full'>
-                                <p className='px-2 text-[#316093]'>Email/No. Hp</p>
-                                <input className='focus:outline-none focus:border-[#6999B8] focus:ring-2 focus:ring-[#6999B8] caret-[#6999B8] px-2 h-10 rounded-[8px]' placeholder='Email/No. Hp' type="text" />
+                                <p className='px-2 text-[#316093]'>Email</p>
+                                <input className='focus:outline-none focus:border-[#6999B8] focus:ring-2 focus:ring-[#6999B8] caret-[#6999B8] px-2 h-10 rounded-[8px]' placeholder='Contoh: example@gmail.com' type="text" />
                             </div>
                             <div className='flex flex-col gap-y-3 bg-white p-2 justify-between rounded-[10px] w-full'>
                                 <p className='px-2 text-[#316093]'>Kata Sandi</p>
