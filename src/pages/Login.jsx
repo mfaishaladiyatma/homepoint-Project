@@ -46,7 +46,7 @@ export default function Login() {
                                 <button className='w-[200px] h-[50px] bg-white-transparent flex justify-center items-center rounded-[10px]'>
                                     <img className='w-[30px]' src={Google} alt="" />
                                 </button>
-                                <button className='w-[200px] h-[50px] bg-blue-500 bg-white-transparent flex justify-center items-center rounded-[10px]'>
+                                <button className='w-[200px] h-[50px] bg-white-transparent flex justify-center items-center rounded-[10px]'>
                                     <img className='w-[35px]' src={Facebook} alt="" />
                                 </button>
 
