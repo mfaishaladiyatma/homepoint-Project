@@ -12,6 +12,7 @@ import kitchenwarePeralatanDapur from '../images/kitchenware-peralatanDapur.svg'
 import kitchenwareElektronikDapur from '../images/kitchenware-elektronikDapur.svg'
 import kitchenwareAlatMakan from '../images/kitchenware-alatMakan.svg'
 import kitchenwarePenyimpananMakanan from '../images/kitchenware-penyimpananMakanan.svg'
+import waLogo from '../images/waLogo.svg'
 
 export default function Homepage() {
     return (
@@ -84,6 +85,18 @@ export default function Homepage() {
             <CarouselBestOffer />
 
             <CarouselRekomendasi />
+
+            <a target="_blank" href="https://wa.me/087881860189?text=Halo%20Homepoint%20%F0%9F%99%8C%0AAda%20yang%20ingin%20Saya%20tanyakan%2C%20nih!%0A%0A(Tuliskan%20pertanyaanmu%20disini%20ya!)">
+                <section className='group fixed bottom-20 right-10 w-[50px] h-[50px] z-20 transition ease-in-out delay-150 duration-300'>
+                    <div className='invisible opacity-0 group-hover:opacity-100 group-hover:visible group-hover:translate-x-0 translate-x-[30%] group-hover:ease-in-out group-hover:duration-500 flex justify-center items-center fixed bottom-20 right-16 w-[200px] h-[50px] bg-white font-inter font-semibold rounded-l-full z-20 shadow-shadow-custom-1'>
+                        Hubungi Kami
+                    </div>
+                    <div className=' w-[50px] h-[50px] rounded-full bg-white shadow-shadow-custom-1 fixed bottom-20 right-10 flex items-center justify-center z-20 '>
+
+                        <img src={waLogo} alt="" />
+                    </div>
+                </section>
+            </a>
         </>
     )
 }
