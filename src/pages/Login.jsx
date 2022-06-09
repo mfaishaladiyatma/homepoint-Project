@@ -8,11 +8,13 @@ export default function Login() {
     return (
         <>
             <div className='font-Inter bg-cover gap-y-[100px] bg-left-bottom flex flex-col ' style={{ backgroundImage: `url(${backgroundImage})` }} >
+
                 <nav className=' flex h-[70px] border-2 border-red-500 w-full'>
                     <button>
                         <img src="" alt="" />
                     </button>
                 </nav>
+                
                 <div className='flex justify-end py-5 px-14 w-full border-2 border-black'>
                     <div className='container border-2 border-yellow-200 flex justify-end mb-[200px]'>
                         <div className='flex flex-col gap-y-5 items-center border-2 border-blue-700  py-10 px-5 h-fit bg-[#98B6C9] rounded-[16px] max-w-[600px] w-[600px]'>
@@ -21,7 +23,7 @@ export default function Login() {
                                 <h2 className='font-bold text-[40px] text-[#22364A]'>Masuk akun</h2>
                             </div>
                             
-                            <div className='flex flex-col gap-y-3 bg-white p-2 justify-between rounded-[10px] w-full'>
+                            <div className='flex flex-col gap-y-3 bg-white p-2 justify-between rounded-[10px] w-full '>
                                 <p className='px-2 text-[#316093]'>Email</p>
                                 <input className='focus:outline-none focus:border-[#6999B8] focus:ring-2 focus:ring-[#6999B8] caret-[#6999B8] px-2 h-10 rounded-[8px]' placeholder='Contoh: example@gmail.com' type="text" />
                             </div>
