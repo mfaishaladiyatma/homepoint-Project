@@ -115,10 +115,10 @@ export default function Header() {
 
                         {isClickedLogin ?
                             <div className='bg-white absolute border-2 border-black w-full top-full mt-5 flex flex-col'>
-                                <button >
+                                <button onClick={() => navigate('/login')}>
                                     <div className='h-[40px] flex justify-center items-center'>Masuk</div>
                                 </button>
-                                <button >
+                                <button onClick={() => navigate('/register')}>
                                     <div className='h-[40px] flex justify-center items-center'>Daftar</div>
                                 </button>
                             </div>

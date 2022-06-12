@@ -1,5 +1,4 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
 
 import homePointLogo from '../images/HomepointLoginRegister.svg'
 import backgroundImage from '../images/BgRegisLogin.svg'
@@ -8,9 +7,11 @@ import Facebook from '../images/Facebook.svg'
 import goBack from '../images/arrowGoBack.svg'
 
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 
 export default function ForgetPass() {
+
 
     const [Permintaan, setPermintaan] = useState(false)
 
@@ -54,7 +55,7 @@ export default function ForgetPass() {
                         <div className={`${Permintaan ? ' flex ' : ' hidden '} flex-col justify-evenly items-center max-w-[900px] w-[900px] h-[400px] bg-white-transparent py-7 px-24 rounded-[16px]`}>
                             <h3 className='font-bold text-[32px]'>Silahkan Cek Email Kamu</h3>
                             <p className='text-center'>Kami telah mengirimkan email berisi password baru, kamu dapat mengubah password tersebut di pengaturan profil.</p>
-                            <button className='bg-[#FBC646] w-[50%] h-[50px] font-semibold rounded-[10px]'>Masuk</button>
+                            <button onClick={() => navigate('/login')} className='bg-[#FBC646] w-[50%] h-[50px] font-semibold rounded-[10px]'>Masuk</button>
                             <p>Belum mendapatkan email? <span className='text-[#316093]'>Kirim Ulang</span></p>
                         </div>
                     </div>
