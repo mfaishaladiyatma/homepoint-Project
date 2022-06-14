@@ -20,6 +20,12 @@ export default function userReducer(state = inistialState, action) {
                 ...state,
                 token: payload
             }
+        case 'logout':
+
+            return {
+                ...state,
+                token: ''
+            }
         default:
             return state
     }

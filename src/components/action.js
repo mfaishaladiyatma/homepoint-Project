@@ -28,6 +28,10 @@ const loginActionSuccessToken = (payload) => ({
     payload
 })
 
+const logoutAction = () => ({
+    type: 'logout'
+})
+
 const fetchUserDetailsAsync = () => {
     return(dispatch, getState, baseUrlLogin) => {
         const { token } = getState()
@@ -66,5 +70,6 @@ export {
     // loginActionSuccess,
     loginActionSuccessToken,
     fetchUserDetailsAsync,
-    registerUser
+    registerUser,
+    logoutAction
 }

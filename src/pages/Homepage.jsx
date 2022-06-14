@@ -22,12 +22,10 @@ import jwtDecode from 'jwt-decode'
 export default function Homepage() {
 
     const dispatch = useDispatch()
+
     const { token } = useSelector((state) => state)
-
-    const decode = token ? jwtDecode(token) : {}
-
-    console.log(decode.sub ? decode.sub : 'no token')
-    
+    const decode = token ? jwtDecode(token) : null
+    console.log(decode ? decode.sub : 'no token')
 
     return (
         <>

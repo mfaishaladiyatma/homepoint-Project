@@ -11,7 +11,9 @@ import searchLogo from '../images/search.svg'
 import { useState, Fragment } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux/es/exports'
+import { useDispatch } from 'react-redux'
 import jwtDecode from 'jwt-decode'
+import { logoutAction } from './action'
 
 const category = [
     {
@@ -41,6 +43,9 @@ const category = [
 ]
 
 export default function Header() {
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+
     const [selected, setSelected] = useState('')
     const [isClickedLogin, setIsClickedLogin] = useState(false)
     const [isClicked, setIsClicked] = useState(false)
@@ -48,6 +53,8 @@ export default function Header() {
     const { token } = useSelector((state) => state)
 
     const decode = token ? jwtDecode(token) : null
+
+    
 
     const toggleSelected = (value) => {
         if (selected) {
@@ -63,7 +70,7 @@ export default function Header() {
         setIsClicked(!isClicked)
     }
 
-    const navigate = useNavigate()
+    
 
     console.log(selected)
     console.log(isClicked)
@@ -129,6 +136,9 @@ export default function Header() {
                                 </button>
                                 <button onClick={() => navigate('/register')}>
                                     <div className='h-[40px] flex justify-center items-center'>Daftar</div>
+                                </button>
+                                <button onClick={() => dispatch(logoutAction())}>
+                                    <div className='h-[40px] flex justify-center items-center'>Logout</div>
                                 </button>
                             </div>
 
