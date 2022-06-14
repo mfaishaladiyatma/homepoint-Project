@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
 
-const loginActionAsync = (email, password) => {
+const loginActionAsync = (email, password, navigate) => {
     
     return(dispatch, getState, baseUrlLogin) => {
         axios.post(`${baseUrlLogin}/api/v1/users/login`, {
@@ -11,6 +11,7 @@ const loginActionAsync = (email, password) => {
         }).then((response) => {
             dispatch(loginActionSuccessToken(response.data.data.token))
             console.log(response.data.data.token)
+            navigate('/login')
         }).catch((error) => {
             console.log(error)
         })
