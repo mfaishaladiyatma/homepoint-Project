@@ -33,8 +33,7 @@ export default function Login() {
     //     }
     // }
 
-    const handleLogin = (e) => {
-        e.preventDefault()
+    const handleLogin = () => {
         dispatch(loginActionAsync(email, password, navigate))
         // redirectIfLogin()
     }

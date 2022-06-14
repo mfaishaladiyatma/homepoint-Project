@@ -3,6 +3,8 @@ import { Navigate, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux/es/exports'
 
+import { registerUser } from '../components/action'
+
 import homePointLogo from '../images/HomepointLoginRegister.svg'
 import backgroundImage from '../images/BgRegisLogin.svg'
 import Google from '../images/GoogleLogo.svg'
@@ -16,9 +18,17 @@ export default function Register() {
     const [namaLengkap, setNamaLengkap] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [isChecked, setIsChecked] = useState(false)
 
-    const handleRegister = (e) => {
-        
+    console.log(isChecked)
+
+    const handleRegister = () => {
+
+        if(isChecked) {
+            dispatch(registerUser(namaLengkap, email, password, navigate))
+        } else {
+            alert('Silahkan centang checkbox')
+        }
     }
 
     return (
@@ -54,12 +64,12 @@ export default function Register() {
                             </div>
 
                             <div className='flex items-center w-full gap-x-5 border-2 border-black px-3'>
-                                <input className='accent-[#FBC646] w-[20px] h-[30px]' type="checkbox" />
+                                <input  value={isChecked} onChange={(e) => setIsChecked(e.target.checked)} className='accent-[#FBC646] w-[20px] h-[30px]' type="checkbox" />
                                 <div className='w-[80%] text-[14px] border-2 border-yellow-300'>
                                     <p>Dengan mendaftar, Anda menyetujui <span>Syarat &amp; Ketentuan</span> serta <span>Kebijakan Privasi</span> Homepoint</p>
                                 </div>
                             </div>
-                            <button className='bg-[#FBC646] w-[95%] h-[50px] rounded-[10px]'>
+                            <button onClick={handleRegister} className='bg-[#FBC646] w-[95%] h-[50px] rounded-[10px]'>
                                 <p className='font-bold '>Daftar</p>
                             </button>
                             <p>Atau</p>

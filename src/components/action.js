@@ -11,7 +11,7 @@ const loginActionAsync = (email, password, navigate) => {
         }).then((response) => {
             dispatch(loginActionSuccessToken(response.data.data.token))
             console.log(response.data.data.token)
-            navigate('/login')
+            navigate('/')
         }).catch((error) => {
             console.log(error)
         })
@@ -45,7 +45,7 @@ const fetchUserDetailsAsync = () => {
     }
 }
 
-const registerUser = (namaLengkap, email, password) => {
+const registerUser = (namaLengkap, email, password, navigate) => {
     
     return(dispatch, getState, baseUrlLogin) => {
         axios.post(`${baseUrlLogin}/api/v1/users/register`, {
@@ -54,7 +54,7 @@ const registerUser = (namaLengkap, email, password) => {
             password
         }).then((response) => {
             console.log(response)
-            // navigate('/login')
+            navigate('/login')
         }).catch((error) => {
             console.log(error)
         })

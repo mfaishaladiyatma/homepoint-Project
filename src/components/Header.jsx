@@ -10,6 +10,8 @@ import searchLogo from '../images/search.svg'
 
 import { useState, Fragment } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux/es/exports'
+import jwtDecode from 'jwt-decode'
 
 const category = [
     {
@@ -43,12 +45,16 @@ export default function Header() {
     const [isClickedLogin, setIsClickedLogin] = useState(false)
     const [isClicked, setIsClicked] = useState(false)
 
+    const { token } = useSelector((state) => state)
+
+    const decode = token ? jwtDecode(token) : null
+
     const toggleSelected = (value) => {
         if (selected) {
             setSelected('')
-        } else if(selected !== value) {
+        } else if (selected !== value) {
             setSelected(value)
-        } else{
+        } else {
             setSelected(value)
         }
     }
@@ -112,7 +118,8 @@ export default function Header() {
                     <div className='relative flex items-center gap-x-4'>
                         <img src={UserLogo} alt="User" />
                         <button onClick={() => setIsClickedLogin(!isClickedLogin)}>
-                            <p className='text-white font-[400]'>Masuk/Daftar</p>
+                            <p className='text-white w-[150px] overflow-hidden text-ellipsis font-[400]'>{decode ? decode.sub : 'Masuk/Daftar'}</p>
+
                         </button>
 
                         {isClickedLogin ?

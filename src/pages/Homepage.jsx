@@ -16,15 +16,18 @@ import waLogo from '../images/waLogo.svg'
 
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux/es/exports'
-import { fetchUserDetailsAsync } from '../components/action'
+import { useSelector } from 'react-redux/es/exports'
+import jwtDecode from 'jwt-decode'
 
 export default function Homepage() {
 
     const dispatch = useDispatch()
+    const { token } = useSelector((state) => state)
 
-    useEffect(() => {
-        dispatch(fetchUserDetailsAsync())
-    }, []);
+    const decode = token ? jwtDecode(token) : {}
+
+    console.log(decode.sub ? decode.sub : 'no token')
+    
 
     return (
         <>
