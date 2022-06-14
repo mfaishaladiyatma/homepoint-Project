@@ -30,7 +30,7 @@ export default function CarouselRekomendasi() {
                         <div className='container h-[400px] w-full  '>
                             <Swiper
                                 slidesPerView={6}
-                                spaceBetween={30}
+                                spaceBetween={20}
                                 // loop={true}
                                 navigation={{
                                     nextEl: ".button-next",
@@ -46,23 +46,23 @@ export default function CarouselRekomendasi() {
                                 className="carouselRekomendasi"
                             >
                                 <SwiperSlide>
-                                    <div className='h-full flex border-2 border-slate-400 bg-white rounded-[10px] container'>
+                                    <div className='h-full flex border-2 border-[#E1E1E1] bg-white rounded-[10px] container'>
                                         <div className='flex flex-col container h-full p-3'>
                                             <img className='h-[60%]' src={gelasKacaBiru} alt="" />
                                             <div className='flex container flex-col gap-y-8'>
-                                                <h4 className='font-bold'>Gelas kaca bening biru</h4>
+                                                <h4 className='font-bold text-[18px]'>Gelas kaca bening biru</h4>
                                                 <div className='flex flex-col gap-y-3'>
-                                                    <h3 className='font-bold text-[24px]'>Rp 23.000</h3>
-                                                    <div className='flex gap-x-3'>
+                                                    <h3 className='font-bold text-[18px]'>Rp 23.000</h3>
+                                                    <div className='flex gap-x-2'>
                                                         <div className='flex items-center gap-x-2'>
                                                             <div className='text-yellow-400'><AiFillStar /></div>
-                                                            <p>4.8</p>
+                                                            <p className='text-[16px]'>4.8</p>
                                                         </div>
                                                         <div>
                                                             |
                                                         </div>
-                                                        <div>
-                                                            <p>Terjual 100</p>
+                                                        <div className='flex items-center'>
+                                                            <p className='text-[16px]'>Terjual 100</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -71,23 +71,23 @@ export default function CarouselRekomendasi() {
                                     </div>
                                 </SwiperSlide>
                                 <SwiperSlide>
-                                    <div className='h-full flex border-2 border-slate-400 bg-white rounded-[10px] container'>
+                                    <div className='h-full flex border-2 border-[#E1E1E1] bg-white rounded-[10px] container'>
                                         <div className='flex flex-col container h-full p-3'>
                                             <img className='h-[60%]' src={gelasKacaBiru} alt="" />
                                             <div className='flex container flex-col gap-y-8'>
-                                                <h4 className='font-bold'>Gelas kaca bening biru</h4>
+                                                <h4 className='font-bold text-[18px]'>Gelas kaca bening biru</h4>
                                                 <div className='flex flex-col gap-y-3'>
-                                                    <h3 className='font-bold text-[24px]'>Rp 23.000</h3>
-                                                    <div className='flex gap-x-3'>
+                                                    <h3 className='font-bold text-[18px]'>Rp 23.000</h3>
+                                                    <div className='flex gap-x-2'>
                                                         <div className='flex items-center gap-x-2'>
                                                             <div className='text-yellow-400'><AiFillStar /></div>
-                                                            <p>4.8</p>
+                                                            <p className='text-[16px]'>4.8</p>
                                                         </div>
                                                         <div>
                                                             |
                                                         </div>
-                                                        <div>
-                                                            <p>Terjual 100</p>
+                                                        <div className='flex items-center'>
+                                                            <p className='text-[16px]'>Terjual 100</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -96,23 +96,23 @@ export default function CarouselRekomendasi() {
                                     </div>
                                 </SwiperSlide>
                                 <SwiperSlide>
-                                    <div className='h-full flex border-2 border-slate-400 bg-white rounded-[10px] container'>
+                                    <div className='h-full flex border-2 border-[#E1E1E1] bg-white rounded-[10px] container'>
                                         <div className='flex flex-col container h-full p-3'>
                                             <img className='h-[60%]' src={gelasKacaBiru} alt="" />
                                             <div className='flex container flex-col gap-y-8'>
-                                                <h4 className='font-bold'>Gelas kaca bening biru</h4>
+                                                <h4 className='font-bold text-[18px]'>Gelas kaca bening biru</h4>
                                                 <div className='flex flex-col gap-y-3'>
-                                                    <h3 className='font-bold text-[24px]'>Rp 23.000</h3>
-                                                    <div className='flex gap-x-3'>
+                                                    <h3 className='font-bold text-[18px]'>Rp 23.000</h3>
+                                                    <div className='flex gap-x-2'>
                                                         <div className='flex items-center gap-x-2'>
                                                             <div className='text-yellow-400'><AiFillStar /></div>
-                                                            <p>4.8</p>
+                                                            <p className='text-[16px]'>4.8</p>
                                                         </div>
                                                         <div>
                                                             |
                                                         </div>
-                                                        <div>
-                                                            <p>Terjual 100</p>
+                                                        <div className='flex items-center'>
+                                                            <p className='text-[16px]'>Terjual 100</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -121,23 +121,23 @@ export default function CarouselRekomendasi() {
                                     </div>
                                 </SwiperSlide>
                                 <SwiperSlide>
-                                    <div className='h-full flex border-2 border-slate-400 bg-white rounded-[10px] container'>
+                                    <div className='h-full flex border-2 border-[#E1E1E1] bg-white rounded-[10px] container'>
                                         <div className='flex flex-col container h-full p-3'>
                                             <img className='h-[60%]' src={gelasKacaBiru} alt="" />
                                             <div className='flex container flex-col gap-y-8'>
-                                                <h4 className='font-bold'>Gelas kaca bening biru</h4>
+                                                <h4 className='font-bold text-[18px]'>Gelas kaca bening biru</h4>
                                                 <div className='flex flex-col gap-y-3'>
-                                                    <h3 className='font-bold text-[24px]'>Rp 23.000</h3>
-                                                    <div className='flex gap-x-3'>
+                                                    <h3 className='font-bold text-[18px]'>Rp 23.000</h3>
+                                                    <div className='flex gap-x-2'>
                                                         <div className='flex items-center gap-x-2'>
                                                             <div className='text-yellow-400'><AiFillStar /></div>
-                                                            <p>4.8</p>
+                                                            <p className='text-[16px]'>4.8</p>
                                                         </div>
                                                         <div>
                                                             |
                                                         </div>
-                                                        <div>
-                                                            <p>Terjual 100</p>
+                                                        <div className='flex items-center'>
+                                                            <p className='text-[16px]'>Terjual 100</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -146,23 +146,23 @@ export default function CarouselRekomendasi() {
                                     </div>
                                 </SwiperSlide>
                                 <SwiperSlide>
-                                    <div className='h-full flex border-2 border-slate-400 bg-white rounded-[10px] container'>
+                                    <div className='h-full flex border-2 border-[#E1E1E1] bg-white rounded-[10px] container'>
                                         <div className='flex flex-col container h-full p-3'>
                                             <img className='h-[60%]' src={gelasKacaBiru} alt="" />
                                             <div className='flex container flex-col gap-y-8'>
-                                                <h4 className='font-bold'>Gelas kaca bening biru</h4>
+                                                <h4 className='font-bold text-[18px]'>Gelas kaca bening biru</h4>
                                                 <div className='flex flex-col gap-y-3'>
-                                                    <h3 className='font-bold text-[24px]'>Rp 23.000</h3>
-                                                    <div className='flex gap-x-3'>
+                                                    <h3 className='font-bold text-[18px]'>Rp 23.000</h3>
+                                                    <div className='flex gap-x-2'>
                                                         <div className='flex items-center gap-x-2'>
                                                             <div className='text-yellow-400'><AiFillStar /></div>
-                                                            <p>4.8</p>
+                                                            <p className='text-[16px]'>4.8</p>
                                                         </div>
                                                         <div>
                                                             |
                                                         </div>
-                                                        <div>
-                                                            <p>Terjual 100</p>
+                                                        <div className='flex items-center'>
+                                                            <p className='text-[16px]'>Terjual 100</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -171,23 +171,23 @@ export default function CarouselRekomendasi() {
                                     </div>
                                 </SwiperSlide>
                                 <SwiperSlide>
-                                    <div className='h-full flex border-2 border-slate-400 bg-white rounded-[10px] container'>
+                                    <div className='h-full flex border-2 border-[#E1E1E1] bg-white rounded-[10px] container'>
                                         <div className='flex flex-col container h-full p-3'>
                                             <img className='h-[60%]' src={gelasKacaBiru} alt="" />
                                             <div className='flex container flex-col gap-y-8'>
-                                                <h4 className='font-bold'>Gelas kaca bening biru</h4>
+                                                <h4 className='font-bold text-[18px]'>Gelas kaca bening biru</h4>
                                                 <div className='flex flex-col gap-y-3'>
-                                                    <h3 className='font-bold text-[24px]'>Rp 23.000</h3>
-                                                    <div className='flex gap-x-3'>
+                                                    <h3 className='font-bold text-[18px]'>Rp 23.000</h3>
+                                                    <div className='flex gap-x-2'>
                                                         <div className='flex items-center gap-x-2'>
                                                             <div className='text-yellow-400'><AiFillStar /></div>
-                                                            <p>4.8</p>
+                                                            <p className='text-[16px]'>4.8</p>
                                                         </div>
                                                         <div>
                                                             |
                                                         </div>
-                                                        <div>
-                                                            <p>Terjual 100</p>
+                                                        <div className='flex items-center'>
+                                                            <p className='text-[16px]'>Terjual 100</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -196,23 +196,23 @@ export default function CarouselRekomendasi() {
                                     </div>
                                 </SwiperSlide>
                                 <SwiperSlide>
-                                    <div className='h-full flex border-2 border-slate-400 bg-white rounded-[10px] container'>
+                                    <div className='h-full flex border-2 border-[#E1E1E1] bg-white rounded-[10px] container'>
                                         <div className='flex flex-col container h-full p-3'>
                                             <img className='h-[60%]' src={gelasKacaBiru} alt="" />
                                             <div className='flex container flex-col gap-y-8'>
-                                                <h4 className='font-bold'>Gelas kaca bening biru</h4>
+                                                <h4 className='font-bold text-[18px]'>Gelas kaca bening biru</h4>
                                                 <div className='flex flex-col gap-y-3'>
-                                                    <h3 className='font-bold text-[24px]'>Rp 23.000</h3>
-                                                    <div className='flex gap-x-3'>
+                                                    <h3 className='font-bold text-[18px]'>Rp 23.000</h3>
+                                                    <div className='flex gap-x-2'>
                                                         <div className='flex items-center gap-x-2'>
                                                             <div className='text-yellow-400'><AiFillStar /></div>
-                                                            <p>4.8</p>
+                                                            <p className='text-[16px]'>4.8</p>
                                                         </div>
                                                         <div>
                                                             |
                                                         </div>
-                                                        <div>
-                                                            <p>Terjual 100</p>
+                                                        <div className='flex items-center'>
+                                                            <p className='text-[16px]'>Terjual 100</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -221,23 +221,23 @@ export default function CarouselRekomendasi() {
                                     </div>
                                 </SwiperSlide>
                                 <SwiperSlide>
-                                    <div className='h-full flex border-2 border-slate-400 bg-white rounded-[10px] container'>
+                                    <div className='h-full flex border-2 border-[#E1E1E1] bg-white rounded-[10px] container'>
                                         <div className='flex flex-col container h-full p-3'>
                                             <img className='h-[60%]' src={gelasKacaBiru} alt="" />
                                             <div className='flex container flex-col gap-y-8'>
-                                                <h4 className='font-bold'>Gelas kaca bening biru</h4>
+                                                <h4 className='font-bold text-[18px]'>Gelas kaca bening biru</h4>
                                                 <div className='flex flex-col gap-y-3'>
-                                                    <h3 className='font-bold text-[24px]'>Rp 23.000</h3>
-                                                    <div className='flex gap-x-3'>
+                                                    <h3 className='font-bold text-[18px]'>Rp 23.000</h3>
+                                                    <div className='flex gap-x-2'>
                                                         <div className='flex items-center gap-x-2'>
                                                             <div className='text-yellow-400'><AiFillStar /></div>
-                                                            <p>4.8</p>
+                                                            <p className='text-[16px]'>4.8</p>
                                                         </div>
                                                         <div>
                                                             |
                                                         </div>
-                                                        <div>
-                                                            <p>Terjual 100</p>
+                                                        <div className='flex items-center'>
+                                                            <p className='text-[16px]'>Terjual 100</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -246,23 +246,23 @@ export default function CarouselRekomendasi() {
                                     </div>
                                 </SwiperSlide>
                                 <SwiperSlide>
-                                    <div className='h-full flex border-2 border-slate-400 bg-white rounded-[10px] container'>
+                                    <div className='h-full flex border-2 border-[#E1E1E1] bg-white rounded-[10px] container'>
                                         <div className='flex flex-col container h-full p-3'>
                                             <img className='h-[60%]' src={gelasKacaBiru} alt="" />
                                             <div className='flex container flex-col gap-y-8'>
-                                                <h4 className='font-bold'>Gelas kaca bening biru</h4>
+                                                <h4 className='font-bold text-[18px]'>Gelas kaca bening biru</h4>
                                                 <div className='flex flex-col gap-y-3'>
-                                                    <h3 className='font-bold text-[24px]'>Rp 23.000</h3>
-                                                    <div className='flex gap-x-3'>
+                                                    <h3 className='font-bold text-[18px]'>Rp 23.000</h3>
+                                                    <div className='flex gap-x-2'>
                                                         <div className='flex items-center gap-x-2'>
                                                             <div className='text-yellow-400'><AiFillStar /></div>
-                                                            <p>4.8</p>
+                                                            <p className='text-[16px]'>4.8</p>
                                                         </div>
                                                         <div>
                                                             |
                                                         </div>
-                                                        <div>
-                                                            <p>Terjual 100</p>
+                                                        <div className='flex items-center'>
+                                                            <p className='text-[16px]'>Terjual 100</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -271,23 +271,23 @@ export default function CarouselRekomendasi() {
                                     </div>
                                 </SwiperSlide>
                                 <SwiperSlide>
-                                    <div className='h-full flex border-2 border-slate-400 bg-white rounded-[10px] container'>
+                                    <div className='h-full flex border-2 border-[#E1E1E1] bg-white rounded-[10px] container'>
                                         <div className='flex flex-col container h-full p-3'>
                                             <img className='h-[60%]' src={gelasKacaBiru} alt="" />
                                             <div className='flex container flex-col gap-y-8'>
-                                                <h4 className='font-bold'>Gelas kaca bening biru</h4>
+                                                <h4 className='font-bold text-[18px]'>Gelas kaca bening biru</h4>
                                                 <div className='flex flex-col gap-y-3'>
-                                                    <h3 className='font-bold text-[24px]'>Rp 23.000</h3>
-                                                    <div className='flex gap-x-3'>
+                                                    <h3 className='font-bold text-[18px]'>Rp 23.000</h3>
+                                                    <div className='flex gap-x-2'>
                                                         <div className='flex items-center gap-x-2'>
                                                             <div className='text-yellow-400'><AiFillStar /></div>
-                                                            <p>4.8</p>
+                                                            <p className='text-[16px]'>4.8</p>
                                                         </div>
                                                         <div>
                                                             |
                                                         </div>
-                                                        <div>
-                                                            <p>Terjual 100</p>
+                                                        <div className='flex items-center'>
+                                                            <p className='text-[16px]'>Terjual 100</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -295,6 +295,8 @@ export default function CarouselRekomendasi() {
                                         </div>
                                     </div>
                                 </SwiperSlide>
+                                
+                                
                                 
 
 

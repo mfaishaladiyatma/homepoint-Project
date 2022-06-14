@@ -46,7 +46,9 @@ export default function Header() {
     const toggleSelected = (value) => {
         if (selected) {
             setSelected('')
-        } else {
+        } else if(selected !== value) {
+            setSelected(value)
+        } else{
             setSelected(value)
         }
     }

@@ -14,7 +14,18 @@ import kitchenwareAlatMakan from '../images/kitchenware-alatMakan.svg'
 import kitchenwarePenyimpananMakanan from '../images/kitchenware-penyimpananMakanan.svg'
 import waLogo from '../images/waLogo.svg'
 
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux/es/exports'
+import { fetchUserDetailsAsync } from '../components/action'
+
 export default function Homepage() {
+
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(fetchUserDetailsAsync())
+    }, []);
+
     return (
         <>
             <Carousel />

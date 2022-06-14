@@ -36,13 +36,13 @@ export default function ForgetPass() {
                         <section className={`${Permintaan ? 'hidden' : 'flex'} flex-col gap-y-5 items-center border-2 border-blue-700  py-10 px-5 h-fit bg-[#98B6C9] rounded-[16px] max-w-[600px] w-[600px]`}>
                             <div className='flex flex-col items-center'>
                                 <img src={homePointLogo} alt="" />
-                                <h2 className='font-bold text-[40px] text-[#22364A]'>Reset Password</h2>
+                                <h2 className='font-bold text-[34px] text-[#22364A]'>Reset Password</h2>
                             </div>
 
                             <div className='w-full'>
                                 <div className='flex flex-col gap-y-3 p-2 justify-between rounded-[10px] w-full'>
                                     <p className='px-2 font-bold'>Email</p>
-                                    <input className='focus:outline-none focus:border-[#316093] focus:ring-2 focus:ring-[#316093] focus:bg-white caret-[#6999B8] px-2 h-14 rounded-[8px] bg-[#DADADA]' placeholder='Email' type="text" />
+                                    <input className='focus:outline-none focus:border-[#316093] focus:ring-2 focus:ring-[#316093] focus:bg-white caret-[#6999B8] px-2 h-12 rounded-[8px] bg-[#DADADA]' placeholder='Email' type="text" />
                                 </div>
                             </div>
 

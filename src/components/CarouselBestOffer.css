@@ -1,5 +1,5 @@
 .carouselPromo {
-    @apply  h-full flex justify-center  px-5 
+    @apply  h-full flex justify-center   
 }
 
 .carouselPromo .swiper-wrapper {
@@ -24,12 +24,12 @@
 
 .carouselPromo .swiper-button-next {
     @apply after:hidden 
-    bg-[#22364A] rounded-full w-[40px] h-[40px]
+    bg-[#22364A] rounded-full w-[35px] h-[35px] right-0
 }
 
 .carouselPromo .swiper-button-prev {
     @apply after:hidden 
-    bg-[#22364A] rounded-full w-[40px] h-[40px]
+    bg-[#22364A] rounded-full w-[35px] h-[35px] left-0
 }
 
 .carouselPromo .swiper-button-disabled {
