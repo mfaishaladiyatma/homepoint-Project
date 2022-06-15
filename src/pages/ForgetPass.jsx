@@ -22,18 +22,26 @@ export default function ForgetPass() {
     const navigate = useNavigate()
     return (
         <>
+        {/* whole page */}
+
             <div className='font-Inter bg-cover gap-y-[100px] h-[120vh] sm:h-[110vh] lg:h-[100vh] bg-left-bottom flex flex-col ' style={{ backgroundImage: `url(${backgroundImage})` }} >
 
-                <nav className=' flex h-[70px] border-2 border-red-500 w-full'>
+        {/* nav */}
+
+                <nav className=' flex h-[70px]  w-full'>
                     <button onClick={() => navigate(-1)} className='ml-10'>
                         <img src={goBack} alt="" />
                     </button>
                 </nav>
 
-                <div className='flex justify-end py-5 px-14 w-full border-2 border-black'>
-                    <div className={`${Permintaan ? ' items-center ' : ' items-end lg:items-center'}  flex container border-2 border-yellow-200 flex-col `}>
+                {/* mid-section */}
 
-                        <section className={`${Permintaan ? 'hidden' : 'flex'} flex-col gap-y-5 items-center border-2 border-blue-700  py-10 px-5 h-fit bg-[#98B6C9] rounded-[16px] max-w-[600px] w-[600px] lg:w-[500px] sm:w-[350px]`}>
+                <div className='flex justify-end py-5 px-14 w-full '>
+                    <div className={`${Permintaan ? ' items-center ' : ' items-end lg:items-center'}  flex container  flex-col `}>
+
+                        {/* form */}
+
+                        <section className={`${Permintaan ? 'hidden' : 'flex'} flex-col gap-y-5 items-center   py-10 px-5 h-fit bg-[#98B6C9] rounded-[16px] max-w-[600px] w-[600px] lg:w-[500px] sm:w-[350px]`}>
 
                             <div className='flex flex-col items-center'>
                                 <img className='lg:w-[200px] w-[250px]' src={homePointLogo} alt="" />
@@ -52,6 +60,8 @@ export default function ForgetPass() {
                             </button>
 
                         </section>
+
+                        {/* modal */}
 
                         <div className={`${Permintaan ? ' flex ' : ' hidden '} flex-col justify-evenly items-center max-w-[900px] sm:w-[300px] lg:w-full w-[900px] sm:h-[500px] h-[400px] bg-white-transparent sm:py-3 py-7 sm:px-3 px-24 rounded-[16px]`}>
                             <h3 className='sm:text-[20px] font-bold text-[32px]'>Silahkan Cek Email Kamu</h3>

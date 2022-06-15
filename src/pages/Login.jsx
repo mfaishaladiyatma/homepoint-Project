@@ -48,7 +48,7 @@ export default function Login() {
 
                 {/* nav */}
 
-                <nav className=' flex h-[70px] border-2 border-red-500 w-full'>
+                <nav className=' flex h-[70px]  w-full'>
                     <button onClick={() => navigate(-1)} className='ml-10'>
                         <img src={goBack} alt="" />
                     </button>
@@ -56,12 +56,12 @@ export default function Login() {
 
                 {/* mid-section or form */}
 
-                <section className='flex justify-end py-5 px-14 w-full border-2 border-black'>
-                    <div className='container border-2 border-yellow-200 flex lg:justify-center justify-end '>
+                <section className='flex justify-end py-5 px-14 w-full '>
+                    <div className='container  flex lg:justify-center justify-end '>
 
                     {/* form-section */}
 
-                        <div className='flex flex-col lg:gap-y-3 gap-y-3 items-center border-2 border-blue-700 lg:py-0  py-10 px-5 sm:h-[680px] lg:h-[700px] h-[800px] bg-[#98B6C9] rounded-[16px] max-w-[600px] lg:w-[500px] sm:w-[350px] w-[550px]'>
+                        <div className='flex flex-col lg:gap-y-3 gap-y-3 items-center  lg:py-0  py-10 px-5 sm:h-[680px] lg:h-[700px] h-[800px] bg-[#98B6C9] rounded-[16px] max-w-[600px] lg:w-[500px] sm:w-[350px] w-[550px]'>
                             <div className='flex flex-col items-center'>
                                 <img className='lg:w-[200px] w-[250px]' src={homePointLogo} alt="" />
                                 <h2 className='font-bold sm:text-[20px] lg:text-[28px] text-[34px] text-[#22364A]'>Masuk akun</h2>
