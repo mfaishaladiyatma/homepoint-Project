@@ -14,12 +14,12 @@ module.exports = {
       }
     },
     screens: {
-      sm: {'max': '640px'},
-      'md': { 'max': '768px'},
-      'lg': { 'max': '1024px'},
-      'xl': { 'max': '1280px'},
-      '2xl': { 'max': '1440px'},
       '3xl': { 'max': '1920px'},
+      '2xl': { 'max': '1440px'},
+      'xl': { 'max': '1280px'},
+      'lg': { 'max': '1024px'},
+      'md': { 'max': '768px'},
+      'sm': {'max': '640px'},
     },
     extend: {
       colors: {

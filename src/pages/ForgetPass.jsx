@@ -22,7 +22,7 @@ export default function ForgetPass() {
     const navigate = useNavigate()
     return (
         <>
-            <div className='font-Inter bg-cover gap-y-[100px] h-[120vh] bg-left-bottom flex flex-col ' style={{ backgroundImage: `url(${backgroundImage})` }} >
+            <div className='font-Inter bg-cover gap-y-[100px] h-[120vh] sm:h-[110vh] lg:h-[100vh] bg-left-bottom flex flex-col ' style={{ backgroundImage: `url(${backgroundImage})` }} >
 
                 <nav className=' flex h-[70px] border-2 border-red-500 w-full'>
                     <button onClick={() => navigate(-1)} className='ml-10'>
@@ -31,32 +31,33 @@ export default function ForgetPass() {
                 </nav>
 
                 <div className='flex justify-end py-5 px-14 w-full border-2 border-black'>
-                    <div className={`${Permintaan ? ' items-center ' : ' items-end '}flex container border-2 border-yellow-200 flex-col `}>
+                    <div className={`${Permintaan ? ' items-center ' : ' items-end lg:items-center'}  flex container border-2 border-yellow-200 flex-col `}>
 
-                        <section className={`${Permintaan ? 'hidden' : 'flex'} flex-col gap-y-5 items-center border-2 border-blue-700  py-10 px-5 h-fit bg-[#98B6C9] rounded-[16px] max-w-[600px] w-[600px]`}>
+                        <section className={`${Permintaan ? 'hidden' : 'flex'} flex-col gap-y-5 items-center border-2 border-blue-700  py-10 px-5 h-fit bg-[#98B6C9] rounded-[16px] max-w-[600px] w-[600px] lg:w-[500px] sm:w-[350px]`}>
+
                             <div className='flex flex-col items-center'>
-                                <img src={homePointLogo} alt="" />
-                                <h2 className='font-bold text-[34px] text-[#22364A]'>Reset Password</h2>
+                                <img className='lg:w-[200px] w-[250px]' src={homePointLogo} alt="" />
+                                <h2 className='font-bold sm:text-[20px] lg:text-[28px] text-[34px] text-[#22364A]'>Reset Password</h2>
                             </div>
 
                             <div className='w-full'>
                                 <div className='flex flex-col gap-y-3 p-2 justify-between rounded-[10px] w-full'>
-                                    <p className='px-2 font-bold'>Email</p>
+                                    <p className='px-1 font-bold'>Email</p>
                                     <input className='focus:outline-none focus:border-[#316093] focus:ring-2 focus:ring-[#316093] focus:bg-white caret-[#6999B8] px-2 h-12 rounded-[8px] bg-[#DADADA]' placeholder='Email' type="text" />
                                 </div>
                             </div>
 
-                            <button onClick={clickPermintaan} className='bg-[#FBC646] w-full h-[50px] rounded-[10px]'>
+                            <button onClick={clickPermintaan} className='bg-[#FBC646] w-[97%] h-[50px] rounded-[10px]'>
                                 <p className='font-bold '>Kirim Permintaan</p>
                             </button>
 
                         </section>
 
-                        <div className={`${Permintaan ? ' flex ' : ' hidden '} flex-col justify-evenly items-center max-w-[900px] w-[900px] h-[400px] bg-white-transparent py-7 px-24 rounded-[16px]`}>
-                            <h3 className='font-bold text-[32px]'>Silahkan Cek Email Kamu</h3>
+                        <div className={`${Permintaan ? ' flex ' : ' hidden '} flex-col justify-evenly items-center max-w-[900px] sm:w-[300px] lg:w-full w-[900px] sm:h-[500px] h-[400px] bg-white-transparent sm:py-3 py-7 sm:px-3 px-24 rounded-[16px]`}>
+                            <h3 className='sm:text-[20px] font-bold text-[32px]'>Silahkan Cek Email Kamu</h3>
                             <p className='text-center'>Kami telah mengirimkan email berisi password baru, kamu dapat mengubah password tersebut di pengaturan profil.</p>
                             <button onClick={() => navigate('/login')} className='bg-[#FBC646] w-[50%] h-[50px] font-semibold rounded-[10px]'>Masuk</button>
-                            <p>Belum mendapatkan email? <span className='text-[#316093]'>Kirim Ulang</span></p>
+                            <p className='sm:text-center'>Belum mendapatkan email? <span className='text-[#316093]'>Kirim Ulang</span></p>
                         </div>
                     </div>
                 </div>
