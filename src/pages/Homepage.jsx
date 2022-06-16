@@ -14,12 +14,24 @@ import kitchenwareAlatMakan from '../images/kitchenware-alatMakan.svg'
 import kitchenwarePenyimpananMakanan from '../images/kitchenware-penyimpananMakanan.svg'
 import waLogo from '../images/waLogo.svg'
 
+import axios from 'axios'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux/es/exports'
 import { useSelector } from 'react-redux/es/exports'
 import jwtDecode from 'jwt-decode'
 
 export default function Homepage() {
+
+    useEffect(() => {
+        axios.get('https://homepoint-server-staging.herokuapp.com/api/v1/products/discount')
+            .then((response) => {
+                console.log(response)
+                // console.log(cobaGet)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }, [])
 
     const dispatch = useDispatch()
 
@@ -100,7 +112,7 @@ export default function Homepage() {
 
             <a target="_blank" href="https://api.whatsapp.com/send?phone=6282114742197&text=Halo%20Homepoint%F0%9F%99%8C%F0%9F%8F%BB%0AAda%20yang%20ingin%20Saya%20tanyakan%2C%20nih!%0A%0A(Tuliskan%20pertanyaanmu%20disini%20ya!)">
                 <section className='group fixed bottom-20 right-10 w-[50px] h-[50px] z-20 transition ease-in-out delay-150 duration-300'>
-                    <div className='invisible opacity-0 group-hover:opacity-100 group-hover:visible group-hover:translate-x-0 translate-x-[30%] group-hover:ease-in-out group-hover:duration-500 flex justify-center items-center fixed bottom-20 right-16 w-[200px] h-[50px] bg-white font-inter font-semibold rounded-l-full z-20 shadow-shadow-custom-1'>
+                    <div className='invisible opacity-0 group-hover:opacity-100 group-hover:visible group-hover:translate-x-0 translate-x-[40%] group-hover:ease-in-out group-hover:duration-500 transition-all duration-300 flex justify-center items-center fixed bottom-20 right-16 w-[200px] h-[50px] bg-white font-inter font-semibold rounded-l-full z-20 shadow-shadow-custom-1'>
                         Hubungi Kami
                     </div>
                     <div className=' w-[50px] h-[50px] rounded-full bg-white shadow-shadow-custom-1 fixed bottom-20 right-10 flex items-center justify-center z-20 '>

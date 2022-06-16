@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux/es/exports'
 import { useDispatch } from 'react-redux'
 import jwtDecode from 'jwt-decode'
 import { logoutAction } from './action'
+import { Transition } from '@headlessui/react'
 
 const category = [
     {
@@ -54,7 +55,7 @@ export default function Header() {
 
     const decode = token ? jwtDecode(token) : null
 
-    
+
 
     const toggleSelected = (value) => {
         if (selected) {
@@ -70,7 +71,7 @@ export default function Header() {
         setIsClicked(!isClicked)
     }
 
-    
+
 
     console.log(selected)
     console.log(isClicked)
@@ -122,27 +123,77 @@ export default function Header() {
                     <button>
                         <img src={Bell} alt="Notification" />
                     </button>
-                    <div className='relative flex items-center gap-x-4'>
+                    <div className='relative flex flex-row items-center gap-x-4'>
                         <img src={UserLogo} alt="User" />
                         <button onClick={() => setIsClickedLogin(!isClickedLogin)}>
-                            <p className='text-white w-[150px] overflow-hidden text-ellipsis font-[400]'>{decode ? decode.sub : 'Masuk/Daftar'}</p>
+                            <p className='text-white w-[150px] overflow-hidden text-left text-ellipsis font-[400] '>{decode ? decode.sub : 'Masuk/Daftar'}</p>
 
                         </button>
 
-                        {isClickedLogin ?
-                            <div className='bg-white absolute border-2 border-black w-full top-full mt-5 flex flex-col'>
-                                <button onClick={() => navigate('/login')}>
-                                    <div className='h-[40px] flex justify-center items-center'>Masuk</div>
+                        {/*No Transition */}
+
+                        {/* {isClickedLogin && token ?
+                            <div className='bg-white absolute rounded-[8px] border-2 border-slate-400 w-full top-full mt-5 flex flex-col p-2 transition-all'>
+                                <button>
+                                    <div className='h-[40px] px-2 flex justify-start items-center rounded-[8px] hover:bg-sky-200'>Profile</div>
                                 </button>
-                                <button onClick={() => navigate('/register')}>
-                                    <div className='h-[40px] flex justify-center items-center'>Daftar</div>
-                                </button>
-                                <button onClick={() => dispatch(logoutAction())}>
-                                    <div className='h-[40px] flex justify-center items-center'>Logout</div>
+                                <button onClick={() => {dispatch(logoutAction()); setIsClickedLogin(!isClickedLogin);}}>
+                                    <div className='h-[40px] px-2 flex justify-start items-center rounded-[8px] hover:bg-sky-200'>Keluar</div>
                                 </button>
                             </div>
 
-                            : null}
+                            : isClickedLogin && !token ?
+                                <div className='bg-white absolute rounded-[8px] border-2 border-slate-400 w-full top-full mt-5 flex flex-col p-2 transition-all'>
+                                    <button onClick={() => navigate('/login')}>
+                                        <div className='h-[40px] px-2 flex justify-start items-center rounded-[8px] hover:bg-sky-200'>Masuk</div>
+                                    </button>
+                                    <button onClick={() => navigate('/register')}>
+                                        <div className='h-[40px] px-2 flex justify-start items-center rounded-[8px] hover:bg-sky-200'>Daftar</div>
+                                    </button>
+                                </div>
+                                : null} */}
+
+                        {/*Transition */}
+
+                        <Transition
+                            as={Fragment}
+                            show={(isClickedLogin && token) ? true : false}
+                            enter="transition-all duration-300"
+                            enterFrom="opacity-0 translate-y-[-30%]"
+                            enterTo="opacity-100 translate-y-0"
+                            leave="transition-all duration-300"
+                            leaveFrom="opacity-100 translate-y-0"
+                            leaveTo="opacity-0 translate-y-[-30%]"
+                        >
+                            <div className='bg-white absolute rounded-[8px] border-2 border-slate-400 w-full top-full mt-5 flex flex-col p-2 '>
+                                <button>
+                                    <div className='h-[40px] px-2 flex justify-start items-center rounded-[8px] hover:bg-sky-200'>Profile</div>
+                                </button>
+                                <button onClick={() => { dispatch(logoutAction()); setIsClickedLogin(!isClickedLogin); }}>
+                                    <div className='h-[40px] px-2 flex justify-start items-center rounded-[8px] hover:bg-sky-200'>Keluar</div>
+                                </button>
+                            </div>
+                        </Transition>
+
+                        <Transition
+                            as={Fragment}
+                            show={(isClickedLogin && !token) ? true : false}
+                            enter="transition-all duration-300"
+                            enterFrom="opacity-0 translate-y-[-30%]"
+                            enterTo="opacity-100 translate-y-0"
+                            leave="transition-all duration-300"
+                            leaveFrom="opacity-100 translate-y-0"
+                            leaveTo="opacity-0 translate-y-[-30%]"
+                        >
+                            <div className='bg-white absolute rounded-[8px] border-2 border-slate-400 w-full top-full mt-5 flex flex-col p-2 '>
+                                <button onClick={() => navigate('/login')}>
+                                    <div className='h-[40px] px-2 flex justify-start items-center rounded-[8px] hover:bg-sky-200'>Masuk</div>
+                                </button>
+                                <button onClick={() => navigate('/register')}>
+                                    <div className='h-[40px] px-2 flex justify-start items-center rounded-[8px] hover:bg-sky-200'>Daftar</div>
+                                </button>
+                            </div>
+                        </Transition>
 
                     </div>
                 </div>
