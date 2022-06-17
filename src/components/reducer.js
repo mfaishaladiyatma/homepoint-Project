@@ -2,10 +2,12 @@ const inistialState = {
     email: '',
     password: '',
     token:'',
+    name:'',
+    id:''
 }
 
 export default function userReducer(state = inistialState, action) {
-    const { type, payload } = action
+    const { type, payload, nama } = action
 
     switch(type){
         case 'login/success':
@@ -15,10 +17,10 @@ export default function userReducer(state = inistialState, action) {
                 ...payload
             }
         case 'login/success-token':
-            console.log(payload)
             return {
                 ...state,
-                token: payload
+                token: payload,
+                name: nama
             }
         case 'logout':
 

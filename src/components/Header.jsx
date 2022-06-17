@@ -51,7 +51,7 @@ export default function Header() {
     const [isClickedLogin, setIsClickedLogin] = useState(false)
     const [isClicked, setIsClicked] = useState(false)
 
-    const { token } = useSelector((state) => state)
+    const { token, name } = useSelector((state) => state)
 
     const decode = token ? jwtDecode(token) : null
 
@@ -126,7 +126,7 @@ export default function Header() {
                     <div className='relative flex flex-row items-center gap-x-4'>
                         <img src={UserLogo} alt="User" />
                         <button onClick={() => setIsClickedLogin(!isClickedLogin)}>
-                            <p className='text-white w-[150px] overflow-hidden text-left text-ellipsis font-[400] '>{decode ? decode.sub : 'Masuk/Daftar'}</p>
+                            <p className='text-white w-[150px] overflow-hidden text-left text-ellipsis font-[400] '>{decode ? name : 'Masuk/Daftar'}</p>
 
                         </button>
 

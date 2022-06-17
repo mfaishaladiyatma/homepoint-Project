@@ -17,8 +17,8 @@ const loginActionAsync = (email, password, navigate) => {
             headers: { "Content-Type": "multipart/form-data" },
           }).then((response) => {
               //handle success
-              dispatch(loginActionSuccessToken(response.data.data.token))
-              console.log(response.data.data.token)
+              dispatch(loginActionSuccessToken((response.data.data.token), (response.data.data.name)))
+              console.log(response.data.data.name)
               navigate('/')
             }).catch((error) => {
               //handle error
@@ -32,9 +32,10 @@ const loginActionAsync = (email, password, navigate) => {
 //     payload
 // })
 
-const loginActionSuccessToken = (payload) => ({
+const loginActionSuccessToken = (payload, nama) => ({
     type: 'login/success-token',
-    payload
+    payload,
+    nama
 })
 
 const logoutAction = () => ({
