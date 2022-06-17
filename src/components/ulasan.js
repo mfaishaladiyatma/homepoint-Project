@@ -1,5 +1,5 @@
 import React from 'react'
-import { AiFillStar } from 'react-icons/ai'
+import { AiFillStar, AiOutlineStar } from 'react-icons/ai'
 import { BsStarHalf } from 'react-icons/bs'
 import review from '../assets/review.png'
 import review2 from '../assets/review2.png'
@@ -13,21 +13,21 @@ import gambar6 from '../assets/products/gambar6.png'
 import UlasanProps from './ulasan/ulasanProps'
 import ReviewProps from './ulasan/reviewProps'
 
-function Ulasan() {
+function Ulasan({ product }) {
     return (
         <div className='py-12 px-4 w-full'>
             <h1>Ulasan</h1>
             <div className='flex flex-col md:flex-row w-full'>
                 <div className='py-12 flex flex-col justify-center w-[150px] items-center'>
-                    <h1 className='text-3xl font-bold'>4.8 <span className='text-xl'>/ 5</span></h1>
+                    <h1 className='text-3xl font-bold'>{product[0].ratingAverage} <span className='text-xl'>/ 5</span></h1>
                     <div className='mt-2 flex items-center text-[#FBC646]'>
-                        <AiFillStar className='text-xl' />
-                        <AiFillStar className='text-xl' />
-                        <AiFillStar className='text-xl' />
-                        <AiFillStar className='text-xl' />
-                        <BsStarHalf className='text-xl h-[18px]' />
+                        {product[0].ratingAverage >= 1 ? <AiFillStar className='text-xl' /> : <AiOutlineStar className='text-xl' />}
+                        {product[0].ratingAverage >= 2 ? <AiFillStar className='text-xl' /> : <AiOutlineStar className='text-xl' />}
+                        {product[0].ratingAverage >= 3 ? <AiFillStar className='text-xl' /> : <AiOutlineStar className='text-xl' />}
+                        {product[0].ratingAverage >= 4 ? <AiFillStar className='text-xl' /> : <AiOutlineStar className='text-xl' />}
+                        {product[0].ratingAverage >= 5 ? <AiFillStar className='text-xl' /> : <AiOutlineStar className='text-xl' />}
                     </div>
-                    <h1 className='text-xl'>{`(36 ulasan)`}</h1>
+                    <h1 className='text-xl'>{`(${product[0].ratingCount} ulasan)`}</h1>
                 </div>
                 <div className='md:ml-24 px-5 flex flex-col md:items-center justify-center'>
                     <div className='py-1 items-center flex gap-[20px]'>
@@ -64,7 +64,7 @@ function Ulasan() {
             </div>
 
             <div className='py-8 flex flex-col md:flex-row'>
-                <h1>Semua Ulasan {`(36)`}</h1>
+                <h1>Semua Ulasan {`(${product[0].ratingCount})`}</h1>
                 <div className='flex flex-wrap md:ml-12 gap-[5px] md:gap-[20px]'>
                     <div className='p-2 rounded-2xl px-4 border-[1px] flex items-center gap-[10px] border-black'>
                         <AiFillStar className='text-[#FBC646]' />
@@ -98,27 +98,29 @@ function Ulasan() {
 
             <div className='py-24'>
                 <h1 className='font-bold'>Diskusi</h1>
-                <div className='w-[300px] md:w-fit mt-4 flex gap-[10px] items-center justify-between py-4 px-5 border-[1px] border-black rounded-md'>
-                    <h1 className='text-sm md:text-xl'>Diskusikan pertanyaanmu terkait produk ini dengan kami maupun pembeli lainnya</h1>
-                    <button className='font-bold bg-[#FBC646] p-3 rounded-md'>Tulis Pertanyaan</button>
-                </div>
-                <div className='mt-12 w-[300px] md:w-fit rounded-md p-5 border-[1px] border-black'>
-                    <h1 className='font-bold'>Lynn Tanner • <span className='font-light'>2022-02-22</span></h1>
-                    <h1 className='py-2'>Apakah terdapat garansi? Jika ya berapa lama garansinya?</h1>
-                    <div className='flex items-center py-2 border-t-[1px] border-black'>
-                        <div className='flex flex-col items-center justify-center'>
-                            <div className='w-[10px] h-[10px] bg-gray-300 rounded-full'></div>
-                            <div className='w-[2px] h-[65px] bg-gray-400 rounded-md'></div>
-                        </div>
-                        <div>
-                            <div className='ml-6'>
-                                <div className='flex items-center py-3 gap-[20px]'>
-                                    <h1 className='bg-blue-800 text-white px-2 py-1 rounded-xl'>Customer Care</h1>
-                                    •
-                                    <h1>2022-02-22</h1>
+                <div className='flex flex-col'>
+                    <div className='max-w-fit mt-4 flex gap-[10px] items-center justify-between py-4 px-5 border-[1px] border-black rounded-md'>
+                        <h1 className='text-sm md:text-md text-[#505050]'>Diskusikan pertanyaanmu terkait produk ini dengan kami maupun pembeli lainnya</h1>
+                        <button className='font-bold bg-[#FBC646] text-[#22364A] p-3 ml-auto rounded-md'>Tulis Pertanyaan</button>
+                    </div>
+                    <div className='mt-12 max-w-fit rounded-md p-5 border-[1px] border-black'>
+                        <h1 className='font-bold'>Lynn Tanner • <span className='font-light'>2022-02-22</span></h1>
+                        <h1 className='py-2'>Apakah terdapat garansi? Jika ya berapa lama garansinya?</h1>
+                        <div className='flex items-center py-2 border-t-[1px] border-black'>
+                            <div className='flex flex-col items-center justify-center'>
+                                <div className='w-[10px] h-[10px] bg-gray-300 rounded-full'></div>
+                                <div className='w-[2px] h-[65px] bg-gray-400 rounded-md'></div>
+                            </div>
+                            <div>
+                                <div className='ml-6'>
+                                    <div className='flex items-center py-3 gap-[20px]'>
+                                        <h1 className='bg-[#316093] text-white px-2 py-1 rounded-xl'>Customer Care</h1>
+                                        •
+                                        <h1>2022-02-22</h1>
+                                    </div>
+                                    <h1>Halo, Garansi produk ini satu tahun, jika anda menemui masalah produk silahkan hubungi kami<br></br> atau datang ke toko offline terdekat.</h1>
+                                    <input className="mt-4 p-1 border-none outline-none indent-[10px] font-bold text-black bg-gray-300 w-[100%] rounded-md" placeholder="Tambahkan komentar" />
                                 </div>
-                                <h1>Halo, Garansi produk ini satu tahun, jika anda menemui masalah produk silahkan hubungi kami atau datang ke toko offline terdekat.</h1>
-                                <input className="mt-4 p-1 indent-[10px] bg-gray-300 w-[100%] rounded-md" placeholder="Tambahkan komentar" />
                             </div>
                         </div>
                     </div>
@@ -130,7 +132,7 @@ function Ulasan() {
                         <a href="/">Lihat Selengkapnya</a>
                     </div>
 
-                    <div className='grid items-center gap-[10px] md:gap-[20px]'>
+                    <div className='grid grid-cols-2 gap-[10px] md:gap-[0] md:grid-cols-4 lg:grid-cols-6'>
                         <UlasanProps gambar={gambar1} />
                         <UlasanProps gambar={gambar2} />
                         <UlasanProps gambar={gambar3} />

@@ -53,9 +53,13 @@ function Birth({ setBirth, setData, data }) {
     // console.log(tanggal)
 
     return (
-        <div className='modal-bg flex w-full h-full absolute left-0 top-0 justify-center items-center'>
-            <div className='relative flex flex-col items-center justify-center w-[80%] md:w-[40%] h-[30%] rounded-md bg-white p-16 z-99'>
-                <img onClick={() => setBirth(false)} className="cursor-pointer absolute right-[20px] top-[20px] max-w-[20px]" src={closeIcon} alt="" />
+        <>
+            <div className='modal-bg flex w-full absolute left-0 right-0 bottom-0 top-0 justify-center items-center'>
+            </div>
+            <div className='absolute mx-auto left-[50%] translate-xy top-[50%] w-[50%] flex flex-col items-center rounded-md bg-white p-5 z-99'>
+                <div className='w-full'>
+                    <img onClick={() => setBirth(false)} className="cursor-pointer max-w-[10px] sm:max-w-[20px] float-right" src={closeIcon} alt="" />
+                </div>
                 <h1 className='text-center font-bold text-[#316093]'>Tambah Tanggal Lahir</h1>
                 <div className='p-2 mt-6 w-full flex justify-center gap-[50px]'>
                     <select name="tanggal" value={date.tanggal} onChange={e => changeDateValue(e)}>
@@ -82,7 +86,7 @@ function Birth({ setBirth, setData, data }) {
                 </div>
                 <button onClick={() => changeBirth()} className='p-2 font-semibold px-12 rounded-md mt-6 bg-[#FBC646]'>Simpan</button>
             </div>
-        </div>
+        </>
     )
 }
 
