@@ -22,16 +22,7 @@ import jwtDecode from 'jwt-decode'
 
 export default function Homepage() {
 
-    useEffect(() => {
-        axios.get('https://homepoint-server-staging.herokuapp.com/api/v1/products/discount')
-            .then((response) => {
-                console.log(response)
-                // console.log(cobaGet)
-            })
-            .catch((error) => {
-                console.log(error)
-            })
-    }, [])
+    
 
     const dispatch = useDispatch()
 

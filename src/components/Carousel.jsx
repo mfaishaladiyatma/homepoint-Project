@@ -73,7 +73,7 @@ export default function Carousel() {
                                 <img className='h-full w-full object-fit' src={heroBanner3} alt="" />
                             </div>
                         </SwiperSlide>
-                        
+
                         <div className='swiper-button-next button-next'>
                             <img src={arrowRight} alt="" />
                         </div>

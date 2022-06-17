@@ -3,21 +3,30 @@ import { useNavigate } from 'react-router-dom'
 
 
 const loginActionAsync = (email, password, navigate) => {
+
+    const bodyFormData = new FormData()
+    bodyFormData.append('email', email)
+    bodyFormData.append('password', password)
+    console.log(bodyFormData)
     
     return(dispatch, getState, baseUrlLogin) => {
-        axios.post(`${baseUrlLogin}/api/v1/users/login`, {
-            email,
-            password
-        }).then((response) => {
-            dispatch(loginActionSuccessToken(response.data.data.token))
-            console.log(response.data.data.token)
-            navigate('/')
-        }).catch((error) => {
-            console.log(error)
-        })
+        axios({
+            method: "post",
+            url: `${baseUrlLogin}/api/v1/users/login`,
+            data: bodyFormData,
+            headers: { "Content-Type": "multipart/form-data" },
+          }).then((response) => {
+              //handle success
+              dispatch(loginActionSuccessToken(response.data.data.token))
+              console.log(response.data.data.token)
+              navigate('/')
+            }).catch((error) => {
+              //handle error
+              console.log(error)
+            })
     }
 }
-
+// `${baseUrlLogin}/api/v1/users/login`
 // const loginActionSuccess = (payload) => ({
 //     type: 'login/success',
 //     payload

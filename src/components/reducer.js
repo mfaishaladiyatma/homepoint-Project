@@ -15,7 +15,7 @@ export default function userReducer(state = inistialState, action) {
                 ...payload
             }
         case 'login/success-token':
-            
+            console.log(payload)
             return {
                 ...state,
                 token: payload
