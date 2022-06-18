@@ -1,0 +1,33 @@
+.carouselHero {
+    @apply  h-full flex justify-center  px-5 
+}
+
+.carouselHero .swiper-wrapper {
+    @apply container 
+}
+
+.carouselHero .swiper-slide {
+    @apply text-left text-[18px] bg-transparent flex justify-center items-center  w-full 
+}
+
+.carouselHero .swiper-pagination {
+    @apply w-fit flex gap-x-2 items-center justify-center ml-5
+}
+
+.carouselHero .swiper-pagination-bullet {
+    @apply w-[12px] h-[12px] bg-slate-500 opacity-[.4]
+}
+
+.carouselHero .swiper-pagination-bullet-active {
+    @apply bg-black w-[30px] h-[] opacity-[1] rounded-full
+}
+
+.carouselHero .swiper-button-next {
+    @apply after:hidden 
+    bg-[#22364A] rounded-full w-[40px] h-[40px]
+}
+
+.carouselHero .swiper-button-prev {
+    @apply after:hidden 
+    bg-[#22364A] rounded-full w-[40px] h-[40px]
+}

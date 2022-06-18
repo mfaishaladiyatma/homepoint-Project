@@ -4,22 +4,19 @@ import { tanggal as Dates, tahun as Years } from '../../data.js'
 
 function Birth({ setBirth, setData, data }) {
 
-
+    //Default State
     const [date, setDate] = React.useState({
         tanggal: "1",
         bulan: "Januari",
         tahun: "1980"
     })
 
-    console.log(date)
-
+    // Custom Date Data
     const [tanggal] = React.useState(Dates)
     const [tahun] = React.useState(Years)
     const [bulan] = React.useState([
         "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"
     ])
-
-    // console.log(value)
 
     const changeDateValue = (e) => {
         setDate(prevDate => {
@@ -41,16 +38,6 @@ function Birth({ setBirth, setData, data }) {
         })
         setBirth(false)
     }
-
-    // for (let i = 1; i < 32; i++) {
-    //     tanggal.push(i)
-    // }
-    // for (let x = 1970; x < 2022; x++) {
-    //     tahun.push(x)
-    // }
-
-
-    // console.log(tanggal)
 
     return (
         <>

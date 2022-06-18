@@ -1,17 +1,47 @@
-import React from 'react'
-import Header from '../components/Header'
-import Footer from '../components/Footer'
+import React from 'react';
 
-import { Outlet } from 'react-router-dom'
+const PaginationPage = ({ data, productPerPage, totalPosts, paginate, currentPage }) => {
 
-export default function Layout() {
+    let pageNumbers = [];
+
+    for (let i = 1; i <= Math.ceil(totalPosts / productPerPage); i++) {
+        pageNumbers.push(i);
+    }
+
+
+    const previousButton = () => {
+        if (currentPage > 1) {
+            paginate(currentPage - 1)
+        }
+        return
+    }
+
+    const nextButton = () => {
+        if (currentPage >= 1 && currentPage < pageNumbers.length) {
+            paginate(currentPage + 1)
+        }
+        return
+    }
+
     return (
         <>
-            <div className='flex flex-col h-screen justify-between'>
-                <Header />
-                <Outlet />
-                <Footer />
-            </div>
+            {data.length > 0 ?
+                <div className='flex flex-wrap gap-5 lg:float-right'>
+                    <button onClick={previousButton} className='text-[#505050]'>Previous</button>
+                    {pageNumbers.map(number => (
+                        <div key={number} onClick={() => paginate(number)} className={`cursor-pointer ${currentPage === number ? `bg-[#FBC646] font-bold` : ""} px-3 py-2 `}>
+                            {number}
+                        </div>
+                    ))}
+                    <button onClick={nextButton} className='text-[#505050]'>Next</button>
+                </div>
+                :
+                <div>
+
+                </div>
+            }
         </>
-    )
-}
+    );
+};
+
+export default PaginationPage;

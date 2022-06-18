@@ -163,6 +163,8 @@ function Hero({ data, setData, productPerPage, paginate, currentPage }) {
         if (filterList.rating4) {
             updatedData = updatedData.filter(x => x.ratingAverage >= 4)
         }
+
+        // Filter Custom Brand 
         if (filterList.vishal) {
             updatedData = updatedData.filter(x => x.brand === "vishal")
         }
@@ -315,19 +317,21 @@ function Hero({ data, setData, productPerPage, paginate, currentPage }) {
                         <div className='mt-5 grid grid-cols-2 md:grid-cols-3 gap-x-[0] xl:grid-cols-4 gap-[10px] md:gap-[20px] '>
                             {data.map(each => {
                                 return (
-                                    <div key={each.id} className='border-[1px] w-fit p-3 border-light-blue-pale rounded-md'>
+                                    <div key={each.id} className='border-[1px] w-fit flex flex-col p-3 border-light-blue-pale rounded-md'>
                                         <Link className='flex w-full justify-center' to={`product/${each.id}`}>
                                             <img className='max-w-[100px] lg:max-w-[150px]' src={each.productImages[0].image} />
                                         </Link>
-                                        <h3>{each.name}</h3>
-                                        <h3 className='font-bold'>Rp {each.price}</h3>
-                                        <div className='flex gap-[10px] items-center'>
-                                            <div className='flex items-center gap-[5px]'>
-                                                <AiFillStar className='text-[#FBC646]' />
-                                                {each.ratingAverage}
+                                        <h3 className='text-left'>{each.name}</h3>
+                                        <div className='mt-auto'>
+                                            <h3 className='font-bold mt-auto'>Rp {each.price}</h3>
+                                            <div className='flex gap-[10px] items-center'>
+                                                <div className='flex items-center gap-[5px]'>
+                                                    <AiFillStar className='text-[#FBC646]' />
+                                                    {each.ratingAverage}
+                                                </div>
+                                                <div>|</div>
+                                                <p>Terjual {each.amountSold}</p>
                                             </div>
-                                            <div>|</div>
-                                            <p>Terjual 100</p>
                                         </div>
                                     </div>
                                 )
@@ -338,7 +342,7 @@ function Hero({ data, setData, productPerPage, paginate, currentPage }) {
                             Produk tidak dapat ditemukan...
                         </div>
                     }
-                    <div className='w-full mt-5'>
+                    <div className='w-full flex flex-wrap mt-5'>
                         <PaginationPage data={data} paginate={paginate} currentPage={currentPage} productPerPage={productPerPage} totalPosts={dataProduct.length} />
                     </div>
                 </div>

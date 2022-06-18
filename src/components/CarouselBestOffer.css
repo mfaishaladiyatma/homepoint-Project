@@ -1,0 +1,37 @@
+.carouselPromo {
+    @apply  h-full flex justify-center   
+}
+
+.carouselPromo .swiper-wrapper {
+    @apply container 
+}
+
+.carouselPromo .swiper-slide {
+    @apply text-left text-[18px] bg-transparent flex justify-center items-center  w-full h-full 
+}
+
+.carouselPromo .swiper-pagination {
+    @apply w-fit flex gap-x-2 items-center justify-center ml-5
+}
+
+.carouselPromo .swiper-pagination-bullet {
+    @apply w-[12px] h-[12px] bg-slate-500 opacity-[.4]
+}
+
+.carouselPromo .swiper-pagination-bullet-active {
+    @apply bg-black w-[30px] h-[] opacity-[1] rounded-full
+}
+
+.carouselPromo .swiper-button-next {
+    @apply after:hidden 
+    bg-[#22364A] rounded-full w-[35px] h-[35px] right-0
+}
+
+.carouselPromo .swiper-button-prev {
+    @apply after:hidden 
+    bg-[#22364A] rounded-full w-[35px] h-[35px] left-0
+}
+
+.carouselPromo .swiper-button-disabled {
+    @apply hidden
+}

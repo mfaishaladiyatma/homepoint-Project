@@ -111,3 +111,17 @@ input {
     width: 20px;
   }
 }
+@media only screen and (max-width: 368px) {
+  html {
+    font-size: 37.5%;
+  }
+
+  .modal-auto {
+    height: 70%;
+  }
+
+  .input-checkbox {
+    height: 20px;
+    width: 20px;
+  }
+}
