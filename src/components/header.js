@@ -1,4 +1,13 @@
 import React from "react";
+import { useState, Fragment } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux/es/exports'
+import { useDispatch } from 'react-redux'
+import jwtDecode from 'jwt-decode'
+import { logoutAction } from './action'
+import { Transition } from '@headlessui/react'
+
+
 import Logo from "../assets/homepoint.png";
 import Search from "../assets/icon/search.png";
 import bell from "../assets/icon/bell.png";
@@ -9,10 +18,22 @@ import { Link } from "react-router-dom";
 import { AiOutlineMenu } from "react-icons/ai";
 
 function Header({ searchHandler, setMenu, menu }) {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const [selected, setSelected] = useState('')
+  const [isClickedLogin, setIsClickedLogin] = useState(false)
+  const [isClicked, setIsClicked] = useState(false)
+
+  const { token, name } = useSelector((state) => state)
+
+  const decode = token ? jwtDecode(token) : null
+
+
   return (
     <>
-      <div className="w-full bg-[#6999B8] px-6 md:px-16 h-[8vh] justify-between px-4 flex md:px-3 items-center">
-        <div className="xl:w-[400px]">
+      <div className="sticky top-0 w-full bg-[#6999B8] px-6  h-[8vh]   flex md:px-3 items-center z-20 justify-between">
+        <div className="">
           <Link to="/">
             <img className="max-w-[100px] md:max-w-[140px]" src={Logo} alt="Homepoint" />
           </Link>
@@ -23,20 +44,70 @@ function Header({ searchHandler, setMenu, menu }) {
           </select>
           {/* {e => setQ(e.target.value)} */}
           <div className="h-[30px] flex items-center">
-            <input onChange={(e) => searchHandler(e)} className="border-none outline-none px-4 h-full border-none lg:w-[450px]" placeholder="Search ..." />
+            <input onChange={(e) => searchHandler(e)} className="outline-none px-4 h-full border-none lg:w-[450px]" placeholder="Search ..." />
             <img className="absolute right-[20px]" src={Search} alt="search" />
           </div>
         </div>
-        <div className="hidden w-[400px] xl:flex ml-24">
-          <img className="px-5 h-[23px]" src={love} alt="love" />
-          <Link to="/search">
-            <img className="px-5 h-[23px]" src={cart} alt="cart" />
-          </Link>
-          <img className="px-5 h-[23px]" src={bell} alt="bell" />
-          <Link to="/login" className="px-5 h-[23px] flex items-center gap-[20px]">
-            <img src={user} alt="user" />
-            <h3 className="text-white">Masuk/Daftar</h3>
-          </Link>
+        <div className="hidden w-fit xl:flex  gap-x-14 items-center">
+          <img className=" h-[23px]" src={love} alt="love" />
+          
+            <Link className=" w-[50px]" to="/search">
+              <div className="flex w-[30px] items-center justify-center">
+              <img className=" h-[23px]" src={cart} alt="cart" />
+              </div>
+            </Link>
+          
+          <img className=" h-[23px]" src={bell} alt="bell" />
+
+          <div className='relative flex flex-row items-center '>
+            <img src={user} alt="User" />
+            <button onClick={() => setIsClickedLogin(!isClickedLogin)}>
+              <p className='text-white text-center  w-[150px] overflow-hidden  text-ellipsis font-[400] '>{decode ? name : 'Masuk/Daftar'}</p>
+
+            </button>
+
+            <Transition
+              as={Fragment}
+              show={(isClickedLogin && token) ? true : false}
+              enter="transition-all duration-300"
+              enterFrom="opacity-0 translate-y-[-30%]"
+              enterTo="opacity-100 translate-y-0"
+              leave="transition-all duration-300"
+              leaveFrom="opacity-100 translate-y-0"
+              leaveTo="opacity-0 translate-y-[-30%]"
+            >
+              <div className='bg-white absolute rounded-[8px] border-2 border-slate-400 w-full top-full mt-5 flex flex-col p-2 '>
+                <button>
+                  <div className='h-[40px] px-2 flex justify-start items-center rounded-[8px] hover:bg-sky-200'>Profile</div>
+                </button>
+                <button onClick={() => { dispatch(logoutAction()); setIsClickedLogin(!isClickedLogin); }}>
+                  <div className='h-[40px] px-2 flex justify-start items-center rounded-[8px] hover:bg-sky-200'>Keluar</div>
+                </button>
+              </div>
+            </Transition>
+
+            <Transition
+              as={Fragment}
+              show={(isClickedLogin && !token) ? true : false}
+              enter="transition-all duration-300"
+              enterFrom="opacity-0 translate-y-[-30%]"
+              enterTo="opacity-100 translate-y-0"
+              leave="transition-all duration-300"
+              leaveFrom="opacity-100 translate-y-0"
+              leaveTo="opacity-0 translate-y-[-30%]"
+            >
+              <div className='bg-white absolute rounded-[8px] border-2 border-slate-400 w-full top-full mt-5 flex flex-col p-2 '>
+                <button onClick={() => {navigate('/login'); setIsClickedLogin(!isClickedLogin);}}>
+                  <div className='h-[40px] px-2 flex justify-start items-center rounded-[8px] hover:bg-sky-200'>Masuk</div>
+                </button>
+                <button onClick={() => {navigate('/register'); setIsClickedLogin(!isClickedLogin);}}>
+                  <div className='h-[40px] px-2 flex justify-start items-center rounded-[8px] hover:bg-sky-200'>Daftar</div>
+                </button>
+              </div>
+            </Transition>
+
+          </div>
+
         </div>
         <AiOutlineMenu onClick={() => setMenu(!menu)} className="text-white xl:hidden text-[2rem]" />
       </div>
@@ -61,6 +132,7 @@ function Header({ searchHandler, setMenu, menu }) {
       ) : (
         ""
       )}
+      
     </>
   );
 }

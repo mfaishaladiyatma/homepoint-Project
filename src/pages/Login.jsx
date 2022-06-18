@@ -125,7 +125,7 @@ export default function Login() {
       </div> */}
       {/* whole page */}
 
-      <div style={{ backgroundImage: `url(${backgroundImage})` }} className="relative font-Inter flex flex-col py-12 h-screen md:h-full items-center justify-center  w-full">
+      <div style={{ backgroundImage: `url(${backgroundImage})` }} className=" bg-cover bg-left-bottom relative font-Inter flex flex-col py-12 h-screen md:h-full items-center justify-center  w-full">
         <div className="absolute top-[5%] left-[3%]">
           <button onClick={() => navigate(-1)} className="ml-10">
             <AiOutlineArrowLeft className="text-[2rem]" />
@@ -135,17 +135,17 @@ export default function Login() {
 
         <section className="flex justify-center md:justify-end md:px-24 py-12 w-full ">
           {/* form-section */}
-          <div className="flex flex-col px-3 items-center w-[70%] sm:w-[60%] md:w-[50%] lg:w-[40%]  h-fit bg-[#98B6C9] rounded-[16px]">
+          <div className="flex flex-col px-3 items-center w-[70%] sm:w-[60%] md:w-[50%] lg:w-[40%]  h-fit bg-[#98B6C9] rounded-[16px] py-6">
             <div className="flex flex-col items-center">
-              <img className="max-w-[80%]" src={homePointLogo} alt="" />
-              <h2 className="font-bold text-[#22364A]">Daftar akun</h2>
+              <img className="max-w-[80%] w-[50%] sm:w-[80%]" src={homePointLogo} alt="" />
+              <p className="font-bold sm:text-[26px] text-[18px] text-[#22364A]">Daftar akun</p>
             </div>
 
             <div className="w-full">
               <div className="flex flex-col gap-y-3 p-2 justify-between rounded-[10px] w-full">
                 <p className=" px-1 font-bold">Email</p>
                 <input
-                  className="focus:outline-none focus:border-[#316093] focus:ring-2 focus:ring-[#316093] focus:bg-white caret-[#6999B8] px-2 h-10 sm:h-12 rounded-[8px] bg-[#DADADA]"
+                  className="focus:outline-none focus:border-[#316093] focus:ring-2 focus:ring-[#316093] focus:bg-white caret-[#6999B8] px-2 h-12 sm:h-12 rounded-[8px] bg-[#DADADA]"
                   placeholder="Email"
                   type="text"
                   value={email}
@@ -155,7 +155,7 @@ export default function Login() {
               <div className="flex flex-col gap-y-3 p-2 justify-between rounded-[10px] w-full">
                 <p className="px-1 font-bold">Kata Sandi</p>
                 <input
-                  className="focus:outline-none focus:border-[#316093] focus:ring-2 focus:ring-[#316093] focus:bg-white caret-[#6999B8] px-2 sm:h-12 h-10 rounded-[8px] bg-[#DADADA]"
+                  className="focus:outline-none focus:border-[#316093] focus:ring-2 focus:ring-[#316093] focus:bg-white caret-[#6999B8] px-2 sm:h-12 h-12 rounded-[8px] bg-[#DADADA]"
                   placeholder="Kata Sandi"
                   type="password"
                   value={password}
@@ -176,12 +176,12 @@ export default function Login() {
 
             <div className="my-3">Atau</div>
 
-            <div className="flex gap-[20px] my-3">
-              <button className="w-[20px] h-[20px] sm:w-[40px] sm:h-[40px] flex justify-center items-center rounded-[10px]">
-                <img className="w-full" src={Google} alt="" />
+            <div className="flex gap-[20px] justify-center  w-full px-5 my-3">
+              <button className=" w-[100px] py-6 h-[30px] sm:w-full sm:h-[40px] bg-white/30 flex justify-center items-center rounded-[10px]">
+                <img className="w-[20px] h-[20px] sm:w-[40px] sm:h-[40px]" src={Google} alt="" />
               </button>
-              <button className="w-[20px] h-[20px] sm:w-[40px] sm:h-[40px] bg-white-transparent flex justify-center items-center rounded-[10px]">
-                <img className="w-full" src={Facebook} alt="" />
+              <button className=" w-[100px] py-6 h-[30px] sm:w-full sm:h-[40px] bg-white/30 flex justify-center items-center rounded-[10px]">
+                <img className="w-[20px] h-[20px] sm:w-[40px] sm:h-[40px]" src={Facebook} alt="" />
               </button>
             </div>
 

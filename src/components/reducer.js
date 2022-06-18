@@ -26,7 +26,9 @@ export default function userReducer(state = inistialState, action) {
 
             return {
                 ...state,
-                token: ''
+                token: '',
+                name: '',
+                id: ''
             }
         default:
             return state
