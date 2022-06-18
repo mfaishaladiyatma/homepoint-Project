@@ -318,7 +318,7 @@ function Hero({ data, setData, productPerPage, paginate, currentPage }) {
                             {data.map(each => {
                                 return (
                                     <div key={each.id} className='border-[1px] w-fit flex flex-col p-3 border-light-blue-pale rounded-md'>
-                                        <Link className='flex w-full justify-center' to={`product/${each.id}`}>
+                                        <Link className='flex w-full justify-center' to={`../product/${each.id}`}>
                                             <img className='max-w-[100px] lg:max-w-[150px]' src={each.productImages[0].image} />
                                         </Link>
                                         <h3 className='text-left'>{each.name}</h3>
