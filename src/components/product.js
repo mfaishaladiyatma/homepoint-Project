@@ -1,5 +1,4 @@
 import React from 'react'
-import productImage from '../assets/product.png'
 import { AiFillStar } from 'react-icons/ai'
 
 import { useParams } from 'react-router-dom'

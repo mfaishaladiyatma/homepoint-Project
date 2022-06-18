@@ -8,6 +8,7 @@ import PaginationPage from './pagination/pagination.js'
 function Hero({ data, setData, productPerPage, paginate, currentPage }) {
 
     const { dataProduct, setDataProduct } = React.useContext(addressContext)
+
     const [filterList, setFilterList] = React.useState({
         min: null,
         max: null,
