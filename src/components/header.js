@@ -38,7 +38,7 @@ function Header({ searchHandler, setMenu, menu }) {
             <img className="max-w-[100px] md:max-w-[140px]" src={Logo} alt="Homepoint" />
           </Link>
         </div>
-        <div className="hidden xl:flex items-center relative">
+        <div className="hidden xl:flex xl:rounded-[8px] xl:bg-white  xl:px-3 items-center relative">
           <select className="border-none outline-none h-[30px] text-sm px-3">
             <option value="Kategori">Kategori</option>
           </select>
@@ -51,7 +51,7 @@ function Header({ searchHandler, setMenu, menu }) {
         <div className="hidden w-fit xl:flex  gap-x-14 items-center">
           <img className=" h-[23px]" src={love} alt="love" />
           
-            <Link className=" w-[50px]" to="/search">
+            <Link to="/search">
               <div className="flex w-[30px] items-center justify-center">
               <img className=" h-[23px]" src={cart} alt="cart" />
               </div>
@@ -119,7 +119,7 @@ function Header({ searchHandler, setMenu, menu }) {
                 <option value="Kategori">Kategori</option>
               </select>
               <div className="h-[20px] sm:h-[30px] bg-red-500 w-full flex items-center">
-                <input onChange={(e) => searchHandler(e)} className="text-black border-none outline-none pl-3 h-full border-none w-[100%]" placeholder="Search ..." />
+                <input onChange={(e) => searchHandler(e)} className="text-black border-none outline-none pl-3 h-full  w-[100%]" placeholder="Search ..." />
                 <img className="absolute w-[10px] md:w-[15px] right-[10px] sm:right-[20px]" src={Search} alt="search" />
               </div>
             </div>

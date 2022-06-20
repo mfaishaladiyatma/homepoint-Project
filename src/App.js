@@ -15,6 +15,7 @@ import { addressContext } from "./context/context";
 import Header from "./components/header";
 import Footer from "./pages/Footer";
 import Homepage from "./pages/Homepage";
+import ComponentLayout from "./components/ComponentLayout";
 
 function App() {
   //React Context Data ( Fetch Data using Axios )
@@ -42,24 +43,28 @@ function App() {
   // *** Pagination Pattern
   const indexOfLastPost = currentPage * productPerPage;
   const indexOfFirstPost = indexOfLastPost - productPerPage;
-  const currentPosts = data.slice(indexOfFirstPost, indexOfLastPost);
+
+  //DIBAWAH INI AKUCOMMENT
+  // const currentPosts = data.slice(indexOfFirstPost, indexOfLastPost);
 
   //Pagination Function
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  //HEADER DAN FOOTER PINDAH KE COMPONENTLAYOUT.jsx di components
+
   return (
     <div>
-      <Header menu={menu} setMenu={setMenu} searchHandler={searchHandler} />
-      <Routes>
-        <Route path="/" element={<Homepage />} />
-        <Route path="/search" element={<Hero data={currentPosts} setData={setData} productPerPage={productPerPage} paginate={paginate} currentPage={currentPage} />} />
-        <Route path="/product/:id" element={<Product />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/forgetpass" element={<ForgetPass />}></Route>
-        <Route path="/login" element={<Login />}></Route>
-        <Route path="/register" element={<Register />}></Route>
-      </Routes>
-      <Footer />
+      
+        <Routes>
+          <Route path="/" element={<ComponentLayout><Homepage/></ComponentLayout>} />
+          <Route path="/search" element={<Hero setData={setData} productPerPage={productPerPage} paginate={paginate} currentPage={currentPage} />} />
+          <Route path="/product/:id" element={<ComponentLayout><Product /></ComponentLayout>} />
+          <Route path="/profile" element={<ComponentLayout><Profile /></ComponentLayout>} />
+          <Route path="/forgetpass" element={<ForgetPass />}></Route>
+          <Route path="/login" element={<Login />}></Route>
+          <Route path="/register" element={<Register />}></Route>
+        </Routes>
+      
     </div>
   );
 }

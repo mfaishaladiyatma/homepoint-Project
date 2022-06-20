@@ -138,7 +138,7 @@ export default function Login() {
           <div className="flex flex-col px-3 items-center w-[70%] sm:w-[60%] md:w-[50%] lg:w-[40%]  h-fit bg-[#98B6C9] rounded-[16px] py-6">
             <div className="flex flex-col items-center">
               <img className="max-w-[80%] w-[50%] sm:w-[80%]" src={homePointLogo} alt="" />
-              <p className="font-bold sm:text-[26px] text-[18px] text-[#22364A]">Daftar akun</p>
+              <p className="font-bold sm:text-[26px] text-[18px] text-[#22364A]">Masuk</p>
             </div>
 
             <div className="w-full">
