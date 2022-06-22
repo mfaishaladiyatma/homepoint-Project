@@ -7,7 +7,49 @@ import Gender from "./modal/gender";
 import Nomor from "./modal/nomor";
 import Address from "./modal/address";
 
+import { useSelector } from 'react-redux/es/exports'
+import { useState, Fragment, useEffect } from 'react'
+import axios from "axios";
+import jwtDecode from 'jwt-decode'
+
+
 function Profile() {
+  const { token, id } = useSelector((state) => state)
+
+  const decode = token ? jwtDecode(token) : null
+
+  useEffect(() => {
+    if (decode) {
+      axios.get('https://homepoint-server-staging.herokuapp.com/api/v1/users/' + id)
+        .then((response) => {
+          console.log(response.data.data)
+          setData({
+            ...data,
+            name: response.data.data.name,
+            email: response.data.data.email,
+          })
+          // console.log(cobaGet)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+      } else {
+        return 
+      }
+    }, [])
+    
+  // useEffect(() => {
+  //   axios.get('https://homepoint-server-staging.herokuapp.com/api/v1/products/discount')
+  //     .then((response) => {
+  //       console.log(response)
+  //       setDataBestOffer(response.data.data)
+  //       // console.log(cobaGet)
+  //     })
+  //     .catch((error) => {
+  //       console.log(error)
+  //     })
+  // }, [])
+
   const [data, setData] = React.useState({
     name: "Lynn Tanner",
     birth: "Tanggal Lahir",
@@ -15,7 +57,7 @@ function Profile() {
     email: "lynntanner@gmail.com",
     hp: "No Hp",
   });
-
+  console.log(data.name)
   const [alamat, setAlamat] = React.useState(false);
 
   const [alamatPengguna, setAlamatPengguna] = React.useState([]);

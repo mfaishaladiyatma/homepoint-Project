@@ -170,9 +170,12 @@ export default function Login() {
               </button>
             </div>
 
-            <Link to="/profile" onClick={handleLogin} className="bg-[#FBC646] w-[95%] py-3 flex justify-center rounded-[10px] mt-3">
+            {/* <Link to="/profile" onClick={handleLogin} className="bg-[#FBC646] w-[95%] py-3 flex justify-center rounded-[10px] mt-3">
               <div className="font-bold ">Masuk</div>
-            </Link>
+            </Link> */}
+            <button  onClick={handleLogin} className="bg-[#FBC646] w-[95%] py-3 flex justify-center rounded-[10px] mt-3">
+              <div className="font-bold ">Masuk</div>
+            </button>
 
             <div className="my-3">Atau</div>
 
