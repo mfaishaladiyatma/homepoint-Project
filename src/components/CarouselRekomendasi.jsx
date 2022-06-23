@@ -1,4 +1,6 @@
 import React from 'react'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 
 import promo from '../images/promoBuy1Get1.svg'
 import gelasKacaBiru from '../images/gelasKacaBeningBiru.svg'
@@ -18,6 +20,20 @@ import './CarouselRekomendasi.css'
 import { Navigation, Autoplay } from "swiper";
 
 export default function CarouselRekomendasi() {
+
+    const [dataRecommend, setDataRecommend] = useState([])
+
+    useEffect(() => {
+        axios.get('https://homepoint-server-staging.herokuapp.com/api/v1/products/latest')
+          .then((response) => {
+            console.log(response)
+            setDataRecommend(response.data.data)
+            // console.log(cobaGet)
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+      }, [])
     return (
         <>
             <div className='font-Inter mb-[150px]  h-[600px] flex  justify-center '>
@@ -45,259 +61,41 @@ export default function CarouselRekomendasi() {
                                 // centeredSlides={true}
                                 className="carouselRekomendasi"
                             >
-                                <SwiperSlide>
-                                    <div className='h-full flex border-2 border-[#E1E1E1] bg-white rounded-[10px] container'>
-                                        <div className='flex flex-col container h-full p-3'>
-                                            <img className='h-[60%]' src={gelasKacaBiru} alt="" />
-                                            <div className='flex container flex-col gap-y-8'>
-                                                <h4 className='font-bold text-[18px]'>Gelas kaca bening biru</h4>
-                                                <div className='flex flex-col gap-y-3'>
-                                                    <h3 className='font-bold text-[18px]'>Rp 23.000</h3>
-                                                    <div className='flex gap-x-2'>
-                                                        <div className='flex items-center gap-x-2'>
-                                                            <div className='text-yellow-400'><AiFillStar /></div>
-                                                            <p className='text-[16px]'>4.8</p>
-                                                        </div>
-                                                        <div>
-                                                            |
-                                                        </div>
-                                                        <div className='flex items-center'>
-                                                            <p className='text-[16px]'>Terjual 100</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <div className='h-full flex border-2 border-[#E1E1E1] bg-white rounded-[10px] container'>
-                                        <div className='flex flex-col container h-full p-3'>
-                                            <img className='h-[60%]' src={gelasKacaBiru} alt="" />
-                                            <div className='flex container flex-col gap-y-8'>
-                                                <h4 className='font-bold text-[18px]'>Gelas kaca bening biru</h4>
-                                                <div className='flex flex-col gap-y-3'>
-                                                    <h3 className='font-bold text-[18px]'>Rp 23.000</h3>
-                                                    <div className='flex gap-x-2'>
-                                                        <div className='flex items-center gap-x-2'>
-                                                            <div className='text-yellow-400'><AiFillStar /></div>
-                                                            <p className='text-[16px]'>4.8</p>
-                                                        </div>
-                                                        <div>
-                                                            |
-                                                        </div>
-                                                        <div className='flex items-center'>
-                                                            <p className='text-[16px]'>Terjual 100</p>
+                                {dataRecommend.map((item) => (
+                                    <SwiperSlide key={item.id}>
+                                        <div className='h-full relative flex border-2 border-[#E1E1E1] bg-white rounded-[10px] container'>
+                                            <button className='flex'>
+                                               
+                                                <div className='flex flex-col container h-full p-3'>
+                                                    <img className='h-[180px]' src={item.productImages[0].image} alt="" />
+                                                    <div className='flex container flex-col justify-between  h-[50%] gap-y-8'>
+                                                        <h4 className='font-bold mt-2  text-[18px] text-left'>{item.name}</h4>
+                                                        <div className='flex flex-col gap-y-2'>
+
+                                                            <h4 className='font-bold text-[18px] text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(item.price)}</h4>   
+
+                                                            <div className='flex gap-x-2'>
+                                                                <div className='flex items-center gap-x-2'>
+                                                                    <div className='text-yellow-400'><AiFillStar /></div>
+                                                                    <p className='text-[16px]'>{item.ratingAverage}</p>
+                                                                </div>
+                                                                <div>
+                                                                    |
+                                                                </div>
+                                                                <div className='flex items-center'>
+                                                                    <p className='text-[16px]'>Terjual {item.amountSold}</p>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </button>
                                         </div>
-                                    </div>
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <div className='h-full flex border-2 border-[#E1E1E1] bg-white rounded-[10px] container'>
-                                        <div className='flex flex-col container h-full p-3'>
-                                            <img className='h-[60%]' src={gelasKacaBiru} alt="" />
-                                            <div className='flex container flex-col gap-y-8'>
-                                                <h4 className='font-bold text-[18px]'>Gelas kaca bening biru</h4>
-                                                <div className='flex flex-col gap-y-3'>
-                                                    <h3 className='font-bold text-[18px]'>Rp 23.000</h3>
-                                                    <div className='flex gap-x-2'>
-                                                        <div className='flex items-center gap-x-2'>
-                                                            <div className='text-yellow-400'><AiFillStar /></div>
-                                                            <p className='text-[16px]'>4.8</p>
-                                                        </div>
-                                                        <div>
-                                                            |
-                                                        </div>
-                                                        <div className='flex items-center'>
-                                                            <p className='text-[16px]'>Terjual 100</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <div className='h-full flex border-2 border-[#E1E1E1] bg-white rounded-[10px] container'>
-                                        <div className='flex flex-col container h-full p-3'>
-                                            <img className='h-[60%]' src={gelasKacaBiru} alt="" />
-                                            <div className='flex container flex-col gap-y-8'>
-                                                <h4 className='font-bold text-[18px]'>Gelas kaca bening biru</h4>
-                                                <div className='flex flex-col gap-y-3'>
-                                                    <h3 className='font-bold text-[18px]'>Rp 23.000</h3>
-                                                    <div className='flex gap-x-2'>
-                                                        <div className='flex items-center gap-x-2'>
-                                                            <div className='text-yellow-400'><AiFillStar /></div>
-                                                            <p className='text-[16px]'>4.8</p>
-                                                        </div>
-                                                        <div>
-                                                            |
-                                                        </div>
-                                                        <div className='flex items-center'>
-                                                            <p className='text-[16px]'>Terjual 100</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <div className='h-full flex border-2 border-[#E1E1E1] bg-white rounded-[10px] container'>
-                                        <div className='flex flex-col container h-full p-3'>
-                                            <img className='h-[60%]' src={gelasKacaBiru} alt="" />
-                                            <div className='flex container flex-col gap-y-8'>
-                                                <h4 className='font-bold text-[18px]'>Gelas kaca bening biru</h4>
-                                                <div className='flex flex-col gap-y-3'>
-                                                    <h3 className='font-bold text-[18px]'>Rp 23.000</h3>
-                                                    <div className='flex gap-x-2'>
-                                                        <div className='flex items-center gap-x-2'>
-                                                            <div className='text-yellow-400'><AiFillStar /></div>
-                                                            <p className='text-[16px]'>4.8</p>
-                                                        </div>
-                                                        <div>
-                                                            |
-                                                        </div>
-                                                        <div className='flex items-center'>
-                                                            <p className='text-[16px]'>Terjual 100</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <div className='h-full flex border-2 border-[#E1E1E1] bg-white rounded-[10px] container'>
-                                        <div className='flex flex-col container h-full p-3'>
-                                            <img className='h-[60%]' src={gelasKacaBiru} alt="" />
-                                            <div className='flex container flex-col gap-y-8'>
-                                                <h4 className='font-bold text-[18px]'>Gelas kaca bening biru</h4>
-                                                <div className='flex flex-col gap-y-3'>
-                                                    <h3 className='font-bold text-[18px]'>Rp 23.000</h3>
-                                                    <div className='flex gap-x-2'>
-                                                        <div className='flex items-center gap-x-2'>
-                                                            <div className='text-yellow-400'><AiFillStar /></div>
-                                                            <p className='text-[16px]'>4.8</p>
-                                                        </div>
-                                                        <div>
-                                                            |
-                                                        </div>
-                                                        <div className='flex items-center'>
-                                                            <p className='text-[16px]'>Terjual 100</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <div className='h-full flex border-2 border-[#E1E1E1] bg-white rounded-[10px] container'>
-                                        <div className='flex flex-col container h-full p-3'>
-                                            <img className='h-[60%]' src={gelasKacaBiru} alt="" />
-                                            <div className='flex container flex-col gap-y-8'>
-                                                <h4 className='font-bold text-[18px]'>Gelas kaca bening biru</h4>
-                                                <div className='flex flex-col gap-y-3'>
-                                                    <h3 className='font-bold text-[18px]'>Rp 23.000</h3>
-                                                    <div className='flex gap-x-2'>
-                                                        <div className='flex items-center gap-x-2'>
-                                                            <div className='text-yellow-400'><AiFillStar /></div>
-                                                            <p className='text-[16px]'>4.8</p>
-                                                        </div>
-                                                        <div>
-                                                            |
-                                                        </div>
-                                                        <div className='flex items-center'>
-                                                            <p className='text-[16px]'>Terjual 100</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <div className='h-full flex border-2 border-[#E1E1E1] bg-white rounded-[10px] container'>
-                                        <div className='flex flex-col container h-full p-3'>
-                                            <img className='h-[60%]' src={gelasKacaBiru} alt="" />
-                                            <div className='flex container flex-col gap-y-8'>
-                                                <h4 className='font-bold text-[18px]'>Gelas kaca bening biru</h4>
-                                                <div className='flex flex-col gap-y-3'>
-                                                    <h3 className='font-bold text-[18px]'>Rp 23.000</h3>
-                                                    <div className='flex gap-x-2'>
-                                                        <div className='flex items-center gap-x-2'>
-                                                            <div className='text-yellow-400'><AiFillStar /></div>
-                                                            <p className='text-[16px]'>4.8</p>
-                                                        </div>
-                                                        <div>
-                                                            |
-                                                        </div>
-                                                        <div className='flex items-center'>
-                                                            <p className='text-[16px]'>Terjual 100</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <div className='h-full flex border-2 border-[#E1E1E1] bg-white rounded-[10px] container'>
-                                        <div className='flex flex-col container h-full p-3'>
-                                            <img className='h-[60%]' src={gelasKacaBiru} alt="" />
-                                            <div className='flex container flex-col gap-y-8'>
-                                                <h4 className='font-bold text-[18px]'>Gelas kaca bening biru</h4>
-                                                <div className='flex flex-col gap-y-3'>
-                                                    <h3 className='font-bold text-[18px]'>Rp 23.000</h3>
-                                                    <div className='flex gap-x-2'>
-                                                        <div className='flex items-center gap-x-2'>
-                                                            <div className='text-yellow-400'><AiFillStar /></div>
-                                                            <p className='text-[16px]'>4.8</p>
-                                                        </div>
-                                                        <div>
-                                                            |
-                                                        </div>
-                                                        <div className='flex items-center'>
-                                                            <p className='text-[16px]'>Terjual 100</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <div className='h-full flex border-2 border-[#E1E1E1] bg-white rounded-[10px] container'>
-                                        <div className='flex flex-col container h-full p-3'>
-                                            <img className='h-[60%]' src={gelasKacaBiru} alt="" />
-                                            <div className='flex container flex-col gap-y-8'>
-                                                <h4 className='font-bold text-[18px]'>Gelas kaca bening biru</h4>
-                                                <div className='flex flex-col gap-y-3'>
-                                                    <h3 className='font-bold text-[18px]'>Rp 23.000</h3>
-                                                    <div className='flex gap-x-2'>
-                                                        <div className='flex items-center gap-x-2'>
-                                                            <div className='text-yellow-400'><AiFillStar /></div>
-                                                            <p className='text-[16px]'>4.8</p>
-                                                        </div>
-                                                        <div>
-                                                            |
-                                                        </div>
-                                                        <div className='flex items-center'>
-                                                            <p className='text-[16px]'>Terjual 100</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </SwiperSlide>
-                                
-                                
-                                
+                                    </SwiperSlide>
+                                ))}
+
+
+
 
 
                                 <div className='swiper-button-next button-next'>

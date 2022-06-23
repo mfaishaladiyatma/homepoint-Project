@@ -6,6 +6,7 @@ import promo from '../images/discountPromo.svg'
 import gelasKacaBiru from '../images/gelasKacaBeningBiru.svg'
 import arrowRight from '../images/arrow-right-white.svg'
 import arrowLeft from '../images/arrow-left-white.svg'
+import discountTag from '../images/discountTag.svg'
 import { AiFillStar } from "react-icons/ai";
 
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -54,10 +55,10 @@ export default function CarouselBestOffer() {
                   nextEl: ".button-next",
                   prevEl: ".button-prev",
                 }}
-                // autoplay={{
-                //     delay: 3000,
-                //     disableOnInteraction: false,
-                // }}
+                autoplay={{
+                    delay: 3000,
+                    disableOnInteraction: false,
+                }}
                 modules={[Navigation, Autoplay]}
                 speed={700}
                 // centeredSlides={true}
@@ -65,28 +66,37 @@ export default function CarouselBestOffer() {
               >
                 {dataBestOffer.map((item) => (
                   <SwiperSlide key={item.id}>
-                    <div className='h-full flex border-2 border-[#E1E1E1] bg-white rounded-[10px] container'>
-                      <div className='flex flex-col container h-full p-3'>
-                        <img className='h-[60%]' src={item.productImages[0].image} alt="" />
-                        <div className='flex container flex-col justify-between  h-[50%] gap-y-8'>
-                          <h4 className='font-bold mt-2 text-[18px]'>{item.name}</h4>
-                          <div className='flex flex-col gap-y-3'>
-                            <h3 className='font-bold text-[18px]'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(item.price)}</h3>
-                            <div className='flex gap-x-2'>
-                              <div className='flex items-center gap-x-2'>
-                                <div className='text-yellow-400'><AiFillStar /></div>
-                                <p className='text-[16px]'>{item.ratingAverage}</p>
-                              </div>
-                              <div>
-                                |
-                              </div>
-                              <div className='flex items-center'>
-                                <p className='text-[16px]'>Terjual {item.ratingCount}</p>
+                    <div className='h-full relative flex border-2 border-[#E1E1E1] bg-white rounded-[10px] container'>
+                      <button className='flex'>
+                        <div className='absolute top-0 right-2 '>
+                          <img className='w-[55px] relative' src={discountTag} alt="" />
+                          <p className='absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] text-white'>{item.discount}&#37;</p>
+                        </div>
+                        <div className='flex flex-col container h-full p-3'>
+                          <img className='h-[180px]' src={item.productImages[0].image} alt="" />
+                          <div className='flex container flex-col justify-between  h-[50%] gap-y-8'>
+                            <h4 className='font-bold mt-2  text-[18px] text-left'>{item.name}</h4>
+                            <div className='flex flex-col gap-y-2'>
+                              
+                              <h4 className=' text-[14px] text-gray-500 line-through decoration-red-600 decoration-2 text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(item.price)}</h4>
+
+                              <h3 className='font-bold text-[18px] text-left'>{item.discount ? new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format((item.price) * (item.discount / 100)) : new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format((item.price))}</h3>
+                              <div className='flex gap-x-2'>
+                                <div className='flex items-center gap-x-2'>
+                                  <div className='text-yellow-400'><AiFillStar /></div>
+                                  <p className='text-[16px]'>{item.ratingAverage}</p>
+                                </div>
+                                <div>
+                                  |
+                                </div>
+                                <div className='flex items-center'>
+                                  <p className='text-[16px]'>Terjual {item.amountSold}</p>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </button>
                     </div>
                   </SwiperSlide>
                 ))}

@@ -7,6 +7,18 @@ import peralatanDapurBanner from "../images/peralatanDapur.svg";
 import peralatanKebersihanBanner from "../images/peralatanKebersihan.svg";
 import interiorFurnitureBanner from "../images/interiorFurniture.svg";
 import elektronikBanner from "../images/elektronik.svg";
+import kategoriImage from "../images/kategoriImage.svg";
+import peralatanMasakLogo from "../images/peralatanMasakLogo.svg";
+import aksesorisDapurLogo from '../images/aksesorisDapurLogo.svg';
+import perlengkapanMasakLogo from '../images/perlengkapanMasakLogo.svg';
+import interiorLogo from '../images/interiorLogo.svg';
+import eksteriorLogo from '../images/eksteriorLogo.svg';
+import kebersihanRumahLogo from '../images/kebersihanRumahLogo.svg';
+import kebersihanDapurLogo from '../images/kebersihanDapurLogo.svg';
+import kebersihanToiletLogo from '../images/kebersihanToiletLogo.svg';
+import elektronikDapurLogo from '../images/elektronikDapurLogo.svg';
+import elektronikKebersihanLogo from '../images/elektronikKebersihanLogo.svg';
+import perangkatElektronikLogo from '../images/perangkatElektronikLogo.svg';
 
 import kitchenwarePeralatanDapur from "../images/kitchenware-peralatanDapur.svg";
 import kitchenwareElektronikDapur from "../images/kitchenware-elektronikDapur.svg";
@@ -31,32 +43,46 @@ export default function Homepage() {
     <>
       <Carousel />
 
-      <section className="font-Inter flex   justify-center ">
-        <div className="mt-7 container flex gap-x-7 justify-center px-5">
-          <div className="w-full relative  rounded-[10px]">
-            <img className="rounded-[10px] w-full" src={peralatanDapurBanner} alt="" />
-            <div className="absolute left-5 font-[500] text-[20px] top-[50%] translate-y-[-50%]">
-              <p>Peralatan Dapur</p>
-            </div>
+      <section className="font-Inter flex flex-col justify-center mt-10 gap-y-3 px-5">
+        <h2 className="container   text-[40px]">Pilihan Kategori</h2>
+        <div className="grid grid-cols-6 grid-rows-2 h-[300px] gap-3 p-2 ">
+          <div className="border-2 border-gray-200 rounded-[8px] w-full h-full flex justify-center items-center">
+            <img src={kategoriImage} alt="" />
           </div>
-          <div className="w-full relative  rounded-[10px]">
-            <img className="w-full rounded-[10px]" src={peralatanKebersihanBanner} alt="" />
-            <div className="absolute left-5 font-[500] text-[20px] top-[50%] translate-y-[-50%]">
-              <p>Peralatan Kebersihan</p>
-            </div>
+          <div className="border-2 border-gray-200 rounded-[8px] w-full h-full flex justify-center items-center">
+            <img src={peralatanMasakLogo} alt="" />
           </div>
-          <div className="w-full relative  rounded-[10px]">
-            <img className="w-full rounded-[10px]" src={interiorFurnitureBanner} alt="" />
-            <div className="absolute left-5 font-[500] text-[20px] top-[50%] translate-y-[-50%]">
-              <p>Interior/Furniture</p>
-            </div>
+          <div className="border-2 border-gray-200 rounded-[8px] w-full h-full flex justify-center items-center">
+            <img src={aksesorisDapurLogo} alt="" />
           </div>
-          <div className="w-full relative  rounded-[10px]">
-            <img className="w-full rounded-[10px]" src={elektronikBanner} alt="" />
-            <div className="absolute left-5 font-[500] text-[20px] top-[50%] translate-y-[-50%]">
-              <p>Elektronik</p>
-            </div>
+          <div className="border-2 border-gray-200 rounded-[8px] w-full h-full flex justify-center items-center">
+            <img src={perlengkapanMasakLogo} alt="" />
           </div>
+          <div className="border-2 border-gray-200 rounded-[8px] w-full h-full flex justify-center items-center">
+            <img src={interiorLogo} alt="" />
+          </div>
+          <div className="border-2 border-gray-200 rounded-[8px] w-full h-full flex justify-center items-center">
+            <img src={eksteriorLogo} alt="" />
+          </div>
+          <div className="border-2 border-gray-200 rounded-[8px] w-full h-full flex justify-center items-center">
+            <img src={kebersihanRumahLogo} alt="" />
+          </div>
+          <div className="border-2 border-gray-200 rounded-[8px] w-full h-full flex justify-center items-center">
+            <img src={kebersihanDapurLogo} alt="" />
+          </div>
+          <div className="border-2 border-gray-200 rounded-[8px] w-full h-full flex justify-center items-center">
+            <img src={kebersihanToiletLogo} alt="" />
+          </div>
+          <div className="border-2 border-gray-200 rounded-[8px] w-full h-full flex justify-center items-center">
+            <img src={elektronikDapurLogo} alt="" />
+          </div>
+          <div className="border-2 border-gray-200 rounded-[8px] w-full h-full flex justify-center items-center">
+            <img src={elektronikKebersihanLogo} alt="" />
+          </div>
+          <div className="border-2 border-gray-200 rounded-[8px] w-full h-full flex justify-center items-center">
+            <img src={perangkatElektronikLogo} alt="" />
+          </div>
+          
         </div>
       </section>
 
