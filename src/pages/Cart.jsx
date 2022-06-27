@@ -27,8 +27,8 @@ export default function Cart() {
 
 
   return (
-    <div className='flex flex-row p-3 gap-x-2 font-Inter'>
-      <div className='flex flex-col w-[70%] border-2 border-blue-500 px-2 gap-y-8'>
+    <div className='flex flex-row py-3 px-16 gap-x-5 font-Inter'>
+      <div className='flex flex-col w-[70%]  px-2 gap-y-8'>
         <h2 className='font-bold text-[30px]'>Keranjang</h2>
 
         <div className='flex justify-between'>
@@ -47,7 +47,7 @@ export default function Cart() {
             <div className='flex flex-row  items-center gap-x-2'>
               <input className='accent-[#FBC646] w-[20px] h-[30px]' type="checkbox" />
               <img src={productCartImage} alt="" />
-              <div className='flex flex-col border-2 border-slate-500 w-full h-full gap-y-12'>
+              <div className='flex flex-col  w-full h-full gap-y-12'>
                 <div className='flex flex-col'>
                   <h4 className='text-[18px]'>Promo Rak Dinding Kayu Besi Serbaguna Minimalis</h4>
                   <h4 className='font-bold text-[18px]'>Rp 800.000</h4>
