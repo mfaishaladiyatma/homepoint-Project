@@ -141,7 +141,7 @@ function ProductDetail() {
                             </div>
                         </div>
 
-                        {/* <Ulasan product={product} /> */}
+                        <Ulasan product={product} />
                     </div>
                 </div>
             )}
