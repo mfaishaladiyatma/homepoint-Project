@@ -69,7 +69,6 @@ const registerUser = (namaLengkap, email, password, navigate) => {
             password
         }).then((response) => {
             console.log(response)
-            navigate('/login')
         }).catch((error) => {
             console.log(error)
         })

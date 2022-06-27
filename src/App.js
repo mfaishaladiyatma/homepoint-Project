@@ -17,6 +17,7 @@ import Footer from "./pages/Footer";
 import Homepage from "./pages/Homepage";
 import Cart from "./pages/Cart";
 import ComponentLayout from "./components/ComponentLayout";
+import RiwayatPesanan from "./pages/RiwayatPesanan";
 
 function App() {
   //React Context Data ( Fetch Data using Axios )
@@ -65,6 +66,7 @@ function App() {
           <Route path="/login" element={<Login />}></Route>
           <Route path="/register" element={<Register />}></Route>
           <Route path="/cart" element={<ComponentLayout><Cart/></ComponentLayout>}></Route>
+          <Route path="/pesanan" element={<ComponentLayout><RiwayatPesanan/></ComponentLayout>}></Route>
         </Routes>
       
     </div>

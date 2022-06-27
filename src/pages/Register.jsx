@@ -21,20 +21,32 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isChecked, setIsChecked] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   console.log(isChecked);
 
   const handleRegister = () => {
-    if (isChecked) {
+    if (isChecked && email && password && namaLengkap) {
       dispatch(registerUser(namaLengkap, email, password, navigate));
-    } else {
+      setShowModal(!showModal);
+    }
+    if (isChecked && !email) {
+      alert("Email tidak boleh kosong");
+    }
+    if (isChecked && !password) {
+      alert("Password tidak boleh kosong");
+    }
+    if (isChecked && !namaLengkap) {
+      alert("Nama tidak boleh kosong");
+    }
+    if (!isChecked) {
       alert("Silahkan centang checkbox");
     }
   };
 
   return (
     <>
-      <div style={{ backgroundImage: `url(${backgroundImage})` }} className="bg-cover bg-left-bottom relative font-Inter flex flex-col py-12 h-screen md:h-full items-center justify-center  w-full">
+      <div style={{ backgroundImage: `url(${backgroundImage})` }} className="bg-cover bg-left-bottom relative font-Inter flex flex-col py-12 h-screen md:h-full items-center justify-center  w-full ">
         <div className="absolute top-[5%] left-[3%]">
           <button onClick={() => navigate(-1)} className="ml-10">
             <AiOutlineArrowLeft className="text-[2rem]" />
@@ -43,7 +55,19 @@ export default function Register() {
 
         {/* mid-section or form */}
 
-        <section className="flex justify-center px-12 md:justify-end md:px-24 py-12 w-full">
+        <section className="flex justify-center px-12 md:justify-end md:px-24 py-12 w-full ">
+          {/* Modal */}
+          {showModal ?
+            <div className="absolute flex items-center justify-center top-0 right-0 w-full h-full bg-black/50 ">
+              <div className="flex flex-col items-center justify-center border-2 border-black w-[700px] h-[300px] rounded-[8px] bg-white/90">
+                <p className="font-semibold">Email konfirmasi sudah terkirim ke alamat email anda</p>
+                <button onClick={() => navigate('/login')} className="bg-[#FBC646] w-[50%] mx-auto py-3 rounded-[10px] mt-3">
+                  <p className="font-bold w-full">Login</p>
+                </button>
+              </div>
+            </div>
+            :
+            null}
           {/* form-section */}
           <div className="flex flex-col px-3 items-centerw-[70%] sm:w-[60%] md:w-[50%] lg:w-[40%] h-fit bg-[#98B6C9] rounded-[16px]">
             <div className="flex flex-col items-center">
@@ -115,6 +139,7 @@ export default function Register() {
               </div>
             </div>
           </div>
+
         </section>
       </div>
     </>
