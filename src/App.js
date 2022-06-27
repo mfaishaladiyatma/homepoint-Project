@@ -1,7 +1,7 @@
 import React from "react";
 
 // Import Component
-import Hero from "./components/hero";
+import SearchResult from "./pages/SearchResult";
 import Profile from "./components/profile";
 import Product from "./components/product";
 
@@ -57,7 +57,7 @@ function App() {
       
         <Routes>
           <Route path="/" element={<ComponentLayout><Homepage/></ComponentLayout>} />
-          <Route path="/search" element={<Hero  setData={setData} productPerPage={productPerPage} paginate={paginate} currentPage={currentPage} />} />
+          <Route path="/search" element={<SearchResult />} />
           <Route path="/product/:id" element={<ComponentLayout><Product /></ComponentLayout>} />
           <Route path="/profile" element={<ComponentLayout><Profile /></ComponentLayout>} />
           <Route path="/forgetpass" element={<ForgetPass />}></Route>

@@ -21,7 +21,7 @@ export default function ComponentLayout(props) {
     setData(dataProduct.filter((x) => x.name.toLowerCase().includes(lowerInput)));
   };
 
-  //{<Hero data={currentPosts} setData={setData} productPerPage={productPerPage} paginate={paginate} currentPage={currentPage} />}
+  //{<ProductPage data={currentPosts} setData={setData} productPerPage={productPerPage} paginate={paginate} currentPage={currentPage} />}
   return (
     <>
       <Header menu={menu} setMenu={setMenu} searchHandler={searchHandler} />
