@@ -48,9 +48,27 @@ export default function CarouselBestOffer() {
             <img className='h-full w-[380px]' src={promo} alt="" />
             <div className='container h-[400px] w-[85%] left-[15%] top-[50%] translate-y-[-50%] absolute '>
               <Swiper
-                slidesPerView={5}
+                slidesPerView={1}
                 spaceBetween={30}
                 // loop={true}
+                breakpoints={{
+                  640: {
+                    slidesPerView: 2,
+                    spaceBetween: 30,
+                  },
+                  768: {
+                    slidesPerView: 3,
+                    spaceBetween: 30,
+                  },
+                  1024: {
+                    slidesPerView: 4,
+                    spaceBetween: 30,
+                  },
+                  1280: {
+                    slidesPerView: 5,
+                    spaceBetween: 30,
+                  },
+                }}
                 navigation={{
                   nextEl: ".button-next",
                   prevEl: ".button-prev",

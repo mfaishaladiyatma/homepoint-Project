@@ -25,15 +25,15 @@ export default function CarouselRekomendasi() {
 
     useEffect(() => {
         axios.get('https://homepoint-server-staging.herokuapp.com/api/v1/products/latest')
-          .then((response) => {
-            console.log(response)
-            setDataRecommend(response.data.data)
-            // console.log(cobaGet)
-          })
-          .catch((error) => {
-            console.log(error)
-          })
-      }, [])
+            .then((response) => {
+                console.log(response)
+                setDataRecommend(response.data.data)
+                // console.log(cobaGet)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }, [])
     return (
         <>
             <div className='font-Inter mb-[150px]  h-[600px] flex  justify-center '>
@@ -45,9 +45,27 @@ export default function CarouselRekomendasi() {
                     <div className='flex container  h-full  '>
                         <div className='container h-[400px] w-full  '>
                             <Swiper
-                                slidesPerView={6}
+                                slidesPerView={1}
                                 spaceBetween={20}
                                 // loop={true}
+                                breakpoints={{
+                                    640: {
+                                        slidesPerView: 2,
+                                        spaceBetween: 30,
+                                    },
+                                    768: {
+                                        slidesPerView: 4,
+                                        spaceBetween: 30,
+                                    },
+                                    1024: {
+                                        slidesPerView: 5,
+                                        spaceBetween: 30,
+                                    },
+                                    1280: {
+                                        slidesPerView: 6,
+                                        spaceBetween: 30,
+                                    },
+                                }}
                                 navigation={{
                                     nextEl: ".button-next",
                                     prevEl: ".button-prev",
@@ -65,14 +83,14 @@ export default function CarouselRekomendasi() {
                                     <SwiperSlide key={item.id}>
                                         <div className='h-full relative flex border-2 border-[#E1E1E1] bg-white rounded-[10px] container'>
                                             <button className='flex'>
-                                               
+
                                                 <div className='flex flex-col container h-full p-3'>
                                                     <img className='h-[180px]' src={item.productImages[0].image} alt="" />
                                                     <div className='flex container flex-col justify-between  h-[50%] gap-y-8'>
                                                         <h4 className='font-bold mt-2  text-[18px] text-left'>{item.name}</h4>
                                                         <div className='flex flex-col gap-y-2'>
 
-                                                            <h4 className='font-bold text-[18px] text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(item.price)}</h4>   
+                                                            <h4 className='font-bold text-[18px] text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(item.price)}</h4>
 
                                                             <div className='flex gap-x-2'>
                                                                 <div className='flex items-center gap-x-2'>
