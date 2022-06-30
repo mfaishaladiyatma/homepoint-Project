@@ -1,16 +1,66 @@
 import React from 'react'
 import closeIcon from '../../assets/icon/close.png'
 
+import { useSelector } from 'react-redux/es/exports'
+import { useState, Fragment, useEffect } from 'react'
+import axios from "axios";
+import jwtDecode from 'jwt-decode'
+
 function Modal({ setModal, setData, data }) {
 
     const [name, setName] = React.useState("")
+    const [dataGet, setDataGet] = React.useState({})
 
+    const { token, id } = useSelector((state) => state)
+
+    const decode = token ? jwtDecode(token) : null
+
+    useEffect(() => {
+        if (decode ) {
+            const userById = 'https://homepoint-server-staging.herokuapp.com/api/v1/users/' + id
+            console.log(userById)
+            axios.get(userById)
+                .then((response) => {
+                    setDataGet({
+                        ...dataGet,
+                        ...response.data.data
+                    })
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+        } else {
+            console.log('error')
+        }
+    }, [])
+    { dataGet ? console.log(dataGet) : console.log('kosong') }
+
+    const testChangeName = () => {
+        setDataGet({
+            ...dataGet,
+            name:name
+        })
+    }
+    
     const changeName = () => {
-        setData(prevData => {
-            return {
-                ...prevData,
-                name: name
-            }
+        testChangeName()
+        // setData(prevData => {
+        //     return {
+        //         ...prevData,
+        //         name: name
+        //     }
+        // })
+        // setModal(false)
+        axios({
+            method: "put",
+            url: 'https://homepoint-server-staging.herokuapp.com/api/v1/users',
+            data: dataGet,
+        }).then((response) => {
+            //handle success
+            console.log(response)
+        }).catch((error) => {
+            //handle error
+            console.log(error)
         })
         setModal(false)
     }

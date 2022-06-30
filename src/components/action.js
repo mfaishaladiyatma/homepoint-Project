@@ -4,17 +4,22 @@ import { useNavigate } from 'react-router-dom'
 
 const loginActionAsync = (email, password, navigate) => {
 
-    const bodyFormData = new FormData()
-    bodyFormData.append('email', email)
-    bodyFormData.append('password', password)
-    console.log(bodyFormData)
+    // const bodyFormData = new FormData()
+    // bodyFormData.append('email', email)
+    // bodyFormData.append('password', password)
+    // console.log(bodyFormData)
+
+    const urlEncodedBody = new URLSearchParams()
+    urlEncodedBody.append('email', email)
+    urlEncodedBody.append('password', password)
+    
 
     return (dispatch, getState, baseUrlLogin) => {
         axios({
             method: "post",
             url: `${baseUrlLogin}/api/v1/users/login`,
-            data: bodyFormData,
-            headers: { "Content-Type": "multipart/form-data" },
+            data: urlEncodedBody,
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
         }).then((response) => {
             //handle success
             dispatch(loginActionSuccessToken((response.data.data.token), (response.data.data.name), (response.data.data.id)))
@@ -24,6 +29,20 @@ const loginActionAsync = (email, password, navigate) => {
             //handle error
             console.log(error)
         })
+
+        // axios.post(`${baseUrlLogin}/api/v1/users/login`, {
+        //     email,
+        //     password
+        // }, {
+        //     headers: { "Content-type": "application/x-www-form-urlencoded" }
+        // }).then((response) => {
+        //     dispatch(loginActionSuccessToken((response.data.data.token), (response.data.data.name), (response.data.data.id)))
+        //     console.log(response.data.data.token)
+        //     navigate('/')
+        // }).catch((error) => {
+        //     console.log(error)
+        // })
+
     }
 }
 // `${baseUrlLogin}/api/v1/users/login`
