@@ -18,7 +18,7 @@ import Homepage from "./pages/Homepage";
 import Cart from "./pages/Cart";
 import ComponentLayout from "./components/ComponentLayout";
 import RiwayatPesanan from "./pages/RiwayatPesanan";
-import Wishlist from "./components/Wishlist";
+import Wishlist from "./pages/Wishlist";
 
 function App() {
   //React Context Data ( Fetch Data using Axios )
