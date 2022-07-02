@@ -8,23 +8,19 @@ import jwtDecode from 'jwt-decode'
 
 function Modal({ setModal, setData, data }) {
 
-    const [name, setName] = React.useState("")
-    const [dataGet, setDataGet] = React.useState({})
+    const [userData, setUserData] = React.useState({});
 
     const { token, id } = useSelector((state) => state)
 
     const decode = token ? jwtDecode(token) : null
 
     useEffect(() => {
-        if (decode ) {
+        if (decode) {
             const userById = 'https://homepoint-server-staging.herokuapp.com/api/v1/users/' + id
             console.log(userById)
             axios.get(userById)
                 .then((response) => {
-                    setDataGet({
-                        ...dataGet,
-                        ...response.data.data
-                    })
+                    setUserData(response.data.data);
                 })
                 .catch((error) => {
                     console.log(error)
@@ -33,28 +29,22 @@ function Modal({ setModal, setData, data }) {
             console.log('error')
         }
     }, [])
-    { dataGet ? console.log(dataGet) : console.log('kosong') }
 
-    const testChangeName = () => {
-        setDataGet({
-            ...dataGet,
-            name:name
-        })
+    const handleChangeName = (e) => {
+        setUserData((prevState) => ({
+            ...prevState,
+            name: e.target.value
+        }));
+
     }
-    
-    const changeName = () => {
-        testChangeName()
-        // setData(prevData => {
-        //     return {
-        //         ...prevData,
-        //         name: name
-        //     }
-        // })
-        // setModal(false)
+
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
         axios({
             method: "put",
             url: 'https://homepoint-server-staging.herokuapp.com/api/v1/users',
-            data: dataGet,
+            data: userData,
         }).then((response) => {
             //handle success
             console.log(response)
@@ -69,17 +59,17 @@ function Modal({ setModal, setData, data }) {
         <>
             <div className='modal-bg flex w-full absolute left-0 right-0 bottom-0 top-0 justify-center items-center'>
             </div>
-            <div className='absolute mx-auto left-[50%] translate-xy top-[50%] w-[50%] flex flex-col items-center rounded-md bg-white p-5 z-99'>
+            <form onSubmit={handleSubmit} className='absolute mx-auto left-[50%] translate-xy top-[50%] w-[50%] flex flex-col items-center rounded-md bg-white p-5 z-99'>
                 <div className='w-full'>
                     <img onClick={() => setModal(false)} className="cursor-pointer max-w-[10px] sm:max-w-[20px] float-right" src={closeIcon} alt="" />
                 </div>
                 <h1 className='text-center font-bold text-[#316093]'>Ubah Nama Lengkap</h1>
                 <div className='p-2 mt-6 w-full rounded-md border-[1px] border-[#316093]'>
                     <h1 className='text-[#316093] text-sm'>Nama Lengkap</h1>
-                    <input onChange={(e) => setName(e.target.value)} className='w-full' placeholder='Masukkan Nama' />
+                    <input onChange={handleChangeName} className='w-full' placeholder='Masukkan Nama' />
                 </div>
-                <button onClick={() => changeName()} className='p-2 font-semibold px-12 rounded-md mt-6 bg-[#FBC646]'>Simpan</button>
-            </div>
+                <button type="submit" className='p-2 font-semibold px-12 rounded-md mt-6 bg-[#FBC646]'>Simpan</button>
+            </form>
         </>
     )
 }

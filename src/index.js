@@ -5,15 +5,20 @@ import { BrowserRouter } from "react-router-dom";
 import AddressProvider from "./context/context.js";
 import App from "./App";
 import { Provider } from "react-redux";
-import store from "./components/store";
+import { persistor, store } from "./components/store";
+import { PersistGate } from "redux-persist/integration/react";
 
 const root = createRoot(document.querySelector("#root"));
 root.render(
+  <React.StrictMode>
   <Provider store={store}>
-    <AddressProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </AddressProvider>
+    <PersistGate persistor={persistor}>
+      <AddressProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </AddressProvider>
+    </PersistGate>
   </Provider>
+  </React.StrictMode>
 );

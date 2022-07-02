@@ -24,11 +24,12 @@ function Header({ searchHandler, setMenu, menu }) {
   const dispatch = useDispatch()
 
   const [selected, setSelected] = useState('')
+  const [namaProfil, setNamaProfil] = useState('')
   const [isClickedLogin, setIsClickedLogin] = useState(false)
   const [isClicked, setIsClicked] = useState(false)
   const [getDataCategories, setGetDataCategories] = useState([])
 
-  const { token, name } = useSelector((state) => state)
+  const { token, name, id } = useSelector((state) => state)
 
   const decode = token ? jwtDecode(token) : null
 
@@ -42,6 +43,22 @@ function Header({ searchHandler, setMenu, menu }) {
   //       console.log(error)
   //     })
   // }, [])
+
+  useEffect(() => {
+    if (decode) {
+      axios.get('https://homepoint-server-staging.herokuapp.com/api/v1/users/' + id)
+        .then((response) => {
+          console.log(response.data.data)
+          setNamaProfil(response.data.data.name)
+          // console.log(cobaGet)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+      } else {
+        return 
+      }
+    }, [])
 
   return (
     <>
@@ -132,9 +149,9 @@ function Header({ searchHandler, setMenu, menu }) {
           <img className=" h-[23px]" src={bell} alt="bell" />
 
           <div className='relative flex flex-row items-center '>
+            <button className="flex flex-row" onClick={() => setIsClickedLogin(!isClickedLogin)}>
             <img src={user} alt="User" />
-            <button onClick={() => setIsClickedLogin(!isClickedLogin)}>
-              <p className='text-white text-center  w-[150px] overflow-hidden  text-ellipsis font-[400] '>{decode ? name : 'Masuk/Daftar'}</p>
+              <p className='text-white text-center  w-[150px] overflow-hidden  text-ellipsis font-[400] '>{decode ? namaProfil : 'Masuk/Daftar'}</p>
 
             </button>
 

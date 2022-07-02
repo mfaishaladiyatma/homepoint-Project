@@ -24,7 +24,7 @@ export default function ForgetPass() {
         <>
         {/* whole page */}
 
-            <div className='font-Inter bg-cover gap-y-[100px] h-[120vh] sm:h-[110vh] lg:h-[100vh] bg-left-bottom flex flex-col ' style={{ backgroundImage: `url(${backgroundImage})` }} >
+            <div className='font-Inter bg-cover gap-y-[100px] h-[120vh] sm:h-[110vh] lg:h-[110vh] bg-left-bottom flex flex-col ' style={{ backgroundImage: `url(${backgroundImage})` }} >
 
         {/* nav */}
 
@@ -63,7 +63,7 @@ export default function ForgetPass() {
 
                         {/* modal */}
 
-                        <div className={`${Permintaan ? ' flex ' : ' hidden '} flex-col justify-evenly items-center max-w-[900px] sm:w-[300px] lg:w-full w-[900px] sm:h-[500px] h-[400px] bg-white-transparent sm:py-3 py-7 sm:px-3 px-24 rounded-[16px]`}>
+                        <div className={`${Permintaan ? ' flex ' : ' hidden '} flex-col justify-evenly items-center max-w-[900px] sm:w-[300px] lg:w-full w-[900px] sm:h-[500px] h-[400px] bg-white/80 sm:py-3 py-7 sm:px-3 px-24 rounded-[16px] `}>
                             <h3 className='sm:text-[20px] font-bold text-[32px]'>Silahkan Cek Email Kamu</h3>
                             <p className='text-center'>Kami telah mengirimkan email berisi password baru, kamu dapat mengubah password tersebut di pengaturan profil.</p>
                             <button onClick={() => navigate('/login')} className='bg-[#FBC646] w-[50%] h-[50px] font-semibold rounded-[10px]'>Masuk</button>
