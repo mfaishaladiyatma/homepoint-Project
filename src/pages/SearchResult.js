@@ -3,9 +3,9 @@ import { AiFillStar, AiOutlineSearch } from 'react-icons/ai'
 import { Link } from 'react-router-dom'
 import { addressContext } from '../context/context'
 
-import PaginationPage from './pagination/pagination.js'
+import PaginationPage from '../components/pagination/pagination.js'
 
-function Hero({ data, setData, productPerPage, paginate, currentPage }) {
+function SearchResult({ data, setData, productPerPage, paginate, currentPage }) {
 
     const { dataProduct, setDataProduct } = React.useContext(addressContext)
 
@@ -319,7 +319,7 @@ function Hero({ data, setData, productPerPage, paginate, currentPage }) {
                                 return (
                                     <div key={each.id} className='border-[1px] w-fit flex flex-col p-3 border-light-blue-pale rounded-md'>
                                         <Link className='flex w-full justify-center' to={`../product/${each.id}`}>
-                                            <img className='max-w-[100px] lg:max-w-[150px]' src={each.productImages[0].image} />
+                                            <img className='max-w-[100px] lg:max-w-[150px]' src={each.productImages[0].image} alt={each.name}/>
                                         </Link>
                                         <h3 className='text-left'>{each.name}</h3>
                                         <div className='mt-auto'>
@@ -351,4 +351,4 @@ function Hero({ data, setData, productPerPage, paginate, currentPage }) {
     )
 }
 
-export default Hero
+export default SearchResult;

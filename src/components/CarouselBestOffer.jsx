@@ -1,5 +1,6 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
+import { useNavigate } from "react-router-dom";
 import axios from 'axios'
 
 import promo from '../images/discountPromo.svg'
@@ -24,6 +25,7 @@ import { data } from 'autoprefixer'
 export default function CarouselBestOffer() {
 
   const [dataBestOffer, setDataBestOffer] = useState([])
+  const navigate = useNavigate()
 
   useEffect(() => {
     axios.get('https://homepoint-server-staging.herokuapp.com/api/v1/products/discount')
@@ -85,7 +87,7 @@ export default function CarouselBestOffer() {
                 {dataBestOffer.map((item) => (
                   <SwiperSlide key={item.id}>
                     <div className='h-full relative flex border-2 border-[#E1E1E1] bg-white rounded-[10px] container'>
-                      <button className='flex'>
+                      <button onClick={() => navigate('/product/'+item.id)} className='flex'>
                         <div className='absolute top-0 right-2 '>
                           <img className='w-[55px] relative' src={discountTag} alt="" />
                           <p className='absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] text-white'>{item.discount}&#37;</p>

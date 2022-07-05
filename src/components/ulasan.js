@@ -19,15 +19,15 @@ function Ulasan({ product }) {
             <h1>Ulasan</h1>
             <div className='flex flex-col md:flex-row w-full'>
                 <div className='py-12 flex flex-col justify-center w-[150px] items-center'>
-                    <h1 className='text-3xl font-bold'>{product[0].ratingAverage} <span className='text-xl'>/ 5</span></h1>
+                    <h1 className='text-3xl font-bold'>{product.ratingAverage} <span className='text-xl'>/ 5</span></h1>
                     <div className='mt-2 flex items-center text-[#FBC646]'>
-                        {product[0].ratingAverage >= 1 ? <AiFillStar className='text-xl' /> : <AiOutlineStar className='text-xl' />}
-                        {product[0].ratingAverage >= 2 ? <AiFillStar className='text-xl' /> : <AiOutlineStar className='text-xl' />}
-                        {product[0].ratingAverage >= 3 ? <AiFillStar className='text-xl' /> : <AiOutlineStar className='text-xl' />}
-                        {product[0].ratingAverage >= 4 ? <AiFillStar className='text-xl' /> : <AiOutlineStar className='text-xl' />}
-                        {product[0].ratingAverage >= 5 ? <AiFillStar className='text-xl' /> : <AiOutlineStar className='text-xl' />}
+                        {product.ratingAverage >= 1 ? <AiFillStar className='text-xl' /> : <AiOutlineStar className='text-xl' />}
+                        {product.ratingAverage >= 2 ? <AiFillStar className='text-xl' /> : <AiOutlineStar className='text-xl' />}
+                        {product.ratingAverage >= 3 ? <AiFillStar className='text-xl' /> : <AiOutlineStar className='text-xl' />}
+                        {product.ratingAverage >= 4 ? <AiFillStar className='text-xl' /> : <AiOutlineStar className='text-xl' />}
+                        {product.ratingAverage >= 5 ? <AiFillStar className='text-xl' /> : <AiOutlineStar className='text-xl' />}
                     </div>
-                    <h1 className='text-xl'>{`(${product[0].ratingCount} ulasan)`}</h1>
+                    <h1 className='text-xl'>{`(${product.ratingCount} ulasan)`}</h1>
                 </div>
                 <div className='md:ml-24 px-5 flex flex-col md:items-center justify-center'>
                     <div className='py-1 items-center flex gap-[20px]'>
@@ -64,7 +64,7 @@ function Ulasan({ product }) {
             </div>
 
             <div className='py-8 flex flex-col md:flex-row'>
-                <h1>Semua Ulasan {`(${product[0].ratingCount})`}</h1>
+                <h1>Semua Ulasan {`(${product.ratingCount})`}</h1>
                 <div className='flex flex-wrap md:ml-12 gap-[5px] md:gap-[20px]'>
                     <div className='p-2 rounded-2xl px-4 border-[1px] flex items-center gap-[10px] border-black'>
                         <AiFillStar className='text-[#FBC646]' />

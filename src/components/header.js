@@ -138,13 +138,15 @@ function Header({ searchHandler, setMenu, menu }) {
           </div>
         </div>
         <div className="hidden w-fit xl:flex  gap-x-14 items-center">
+          <button onClick={() => navigate('/wishlist')}>
           <img className=" h-[23px]" src={love} alt="love" />
+          </button>
 
-          <Link to="/search">
-            <div className="flex w-[30px] items-center justify-center">
+          
+            <button onClick={() => navigate('/cart')} className="flex w-[30px] items-center justify-center">
               <img className=" h-[23px]" src={cart} alt="cart" />
-            </div>
-          </Link>
+            </button>
+          
 
           <img className=" h-[23px]" src={bell} alt="bell" />
 
@@ -168,6 +170,9 @@ function Header({ searchHandler, setMenu, menu }) {
               <div className='bg-white absolute rounded-[8px] border-2 border-slate-400 w-full top-full mt-5 flex flex-col p-2 '>
                 <button onClick={() => {navigate('/profile'); setIsClickedLogin(!isClickedLogin);}}>
                   <div  className='h-[40px] px-2 flex justify-start items-center rounded-[8px] hover:bg-sky-200'>Profile</div>
+                </button>
+                <button onClick={() => {navigate('/pesanan'); setIsClickedLogin(!isClickedLogin);}}>
+                  <div  className='h-[40px] px-2 flex justify-start items-center rounded-[8px] hover:bg-sky-200'>Pesanan</div>
                 </button>
                 <button onClick={() => { dispatch(logoutAction()); setIsClickedLogin(!isClickedLogin); }}>
                   <div className='h-[40px] px-2 flex justify-start items-center rounded-[8px] hover:bg-sky-200'>Keluar</div>
