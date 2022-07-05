@@ -57,7 +57,7 @@ function App() {
       
         <Routes>
           <Route path="/" element={<ComponentLayout><Homepage/></ComponentLayout>} />
-          <Route path="/search" element={<SearchResult />} />
+          <Route path="/search" element={<ComponentLayout><SearchResult /></ComponentLayout>} />
           <Route path="/product/:id" element={<ComponentLayout><ProductDetail/></ComponentLayout>} />
           <Route path="/profile" element={<ComponentLayout><Profile /></ComponentLayout>} />
           <Route path="/forgetpass" element={<ForgetPass />}></Route>
