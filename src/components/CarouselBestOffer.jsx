@@ -40,15 +40,17 @@ export default function CarouselBestOffer() {
   }, [])
   return (
     <>
-      <div className='font-Inter  h-[600px] flex  justify-center '>
+      <div className='font-Inter h-[800px]  md:h-[600px] flex  justify-center '>
         <section className='mt-10 container px-5 flex flex-col gap-y-10'>
-          <div className='flex justify-between items-center'>
-            <h2 className='font-[500] text-[40px]'>Penawaran Terbaik</h2>
-            <p className='text-[#316093] font-[600]'>Lihat Selengkapnya &gt;</p>
+          <div className='flex flex-col md:flex-row justify-between items-center'>
+            <h2 className='font-[500] text-[30px] md:text-[40px]'>Penawaran Terbaik</h2>
+            <p className='text-[#316093] text-[20px] font-[600]'>Lihat Selengkapnya &gt;</p>
           </div>
-          <div className='flex container items-center  h-full  relative'>
-            <img className='h-full w-[380px]' src={promo} alt="" />
-            <div className='container h-[400px] w-[85%] left-[15%] top-[50%] translate-y-[-50%] absolute '>
+          <div className='flex flex-col justify-start md:flex-row container md:items-center  h-full  relative'>
+            <div>
+            <img className='h-full md:w-[380px] w-[300px]' src={promo} alt="" />
+            </div>
+            <div className=' h-[400px] w-[85%] left-[15%] top-[80%] translate-y-[-80%] md:top-[50%] md:translate-y-[-50%] absolute '>
               <Swiper
                 slidesPerView={1}
                 spaceBetween={30}
@@ -56,15 +58,15 @@ export default function CarouselBestOffer() {
                 breakpoints={{
                   640: {
                     slidesPerView: 2,
-                    spaceBetween: 30,
+                    spaceBetween: 20,
                   },
                   768: {
                     slidesPerView: 3,
-                    spaceBetween: 30,
+                    spaceBetween: 20,
                   },
                   1024: {
                     slidesPerView: 4,
-                    spaceBetween: 30,
+                    spaceBetween: 25,
                   },
                   1280: {
                     slidesPerView: 5,
@@ -87,14 +89,14 @@ export default function CarouselBestOffer() {
                 {dataBestOffer.map((item) => (
                   <SwiperSlide key={item.id}>
                     <div className='h-full relative flex border-2 border-[#E1E1E1] bg-white rounded-[10px] container'>
-                      <button onClick={() => navigate('/product/'+item.id)} className='flex'>
+                      <button onClick={() => navigate('/product/'+item.id)} className='flex w-full'>
                         <div className='absolute top-0 right-2 '>
                           <img className='w-[55px] relative' src={discountTag} alt="" />
                           <p className='absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] text-white'>{item.discount}&#37;</p>
                         </div>
-                        <div className='flex flex-col container h-full p-3'>
+                        <div className='flex flex-col items-center md:items-start w-full  h-full p-3'>
                           <img className='h-[180px]' src={item.productImages[0].image} alt="" />
-                          <div className='flex container flex-col justify-between  h-[50%] gap-y-8'>
+                          <div className='flex container flex-col justify-between items-center md:items-start  h-[50%] gap-y-8'>
                             <h4 className='font-bold mt-2  text-[18px] text-left'>{item.name}</h4>
                             <div className='flex flex-col gap-y-2'>
                               

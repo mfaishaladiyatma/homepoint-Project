@@ -1,8 +1,8 @@
 import React from 'react'
 
-import heroBanner from '../images/bannerHero-1.png'
-import heroBanner2 from '../images/bannerHero-2.png'
-import heroBanner3 from '../images/bannerHero-3.png'
+import heroBanner from '../images/bannerHero-1.svg'
+import heroBanner2 from '../images/bannerHero-2.svg'
+import heroBanner3 from '../images/bannerHero-3.svg'
 import arrowRight from '../images/arrow-right-white.svg'
 import arrowLeft from '../images/arrow-left-white.svg'
 
@@ -23,7 +23,8 @@ export default function Carousel() {
     return (
         <>
             <div className=' flex justify-center '>
-                <div className='container h-[31.25rem]'>
+                <div className='container h-[18rem] mt-5 md:mt-0 md:h-[20rem] xl:h-[28rem]'>
+                    {/* h-[20rem] mt-10 md:mt-0 md:h-[20rem] xl:h-[28rem] */}
                     <Swiper
                         spaceBetween={30}
                         pagination={{
@@ -34,45 +35,31 @@ export default function Carousel() {
                             nextEl: ".button-next",
                             prevEl: ".button-prev",
                         }}
-                        autoplay={{
-                            delay: 3000,
-                            disableOnInteraction: false,
-                        }}
+                        // autoplay={{
+                        //     delay: 3000,
+                        //     disableOnInteraction: false,
+                        // }}
                         modules={[Pagination, Navigation, Autoplay]}
                         speed={700}
                         centeredSlides={true}
                         className="carouselHero"
                     >
                         <SwiperSlide>
-                            <div className='h-[400px] container '>
+                            <div className='h-fit container '>
                                 <img className='h-full w-full object-fit' src={heroBanner} alt="" />
                             </div>
                         </SwiperSlide>
                         <SwiperSlide>
-                            <div className='h-[400px] container '>
+                            <div className='h-fit container '>
                                 <img className='h-full w-full object-fit' src={heroBanner2} alt="" />
                             </div>
                         </SwiperSlide>
                         <SwiperSlide>
-                            <div className='h-[400px] container '>
+                            <div className='h-fit container '>
                                 <img className='h-full w-full object-fit' src={heroBanner3} alt="" />
                             </div>
                         </SwiperSlide>
-                        <SwiperSlide>
-                            <div className='h-[400px] container '>
-                                <img className='h-full w-full object-fit' src={heroBanner} alt="" />
-                            </div>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <div className='h-[400px] container '>
-                                <img className='h-full w-full object-fit' src={heroBanner2} alt="" />
-                            </div>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <div className='h-[400px] container '>
-                                <img className='h-full w-full object-fit' src={heroBanner3} alt="" />
-                            </div>
-                        </SwiperSlide>
+                        
 
                         <div className='swiper-button-next button-next'>
                             <img src={arrowRight} alt="" />
