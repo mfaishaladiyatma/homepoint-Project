@@ -68,7 +68,7 @@ function App() {
           <Route path="/register" element={<Register />}></Route>
           <Route path="/cart" element={<ComponentLayout><Cart/></ComponentLayout>}></Route>
           <Route path="/pesanan" element={<ComponentLayout><RiwayatPesanan/></ComponentLayout>}></Route>
-          <Route path="/wishlist" element={<ComponentLayout><Wishlist/></ComponentLayout>}></Route>
+          <Route path="/wishlist-:id" element={<ComponentLayout><Wishlist/></ComponentLayout>}></Route>
         </Routes>
       
     </div>

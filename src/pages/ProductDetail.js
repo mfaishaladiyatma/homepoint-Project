@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai'
 
 import { useParams, useSearchParams } from 'react-router-dom'
+import { useSelector } from 'react-redux/es/hooks/useSelector'
 
 import icon1 from '../assets/icon1.png'
 import icon2 from '../assets/icon2.png'
@@ -16,21 +17,61 @@ import facebookLogo from '../images/Facebook.svg'
 
 function ProductDetail() {
 
+    const { token, name } = useSelector((state) => state)
+    const idAkun = useSelector((state) => state.id)
+
     const { id } = useParams();
+
     const [loading, setLoading] = useState(true);
-    const [product, setProduct] = useState();
+    const [product, setProduct] = useState({});
+    
 
     useEffect(() => {
-        axios.get(`https://homepoint-server-staging.herokuapp.com/api/v1/products/${id}`)
+        const fetchData = async () => {
+            const respProduct = await axios.get(`https://homepoint-server-staging.herokuapp.com/api/v1/products/${id}`)
             .then((response) => {
                 setProduct(response.data.data);
                 setLoading(false);
             })
             .catch((error) => {
                 setLoading(false);
+                console.log(error)
                 //wip: display error here
             });
-    }, [id]);
+
+            const respProductInWishlist = await axios.get(`https://homepoint-server-staging.herokuapp.com/api/v1/wishlist/items/${idAkun}/${id}`)
+            .then((response) => {
+                console.log(response)
+                setLoading(false);
+            })
+            .catch((error) => {
+                setLoading(false);
+                console.log(error)
+                //wip: display error here
+            });
+        }
+
+        fetchData();
+        
+    }, [id, idAkun]);
+
+    const addToWishlist = () => {
+        axios({
+            method: "post",
+            url: `https://homepoint-server-staging.herokuapp.com/api/v1/wishlist/items/${idAkun}/${id}`,
+            data: {
+                'productId': id,
+                'userId': idAkun
+            },
+            // headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        }).then((response) => {
+            //handle success
+            console.log(response)
+        }).catch((error) => {
+            //handle error
+            console.log(error)
+        })
+    }
 
     //wip: show loading
     return (
@@ -143,26 +184,28 @@ function ProductDetail() {
                                     </div>
                                 </div>
                                 <div className=' mt-3 flex gap-x-3 items-center'>
-                                    <img src={loveOutline} alt="" />
+                                    <button onClick={addToWishlist}>
+                                        <img src={loveOutline} alt="" />
+                                    </button>
                                     <div className='group cursor-pointer transition relative w-[30px] flex items-center '>
-                                        <button>
-                                        <img src={shareIcon} alt="" />
+                                        <button >
+                                            <img src={shareIcon} alt="" />
                                         </button>
                                         <div className='absolute  top-full left-0 bg-white  w-[230px] h-fit flex gap-x-3 p-2 invisible  opacity-0 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 translate-y-[-50%] group-hover:ease-in-out group-hover:duration-500 rounded-[8px] shadow-shadow-custom-1'>
                                             <button>
-                                            <img className='w-[30px]' src={instagramLogo} alt="" />
+                                                <img className='w-[30px]' src={instagramLogo} alt="" />
                                             </button>
                                             <button>
-                                            <img className='w-[30px]' src={facebookLogo} alt="" />
+                                                <img className='w-[30px]' src={facebookLogo} alt="" />
                                             </button>
                                             <button>
-                                            <img className='w-[30px]' src={instagramLogo} alt="" />
+                                                <img className='w-[30px]' src={instagramLogo} alt="" />
                                             </button>
                                             <button>
-                                            <img className='w-[30px]' src={facebookLogo} alt="" />
+                                                <img className='w-[30px]' src={facebookLogo} alt="" />
                                             </button>
                                             <button>
-                                            <img className='w-[30px]' src={instagramLogo} alt="" />
+                                                <img className='w-[30px]' src={instagramLogo} alt="" />
                                             </button>
                                         </div>
                                     </div>

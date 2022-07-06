@@ -40,7 +40,7 @@ function Modal({ setModal, setData, data }) {
 
 
     const handleSubmit = (e) => {
-        e.preventDefault();
+        e.preventDefault()
         axios({
             method: "put",
             url: 'https://homepoint-server-staging.herokuapp.com/api/v1/users',
@@ -48,6 +48,7 @@ function Modal({ setModal, setData, data }) {
         }).then((response) => {
             //handle success
             console.log(response)
+            window.location.reload()
         }).catch((error) => {
             //handle error
             console.log(error)

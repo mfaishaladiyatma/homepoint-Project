@@ -138,7 +138,7 @@ function Header({ searchHandler, setMenu, menu }) {
           </div>
         </div>
         <div className="hidden w-fit xl:flex  gap-x-14 items-center">
-          <button onClick={() => navigate('/wishlist')}>
+          <button onClick={() => navigate(`/wishlist-${id}`)}>
           <img className=" h-[23px]" src={love} alt="love" />
           </button>
 
