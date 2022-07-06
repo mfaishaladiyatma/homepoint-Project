@@ -46,7 +46,7 @@ function SearchResult() {
                 'Min price': priceMin,
                 'Max price': priceMax,
                 'Rating': rating,
-                'Brand': brand,
+                'Brand': brand, 
                 'Color': color,
                 'Page number': page,
                 'Size': size
@@ -58,8 +58,8 @@ function SearchResult() {
                 setColors(response.data.data.colors);
                 setFilterList((prevState) => ({
                     ...prevState,
-                    brand: brand ? decodeURIComponent(brand) : '',
-                    color: color ? decodeURIComponent(color) : ''
+                    brand: brand || '',
+                    color: color || ''
                 }))
             })
             .catch((error) => {
@@ -71,7 +71,7 @@ function SearchResult() {
         let params = {};
         for (const key in filterList) {
             if (filterList[key]) {
-                params[key] = encodeURIComponent(filterList[key]);
+                params[key] = filterList[key];
             }
         }
         setSearchParams(params);
