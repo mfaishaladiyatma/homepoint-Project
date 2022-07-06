@@ -1,24 +1,25 @@
 import { useState, useEffect } from 'react'
 import { AiFillStar, AiOutlineSearch } from 'react-icons/ai'
-import { Link } from 'react-router-dom'
-import { addressContext } from '../context/context'
+import { Link, useSearchParams } from 'react-router-dom'
 import axios from 'axios'
 
 import PaginationPage from '../components/pagination/pagination.js'
 
-function SearchResult({ data, setData, productPerPage, paginate, currentPage }) {
-    // const { dataProduct, setDataProduct } = React.useContext(addressContext)
+function SearchResult() {
+    const [ searchParams, setSearchParams ] = useSearchParams();
     const [ products, setProducts ] = useState([]);
     const [ brands, setBrands ] = useState([]);
     const [ colors, setColors ] = useState([]);
+    const [ brandSearch, setBrandSearch ] = useState('');
+    const filteredBrand = brands.filter((val) => val.includes(brandSearch));
 
     const [filterList, setFilterList] = useState({
-        min: null,
-        max: null,
+        min: '',
+        max: '',
         rating: '',
         brand: '',
         color: '',
-        page: 1,
+        page: 0,
 
     });
 
@@ -34,18 +35,47 @@ function SearchResult({ data, setData, productPerPage, paginate, currentPage }) 
             });
     }, []);
 
-    // const [check, setCheck] = React.useState()
-
-    //Reset Semua Filter
-    const resetButton = () => {
-        // setData(dataProduct)
-        setFilterList({
-            min: null,
-            max: null,
-            brand: "",
-            color: '',
+    const fetchWithParams = () => {
+        const { min, max, rating, brand, color, page } = filterList;
+        setSearchParams({ 
+            min,
+            max,
+            rating, 
+            brand: encodeURIComponent(brand),
+            color: encodeURIComponent(color),
+            page
+         });
+        axios({
+            method: 'GET',
+            url: 'https://homepoint-server-staging.herokuapp.com/api/v1/products',
+            params: {
+                minPrice: min && min * 1,
+                maxPrice: max && min * 1,
+                rating: rating && rating * 1,
+                brand: encodeURIComponent(brand),
+                color: encodeURIComponent(color),
+                page: page
+            }
         })
+            .then((response) => {
+                setProducts(response.data.data.products);
+                setBrands(response.data.data.brands);
+                setColors(response.data.data.colors);
+            })
+            .catch((error) => {
+                //wip: display error here
+            });
+    }
 
+    const resetButton = () => {
+        setFilterList({
+            min: '',
+            max: '',
+            brand: '',
+            color: '',
+            rating: ''
+        });
+        fetchWithParams();
     }
 
     return (
@@ -68,22 +98,50 @@ function SearchResult({ data, setData, productPerPage, paginate, currentPage }) 
                     <div className='p-5 flex flex-col gap-[10px]'>
                         <h2 className='mb-5'>Rating</h2>
                         <div className='flex items-center gap-[10px]'>
-                            <input onClick={e => {}} name="rating" className='border-[1px] border-light-blue-pale rounded-md' type="radio" />
+                            <input
+                                onChange={e => setFilterList((prevState) => ({ ...prevState, rating: e.target.value }))}
+                                value={4}
+                                checked={filterList.rating === '4'}
+                                name="rating" 
+                                className='border-[1px] border-light-blue-pale rounded-md' 
+                                type="radio"
+                            />
                             <AiFillStar className='text-[#FBC646]' />
                             <label>4 Keatas</label>
                         </div>
                         <div className='flex items-center gap-[10px]'>
-                            <input onClick={e => {}} name="rating" className='border-[1px] border-light-blue-pale rounded-md' type="radio" />
+                            <input 
+                                onChange={e => setFilterList((prevState) => ({ ...prevState, rating: e.target.value }))}
+                                value={3} 
+                                checked={filterList.rating === '3'}
+                                name="rating" 
+                                className='border-[1px] border-light-blue-pale rounded-md' 
+                                type="radio" 
+                            />
                             <AiFillStar className='text-[#FBC646]' />
                             <label>3 Keatas</label>
                         </div>
                         <div className='flex items-center gap-[10px]'>
-                            <input  onClick={e => {}} name="rating" className='border-[1px] border-light-blue-pale rounded-md' type="radio" />
+                            <input
+                                onChange={e => setFilterList((prevState) => ({ ...prevState, rating: e.target.value }))}
+                                value={2}
+                                checked={filterList.rating === '2'}
+                                name="rating" 
+                                className='border-[1px] border-light-blue-pale rounded-md' 
+                                type="radio" 
+                            />
                             <AiFillStar className='text-[#FBC646]' />
                             <label>2 Keatas</label>
                         </div>
                         <div className='flex items-center gap-[10px]'>
-                            <input onClick={e => {}} name="rating" className='border-[1px] border-light-blue-pale rounded-md' type="radio" />
+                            <input 
+                                onChange={e => setFilterList((prevState) => ({ ...prevState, rating: e.target.value }))}
+                                value={1}
+                                checked={filterList.rating === '1'}
+                                name="rating" 
+                                className='border-[1px] border-light-blue-pale rounded-md' 
+                                type="radio" 
+                            />
                             <AiFillStar className='text-[#FBC646]' />
                             <label>1 Keatas</label>
                         </div>
@@ -92,13 +150,19 @@ function SearchResult({ data, setData, productPerPage, paginate, currentPage }) 
                     <div className='p-5'>
                         <h2>Brand</h2>
                         <div className='w-[100%] rounded-md my-3 flex items-center justify-between p-2 border-[1px] border-blue-pale'>
-                            <input value={filterList.brand} name="brand" onChange={e => {}} placeholder='Input text' className='w-full outline-none border-none' />
+                            <input value={brandSearch} name="brand" onChange={e => setBrandSearch(e.target.value)} placeholder='Input text' className='w-full outline-none border-none' />
                             <AiOutlineSearch />
                         </div>
                         <div className='py-5 max-h-[230px] overflow-y-auto flex flex-col gap-[10px] mt-5'>
-                            {brands.map((brand) => (
+                            {filteredBrand.map((brand) => (
                                 <div className='flex gap-[20px] items-center' key={brand}>
-                                    <input checked={filterList.vishal} name="brand" onClick={e => {}} type="radio" className="border-[1px] border-light-blue-pale rounded-md" />
+                                    <input 
+                                        name="brand"
+                                        value={brand}
+                                        checked={filterList.brand === brand}
+                                        onChange={e => setFilterList((prevState) => ({ ...prevState, brand: e.target.value }))}
+                                        type="radio" 
+                                        className="border-[1px] border-light-blue-pale rounded-md" />
                                     <h2>{brand}</h2>
                                 </div>
                             ))}
@@ -109,10 +173,20 @@ function SearchResult({ data, setData, productPerPage, paginate, currentPage }) 
                         <h2 className='mt-3'>Warna</h2>
                         <div className='flex mt-5 gap-[10px]'>
                             {colors.map((color) => (
-                                <input key={color} checked={filterList.green} type="checkbox" onClick={e => {}} name="green" className="input-checkbox" style={{ backgroundColor: color }}></input>
+                                <input
+                                    key={color}
+                                    value={color}
+                                    checked={filterList.color === color}
+                                    type="radio" 
+                                    onChange={e => setFilterList((prevState) => ({ ...prevState, color: e.target.value }))} 
+                                    name="green" 
+                                    className="input-checkbox border-[1px] border-solid border-light-blue-pale" 
+                                    style={{ backgroundColor: color }}
+                                >
+                                </input>
                             ))}
                         </div>
-                        <button onClick={() => {}} className='mt-[30px] p-2 font-semibold w-[85%] rounded-md mx-auto bg-[#FBC646]'>Terapkan</button>
+                        <button onClick={fetchWithParams} className='mt-[30px] p-2 font-semibold w-[85%] rounded-md mx-auto bg-[#FBC646]'>Terapkan</button>
                     </div>
                 </div>
                 <div className='p-5 h-full flex flex-col lg:p-0 lg:mx-5'>
