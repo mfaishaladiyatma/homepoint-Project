@@ -21,46 +21,12 @@ import RiwayatPesanan from "./pages/RiwayatPesanan";
 import Wishlist from "./pages/Wishlist";
 
 function App() {
-  //React Context Data ( Fetch Data using Axios )
-  const { dataProduct } = React.useContext(addressContext);
-
-  // Put dataProduct to React State
-  const [data, setData] = React.useState(dataProduct);
-  React.useEffect(() => {
-    setData(dataProduct);
-  }, [dataProduct]);
-
-  //Menu Handler for Mobile & Tablet
-  const [menu, setMenu] = React.useState(false);
-
-  // Search Function (Navigation)
-  const searchHandler = (e) => {
-    const lowerInput = e.target.value.toLowerCase();
-    setData(dataProduct.filter((x) => x.name.toLowerCase().includes(lowerInput)));
-  };
-
-  //Pagination
-  const [currentPage, setCurrentPage] = React.useState(1);
-  const [productPerPage, setProductPerPage] = React.useState(16);
-
-  // *** Pagination Pattern
-  const indexOfLastPost = currentPage * productPerPage;
-  const indexOfFirstPost = indexOfLastPost - productPerPage;
-
-  //DIBAWAH INI AKUCOMMENT
-  // const currentPosts = data.slice(indexOfFirstPost, indexOfLastPost);
-
-  //Pagination Function
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-  //HEADER DAN FOOTER PINDAH KE COMPONENTLAYOUT.jsx di components
-
   return (
     <div>
       
         <Routes>
           <Route path="/" element={<ComponentLayout><Homepage/></ComponentLayout>} />
-          <Route path="/search" element={<SearchResult />} />
+          <Route path="/search" element={<ComponentLayout><SearchResult /></ComponentLayout>} />
           <Route path="/product/:id" element={<ComponentLayout><ProductDetail/></ComponentLayout>} />
           <Route path="/profile" element={<ComponentLayout><Profile /></ComponentLayout>} />
           <Route path="/forgetpass" element={<ForgetPass />}></Route>
