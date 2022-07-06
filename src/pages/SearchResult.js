@@ -47,7 +47,7 @@ function SearchResult() {
                 'Max price': priceMax,
                 'Rating': rating,
                 'Brand': brand,
-                'Color': color,
+                'Color': decodeURIComponent(color),
                 'Page number': page,
                 'Size': size
             }
