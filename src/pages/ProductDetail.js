@@ -5,6 +5,7 @@ import { AiFillStar, AiOutlineStar } from 'react-icons/ai'
 import { useParams, useSearchParams } from 'react-router-dom'
 import { useSelector } from 'react-redux/es/hooks/useSelector'
 
+import heartRed from '../images/heartRed.svg'
 import icon1 from '../assets/icon1.png'
 import icon2 from '../assets/icon2.png'
 import icon3 from '../assets/icon3.png'
@@ -13,6 +14,7 @@ import loveOutline from '../images/loveOutline.svg'
 import shareIcon from '../images/shareIcon.svg'
 import instagramLogo from '../images/Instagram.svg'
 import facebookLogo from '../images/Facebook.svg'
+import waLogo from '../images/waLogo.svg'
 // import { addressContext } from '../context/context'
 
 function ProductDetail() {
@@ -22,38 +24,61 @@ function ProductDetail() {
 
     const { id } = useParams();
 
+    const [icon, setIcon] = useState(false)
+    const [wishlistIcon, setWishlistIcon] = useState(loveOutline)
     const [loading, setLoading] = useState(true);
     const [product, setProduct] = useState({});
-    
+    const [checkProduct, setCheckProduct] = useState();
+
+    const urlProduct = `https://homepoint-server-staging.herokuapp.com/api/v1/products/${id}`
+
 
     useEffect(() => {
         const fetchData = async () => {
-            const respProduct = await axios.get(`https://homepoint-server-staging.herokuapp.com/api/v1/products/${id}`)
-            .then((response) => {
-                setProduct(response.data.data);
-                setLoading(false);
-            })
-            .catch((error) => {
-                setLoading(false);
-                console.log(error)
-                //wip: display error here
-            });
+            const respProduct = await axios.get(urlProduct)
+                .then((response) => {
+                    setProduct({ ...response.data.data });
+                    setLoading(false);
+                })
+                .catch((error) => {
+                    setLoading(false);
+                    console.log(error)
+                    //wip: display error here
+                });
 
             const respProductInWishlist = await axios.get(`https://homepoint-server-staging.herokuapp.com/api/v1/wishlist/items/${idAkun}/${id}`)
-            .then((response) => {
-                console.log(response)
-                setLoading(false);
-            })
-            .catch((error) => {
-                setLoading(false);
-                console.log(error)
-                //wip: display error here
-            });
+                .then((response) => {
+                    setCheckProduct(response.data.data);
+                    console.log(response.data.data)
+                    // console.log(checkProduct)
+                    setLoading(false);
+                })
+                .catch((error) => {
+                    setLoading(false);
+                    console.log(error)
+                    //wip: display error here
+                })
+                .finally(() => {
+
+                });
+
         }
 
         fetchData();
-        
+
     }, [id, idAkun]);
+
+    const handleClickWishlist = () => {
+        // setIcon(!icon)
+
+        if (checkProduct == null) {
+            setWishlistIcon(heartRed)
+            addToWishlist()
+        } else {
+            setWishlistIcon(loveOutline)
+            removeFromWishlist()
+        }
+    }
 
     const addToWishlist = () => {
         axios({
@@ -66,6 +91,21 @@ function ProductDetail() {
             // headers: { "Content-Type": "application/x-www-form-urlencoded" },
         }).then((response) => {
             //handle success
+            console.log(response)
+            setCheckProduct(true)
+        }).catch((error) => {
+            //handle error
+            console.log(error)
+        })
+    }
+
+    const removeFromWishlist = () => {
+        axios({
+            method: "delete",
+            url: ('https://homepoint-server-staging.herokuapp.com/api/v1/wishlist/items/' + checkProduct.id),
+        }).then((response) => {
+            //handle success
+            setCheckProduct(false)
             console.log(response)
         }).catch((error) => {
             //handle error
@@ -184,8 +224,8 @@ function ProductDetail() {
                                     </div>
                                 </div>
                                 <div className=' mt-3 flex gap-x-3 items-center'>
-                                    <button onClick={addToWishlist}>
-                                        <img src={loveOutline} alt="" />
+                                    <button onClick={handleClickWishlist}>
+                                        <img src={checkProduct ? heartRed : loveOutline} alt="" />
                                     </button>
                                     <div className='group cursor-pointer transition relative w-[30px] flex items-center '>
                                         <button >
@@ -199,7 +239,9 @@ function ProductDetail() {
                                                 <img className='w-[30px]' src={facebookLogo} alt="" />
                                             </button>
                                             <button>
-                                                <img className='w-[30px]' src={instagramLogo} alt="" />
+                                                <a target="_blank" href={`https://api.whatsapp.com/send?phone=628111462878&text=${urlProduct}%0AHalo%20Homepoint%F0%9F%99%8C%F0%9F%8F%BB%0AAda%20yang%20ingin%20Saya%20tanyakan%2C%20nih!%0A%0A(Tuliskan%20pertanyaanmu%20disini%20ya!)" rel="noopener noreferrer`}>
+                                                    <img className='w-[30px]' src={waLogo} alt="" />
+                                                </a>
                                             </button>
                                             <button>
                                                 <img className='w-[30px]' src={facebookLogo} alt="" />

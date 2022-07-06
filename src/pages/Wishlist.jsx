@@ -53,7 +53,7 @@ export default function Wishlist() {
   }).then((response) => {
       //handle success
       console.log(response)
-      window.location.reload()
+      // window.location.reload()
   }).catch((error) => {
       //handle error
       console.log(error)
