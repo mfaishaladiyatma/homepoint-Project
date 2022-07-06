@@ -14,68 +14,78 @@ function SearchResult() {
     const filteredBrand = brands.filter((val) => val.includes(brandSearch));
 
     const [filterList, setFilterList] = useState({
-        min: '',
-        max: '',
+        priceMin: '',
+        priceMax: '',
         rating: '',
         brand: '',
         color: '',
         page: 0,
-
+        size: 16
     });
 
     useEffect(() => {
-        axios.get(`https://homepoint-server-staging.herokuapp.com/api/v1/products`)
-            .then((response) => {
-                setProducts(response.data.data.products);
-                setBrands(response.data.data.brands);
-                setColors(response.data.data.colors);
-            })
-            .catch((error) => {
-                //wip: display error here
-            });
-    }, []);
-
-    const fetchWithParams = () => {
-        const { min, max, rating, brand, color, page } = filterList;
-        setSearchParams({ 
-            minPrice: min,
-            maxPrice: max,
-            rating, 
-            brand: encodeURIComponent(brand),
-            color: encodeURIComponent(color),
-            page
-         });
+        const priceMin = searchParams.get('priceMin');
+        const priceMax = searchParams.get('priceMax');
+        const rating = searchParams.get('rating');
+        const brand = searchParams.get('brand');
+        const color = searchParams.get('color');
+        const page = searchParams.get('page');
+        const size = searchParams.get('size');
+        setFilterList((prevState) => ({
+            ...prevState,
+            priceMin: priceMin || '',
+            priceMax: priceMax || '',
+            rating: rating || '',
+            page: page || '0',
+            size: size || '16'
+        }));
         axios({
             method: 'GET',
             url: 'https://homepoint-server-staging.herokuapp.com/api/v1/products',
             params: {
-                minPrice: min && min * 1,
-                maxPrice: max && min * 1,
-                rating: rating && rating * 1,
-                brand: encodeURIComponent(brand),
-                color: encodeURIComponent(color),
-                page: page
+                'Min price': priceMin,
+                'Max price': priceMax,
+                'Rating': rating,
+                'Brand': brand,
+                'Color': color,
+                'Page number': page,
+                'Size': size
             }
         })
             .then((response) => {
                 setProducts(response.data.data.products);
                 setBrands(response.data.data.brands);
                 setColors(response.data.data.colors);
+                setFilterList((prevState) => ({
+                    ...prevState,
+                    brand: brand ? decodeURIComponent(brand) : '',
+                    color: color ? decodeURIComponent(color) : ''
+                }))
             })
             .catch((error) => {
                 //wip: display error here
             });
+    }, [searchParams]);
+
+    const fetchWithParams = () => {
+        let params = {};
+        for (const key in filterList) {
+            if (filterList[key]) {
+                params[key] = encodeURIComponent(filterList[key]);
+            }
+        }
+        setSearchParams(params);
     }
 
     const resetButton = () => {
         setFilterList({
-            min: '',
-            max: '',
+            priceMin: '',
+            priceMax: '',
             brand: '',
             color: '',
             rating: ''
         });
-        fetchWithParams();
+        setSearchParams({});
     }
 
     return (
@@ -89,9 +99,9 @@ function SearchResult() {
                         </div>
                         <h2 className='mt-5'>Harga</h2>
                         <div className='flex items-center mt-3 gap-[5px]'>
-                            <input value={filterList.min} id="price" name="min" onChange={() => {}} className="border-[1px] border-blue-pale rounded-md p-2" placeholder='Rp   Minimum' />
+                            <input value={filterList.min} id="price" name="min" onChange={(e) => setFilterList((prevState) => ({ ...prevState, priceMin: e.target.value }))} className="border-[1px] border-blue-pale rounded-md p-2" placeholder='Rp   Minimum' />
                             <div>-</div>
-                            <input value={filterList.max} id="price" name="max" onChange={() => {}} className="border-[1px] border-blue-pale rounded-md p-2" placeholder='Rp   Maksimum' />
+                            <input value={filterList.max} id="price" name="max" onChange={(e) => setFilterList((prevState) => ({ ...prevState, priceMax: e.target.value }))} className="border-[1px] border-blue-pale rounded-md p-2" placeholder='Rp   Maksimum' />
                         </div>
                     </div>
                     <hr className='border-blue-pale'></hr>
