@@ -38,8 +38,8 @@ function SearchResult() {
     const fetchWithParams = () => {
         const { min, max, rating, brand, color, page } = filterList;
         setSearchParams({ 
-            min,
-            max,
+            minPrice: min,
+            maxPrice: max,
             rating, 
             brand: encodeURIComponent(brand),
             color: encodeURIComponent(color),
