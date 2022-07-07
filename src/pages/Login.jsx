@@ -30,7 +30,6 @@ export default function Login() {
     // redirectIfLogin()
   };
   
-
   // useEffect(() => {
   //     axios.get(`https://homepoint-server-staging.herokuapp.com/api/v1/users`)
   //     // https://cosmetic-b.herokuapp.com/api/v1/product
