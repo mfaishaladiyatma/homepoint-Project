@@ -4,6 +4,7 @@ import { AiFillStar, AiOutlineStar } from 'react-icons/ai'
 
 import { useParams, useSearchParams } from 'react-router-dom'
 import { useSelector } from 'react-redux/es/hooks/useSelector'
+import jwtDecode from "jwt-decode";
 
 import heartRed from '../images/heartRed.svg'
 import icon1 from '../assets/icon1.png'
@@ -30,6 +31,8 @@ function ProductDetail() {
     const [product, setProduct] = useState({});
     const [checkProduct, setCheckProduct] = useState();
 
+    const decode = token ? jwtDecode(token) : null;
+
     const urlProduct = `https://homepoint-server-staging.herokuapp.com/api/v1/products/${id}`
 
 
@@ -46,22 +49,24 @@ function ProductDetail() {
                     //wip: display error here
                 });
 
-            const respProductInWishlist = await axios.get(`https://homepoint-server-staging.herokuapp.com/api/v1/wishlist/items/${idAkun}/${id}`)
-                .then((response) => {
-                    setCheckProduct(response.data.data);
-                    console.log(response.data.data)
-                    // console.log(checkProduct)
-                    setLoading(false);
-                })
-                .catch((error) => {
-                    setLoading(false);
-                    console.log(error)
-                    //wip: display error here
-                })
-                .finally(() => {
+            if (decode) {
 
-                });
+                const respProductInWishlist = await axios.get(`https://homepoint-server-staging.herokuapp.com/api/v1/wishlist/items/${idAkun}/${id}`)
+                    .then((response) => {
+                        setCheckProduct(response.data.data);
+                        console.log(response.data.data)
+                        // console.log(checkProduct)
+                        setLoading(false);
+                    })
+                    .catch((error) => {
+                        setLoading(false);
+                        console.log(error)
+                        //wip: display error here
+                    })
+                    .finally(() => {
 
+                    });
+            }
         }
 
         fetchData();
