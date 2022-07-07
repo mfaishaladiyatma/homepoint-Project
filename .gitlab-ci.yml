@@ -3,7 +3,6 @@ stages:
     - deploy
 
 staging:
-    type: deploy
     stage: deploy
     image: ruby:latest
     script:
