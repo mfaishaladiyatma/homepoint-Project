@@ -92,7 +92,6 @@ function SearchResult() {
                 }
             }
         }
-        console.log(params);
         setSearchParams(params);
     };
 
@@ -227,7 +226,7 @@ function SearchResult() {
                     <div className='flex items-center'>
                         <h3 className='font-bold'>Urutkan</h3>
                         <select value={filterList.sort} onChange={(e) => handleSort(e.target.value)} className='ml-5 outline-none p-3 rounded-md border-[1px] border-light-blue-pale'>
-                            <option value="''">Default</option>{/* <-- harus diubah, tanya ke UI/UX */}
+                            <option value="''">Urutkan</option>{/* <-- harus diubah, tanya ke UI/UX */}
                             <option value="best-seller">Produk Terlaris</option>
                             <option value="latest">Produk Terbaru</option>
                             <option value="price-desc">Produk Termahal</option>
