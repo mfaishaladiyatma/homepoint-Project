@@ -238,10 +238,11 @@ function SearchResult() {
                         <div className='mt-5 grid grid-cols-2 md:grid-cols-3 gap-x-[0] xl:grid-cols-4 gap-[10px] md:gap-[20px] '>
                             {products.map(each => {
                                 return (
-                                    <div key={each.id} className='border-[1px] w-fit flex flex-col p-3 border-light-blue-pale rounded-md'>
-                                        <Link className='flex w-full justify-center' to={`../product/${each.id}`}>
+                                    <Link className='flex w-[200px] justify-center' key={each.id} to={`../product/${each.id}`}>
+                                    <div  className='border-[1px] w-full flex flex-col p-3 gap-y-5 border-light-blue-pale rounded-md'>
+                                       
                                             <img className='max-w-[100px] lg:max-w-[150px]' src={each.productImages[0].image} alt={each.name}/>
-                                        </Link>
+                                        
                                         <h3 className='text-left'>{each.name}</h3>
                                         <div className='mt-auto'>
                                             <h3 className='font-bold mt-auto'>Rp {each.price}</h3>
@@ -255,6 +256,7 @@ function SearchResult() {
                                             </div>
                                         </div>
                                     </div>
+                                    </Link>
                                 )
                             })}
                         </div>
