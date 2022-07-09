@@ -19,6 +19,7 @@ function SearchResult() {
         rating: '',
         brand: '',
         color: '',
+        sort: '',
         page: 0,
         size: 16
     });
@@ -27,30 +28,39 @@ function SearchResult() {
         const priceMin = searchParams.get('priceMin');
         const priceMax = searchParams.get('priceMax');
         const rating = searchParams.get('rating');
-        const brand = searchParams.get('brand');
-        const color = searchParams.get('color');
+        const brand = searchParams.get('brand') ? decodeURIComponent(searchParams.get('brand')) : null;
+        const color = searchParams.get('color') ? decodeURIComponent(searchParams.get('color')) : null;
         const page = searchParams.get('page');
         const size = searchParams.get('size');
-        setFilterList((prevState) => ({
-            ...prevState,
-            priceMin: priceMin || '',
-            priceMax: priceMax || '',
-            rating: rating || '',
-            page: page || '0',
-            size: size || '16'
-        }));
+        const sort = searchParams.get('sort') ? decodeURIComponent(searchParams.get('sort')) : '';
+        let params = {
+            'Min price': priceMin,
+            'Max price': priceMax,
+            'Rating': rating,
+            'Brand': brand, 
+            'Color': color,
+            'Page number': page,
+            'Size': size
+        };
+        switch(sort) {
+            case 'best-seller':
+                params['Sort by best seller'] = true;
+                break;
+            case 'latest':
+                params['Sort by latest'] = true;
+                break;
+            case 'price-asc':
+                params['Sort by price asc'] = true;
+                break;
+            case 'price-desc':
+                params['Sort by price desc'] = true;
+                break;
+            default:
+        }
         axios({
             method: 'GET',
             url: 'https://homepoint-server-staging.herokuapp.com/api/v1/products',
-            params: {
-                'Min price': priceMin,
-                'Max price': priceMax,
-                'Rating': rating,
-                'Brand': brand, 
-                'Color': color,
-                'Page number': page,
-                'Size': size
-            }
+            params
         })
             .then((response) => {
                 setProducts(response.data.data.products);
@@ -58,23 +68,36 @@ function SearchResult() {
                 setColors(response.data.data.colors);
                 setFilterList((prevState) => ({
                     ...prevState,
-                    brand: brand || '',
-                    color: color || ''
-                }))
+                    priceMin,
+                    priceMax,
+                    rating,
+                    brand,
+                    color,
+                    page,
+                    size,
+                    sort
+        }));
             })
             .catch((error) => {
                 //wip: display error here
             });
     }, [searchParams]);
 
-    const fetchWithParams = () => {
-        let params = {};
+    const fetchWithParams = (sort = '') => {
+        let params = { sort };
         for (const key in filterList) {
             if (filterList[key]) {
-                params[key] = filterList[key];
+                if (key !== 'sort') {
+                    params[key] = encodeURIComponent(filterList[key]);
+                }
             }
         }
         setSearchParams(params);
+    };
+
+    const handleSort = (sort) => {
+        setFilterList((prevState) => ({ ...prevState, sort }));
+        fetchWithParams(sort);
     }
 
     const resetButton = () => {
@@ -83,9 +106,9 @@ function SearchResult() {
             priceMax: '',
             brand: '',
             color: '',
-            rating: ''
+            rating: '',
+            sort: ''
         });
-        setSearchParams({});
     }
 
     return (
@@ -202,11 +225,12 @@ function SearchResult() {
                 <div className='p-5 h-full flex flex-col lg:p-0 lg:mx-5'>
                     <div className='flex items-center'>
                         <h3 className='font-bold'>Urutkan</h3>
-                        <select onChange={e => () => {}} className='ml-5 outline-none p-3 rounded-md border-[1px] border-light-blue-pale'>
-                            <option value="Terlaris">Produk Terlaris</option>
-                            <option value="Terbaru">Produk Terbaru</option>
-                            <option value="Termahal">Produk Termahal</option>
-                            <option value="Termurah">Produk Termurah</option>
+                        <select value={filterList.sort} onChange={(e) => handleSort(e.target.value)} className='ml-5 outline-none p-3 rounded-md border-[1px] border-light-blue-pale'>
+                            <option value="''">Urutkan</option>{/* <-- harus diubah, tanya ke UI/UX */}
+                            <option value="best-seller">Produk Terlaris</option>
+                            <option value="latest">Produk Terbaru</option>
+                            <option value="price-desc">Produk Termahal</option>
+                            <option value="price-asc">Produk Termurah</option>
                         </select>
                     </div>
                     {/* {data.length > 0 */}
