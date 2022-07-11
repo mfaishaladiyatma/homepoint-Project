@@ -107,7 +107,7 @@ function Header({ setMenu, menu }) {
                     <h3 className="font-bold text-[18px]">{category.name}</h3>
                     <div className="flex flex-col items-start gap-y-3 w-full">
                       {category.productSubcategories.map((sub) => (
-                        <div onClick={(e) => { e.stopPropagation(); setIsClicked(false); navigate(`/search?subcategory=${sub.id}`); }}key={sub.id} className="rounded-[8px] p-1 hover:bg-sky-200  w-full text-left">{sub.name}</div>
+                        <div onClick={(e) => { e.stopPropagation(); setIsClicked(false); navigate(`/search?subcategory=${sub.id}`); }}key={sub.id} className="rounded-[8px] p-1 hover:bg-sky-200 cursor-pointer w-full text-left">{sub.name}</div>
                       ))}
                     </div>
                   </div>
