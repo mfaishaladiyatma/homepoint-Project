@@ -1,6 +1,8 @@
 import React from 'react'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useSelector } from 'react-redux/es/hooks/useSelector'
+import jwtDecode from "jwt-decode";
 
 import productCartImage from '../images/productCartImage.svg'
 import { BsHeart, BsFillTrashFill } from "react-icons/bs";
@@ -9,19 +11,47 @@ import { AiFillStar } from "react-icons/ai";
 
 
 export default function Cart() {
+  const { token, name } = useSelector((state) => state)
+  const idAkun = useSelector((state) => state.id)
+
   const [rekomendasiProduct, setRekomendasiProduct] = useState([]);
+  const [cart, setCart] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const decode = token ? jwtDecode(token) : null;
 
   useEffect(() => {
-    axios.get('https://homepoint-server-staging.herokuapp.com/api/v1/products/latest')
-      .then((response) => {
-        // console.log(response)
-        setRekomendasiProduct(response.data.data)
-        console.log(rekomendasiProduct)
-        // console.log(cobaGet)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+
+    const fetchData = async () => {
+      const respRecommendProduct = await axios.get('https://homepoint-server-staging.herokuapp.com/api/v1/products/latest')
+        .then((response) => {
+          // console.log(response)
+          setRekomendasiProduct(response.data.data)
+          console.log(rekomendasiProduct)
+          // console.log(cobaGet)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+
+      if (decode) {
+
+        const respProductInWishlist = await axios.get(`https://homepoint-server-staging.herokuapp.com/api/v1/cart/${idAkun}`)
+          .then((response) => {
+            setCart(response.data.data);
+            console.log(response.data.data)
+            // console.log(checkProduct)
+            setLoading(false);
+          })
+          .catch((error) => {
+            setLoading(false);
+            console.log(error)
+            //wip: display error here
+          })
+      }
+    }
+
+    fetchData()
   }, [])
 
 
@@ -44,43 +74,52 @@ export default function Cart() {
 
           {/* card untuk product yang dibeli */}
           <section>
-            <div className='flex flex-col '>
-              <div className='flex flex-row  items-center gap-x-2'>
-                <input className='accent-[#FBC646] w-[20px] h-[30px]' type="checkbox" />
-                <img src={productCartImage} alt="" />
-                <div className='flex flex-col  w-full h-full gap-y-12'>
-                  <div className='flex flex-col'>
-                    <h4 className='text-[18px]'>Promo Rak Dinding Kayu Besi Serbaguna Minimalis</h4>
-                    <h4 className='font-bold text-[18px]'>Rp 800.000</h4>
-                  </div>
-                  <div className='flex flex-row justify-between'>
-                    <div className='flex items-center gap-x-2'>
-                      <button>
-                        <div>
-                          <BsHeart />
+            {cart.map((item) => {
+              return (
+                <div key={item.id} className='flex flex-col '>
+
+                  <div className='flex flex-row  items-center gap-x-2'>
+                    <input className='accent-[#FBC646] w-[20px] h-[30px]' type="checkbox" />
+                    <img className='w-[250px]' src={item.products.productImages[0].image} alt="" />
+                    <div className='flex flex-col  w-full h-full gap-y-12'>
+                      <div className='flex flex-col'>
+                        <h4 className='text-[18px]'>{item.products.name}</h4>
+
+                        <h4 className='font-bold text-[18px]'>{item.products.discount == 0 ? new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 9 }).format(item.products.price) : new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 9 }).format(item.products.price * (item.products.discount / 100))}</h4>
+
+                      </div>
+                      <div className='flex flex-row justify-between'>
+                        <div className='flex items-center gap-x-2'>
+                          <button>
+                            <div>
+                              <BsHeart />
+                            </div>
+                          </button>
+                          <p>|</p>
+                          <button>
+                            <div className='text-red-500'>
+                              <BsFillTrashFill />
+                            </div>
+                          </button>
                         </div>
-                      </button>
-                      <p>|</p>
-                      <button>
-                        <div className='text-red-500'>
-                          <BsFillTrashFill />
+                        <div className='flex justify-between px-2 rounded-[10px] w-[80px] text-white bg-[#22364A]'>
+                          <button>
+                            -
+                          </button>
+                          <p>1</p>
+                          <button>
+                            +
+                          </button>
                         </div>
-                      </button>
-                    </div>
-                    <div className='flex justify-between px-2 rounded-[10px] w-[80px] text-white bg-[#22364A]'>
-                      <button>
-                        -
-                      </button>
-                      <p>1</p>
-                      <button>
-                        +
-                      </button>
+                      </div>
                     </div>
                   </div>
+                  <div className='w-full h-[2px] rounded-full bg-slate-400 mt-5 mb-5'></div>
+
                 </div>
-              </div>
-              <div className='w-full h-[2px] rounded-full bg-slate-400 mt-5'></div>
-            </div>
+              )
+            })}
+
 
           </section>
 

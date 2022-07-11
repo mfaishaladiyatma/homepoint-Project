@@ -2,7 +2,7 @@ import axios from 'axios'
 import React, { useState, useEffect } from 'react'
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai'
 
-import { useParams, useSearchParams } from 'react-router-dom'
+import { useParams, useSearchParams, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux/es/hooks/useSelector'
 import jwtDecode from "jwt-decode";
 
@@ -19,6 +19,7 @@ import waLogo from '../images/waLogo.svg'
 // import { addressContext } from '../context/context'
 
 function ProductDetail() {
+    const navigate = useNavigate()
 
     const { token, name } = useSelector((state) => state)
     const idAkun = useSelector((state) => state.id)
@@ -31,7 +32,7 @@ function ProductDetail() {
     const [wishlistIcon, setWishlistIcon] = useState(loveOutline)
     const [loading, setLoading] = useState(true);
     const [product, setProduct] = useState({});
-    const [checkProduct, setCheckProduct] = useState({});
+    const [checkProduct, setCheckProduct] = useState();
 
     const decode = token ? jwtDecode(token) : null;
 
@@ -67,9 +68,6 @@ function ProductDetail() {
                         console.log(error)
                         //wip: display error here
                     })
-                    .finally(() => {
-
-                    });
             }
         }
 
@@ -92,23 +90,27 @@ function ProductDetail() {
     }
 
     const addToWishlist = () => {
-        axios({
-            method: "post",
-            url: `https://homepoint-server-staging.herokuapp.com/api/v1/wishlist/items/${idAkun}/${id}`,
-            data: {
-                'productId': id,
-                'userId': idAkun
-            },
-            // headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        }).then((response) => {
-            //handle success
-            console.log(response, "<<<Add To Wishlist>>>")
-            setCheckProduct(true)
-            // window.location.reload()
-        }).catch((error) => {
-            //handle error
-            console.log(error)
-        })
+        if (!idAkun) {
+            navigate('/login')
+        } else {
+            axios({
+                method: "post",
+                url: `https://homepoint-server-staging.herokuapp.com/api/v1/wishlist/items/${idAkun}/${id}`,
+                data: {
+                    'productId': id,
+                    'userId': idAkun
+                },
+                // headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            }).then((response) => {
+                //handle success
+                console.log(response, "<<<Add To Wishlist>>>")
+                setCheckProduct(true)
+                navigate(0)
+            }).catch((error) => {
+                //handle error
+                console.log(error)
+            })
+        }
     }
 
     const removeFromWishlist = () => {
@@ -119,7 +121,7 @@ function ProductDetail() {
             //handle success
             setCheckProduct(false)
             console.log(response, "<<<Remove From Wishlist>>>")
-            window.location.reload()
+            navigate(0)
         }).catch((error) => {
             //handle error
             console.log(error)
@@ -127,23 +129,24 @@ function ProductDetail() {
     }
 
     const addToCart = () => {
-        axios({
-            method: "post",
-            url: `https://homepoint-server-staging.herokuapp.com/api/v1/cart/items/${idAkun}/${id}`,
-            data: {
-                'productId': id,
-                qty,
-                'userId': idAkun
-            },
-            headers: { "Content-Type": "application/json" },
-        }).then((response) => {
-            //handle success
-            console.log(response, "<<<Add To Cart>>>")
-            window.location.reload()
-        }).catch((error) => {
-            //handle error
-            console.log(error)
-        })
+        if (!idAkun) {
+            navigate('/login')
+        } else {
+            axios({
+                method: "post",
+                url: `https://homepoint-server-staging.herokuapp.com/api/v1/cart/items/${idAkun}/${id}`,
+                data: qty
+                ,
+                headers: { "Content-Type": "application/json" },
+            }).then((response) => {
+                //handle success
+                console.log(response, "<<<Add To Cart>>>")
+                // window.location.reload()
+            }).catch((error) => {
+                //handle error
+                console.log(error)
+            })
+        }
     }
 
     const handleAddQty = () => {
