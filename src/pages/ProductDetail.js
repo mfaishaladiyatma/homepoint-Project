@@ -25,6 +25,8 @@ function ProductDetail() {
 
     const { id } = useParams();
 
+    const [stock, setStock] = useState()
+    const [qty, setQty] = useState(1)
     const [icon, setIcon] = useState(false)
     const [wishlistIcon, setWishlistIcon] = useState(loveOutline)
     const [loading, setLoading] = useState(true);
@@ -42,6 +44,7 @@ function ProductDetail() {
             const respProduct = await axios.get(urlProduct)
                 .then((response) => {
                     setProduct({ ...response.data.data });
+                    setStock(response.data.data.stock)
                     setLoading(false);
                 })
                 .catch((error) => {
@@ -72,7 +75,9 @@ function ProductDetail() {
 
         fetchData();
 
-    }, [checkProduct]);
+    }, []);
+
+    //[checkproduct]
 
     const handleClickWishlist = () => {
         // setIcon(!icon)
@@ -97,8 +102,9 @@ function ProductDetail() {
             // headers: { "Content-Type": "application/x-www-form-urlencoded" },
         }).then((response) => {
             //handle success
-            console.log(response)
+            console.log(response, "<<<Add To Wishlist>>>")
             setCheckProduct(true)
+            // window.location.reload()
         }).catch((error) => {
             //handle error
             console.log(error)
@@ -112,11 +118,57 @@ function ProductDetail() {
         }).then((response) => {
             //handle success
             setCheckProduct(false)
-            console.log(response)
+            console.log(response, "<<<Remove From Wishlist>>>")
+            window.location.reload()
         }).catch((error) => {
             //handle error
             console.log(error)
         })
+    }
+
+    const addToCart = () => {
+        axios({
+            method: "post",
+            url: `https://homepoint-server-staging.herokuapp.com/api/v1/cart/items/${idAkun}/${id}`,
+            data: {
+                'productId': id,
+                qty,
+                'userId': idAkun
+            },
+            headers: { "Content-Type": "application/json" },
+        }).then((response) => {
+            //handle success
+            console.log(response, "<<<Add To Cart>>>")
+            window.location.reload()
+        }).catch((error) => {
+            //handle error
+            console.log(error)
+        })
+    }
+
+    const handleAddQty = () => {
+        if ((qty || 0) < stock) {
+            setQty(qty + 1)
+        }
+    }
+
+    const handleDecQty = () => {
+        if (qty === 1 || qty === 0) {
+            setQty(0)
+        }
+        if (qty > 0) {
+            setQty(qty - 1)
+        }
+    }
+
+    const handleQty = (e) => {
+        if (!e.target.value) {
+            setQty(0)
+        } else if (parseInt(e.target.value, 10) > stock) {
+            setQty(stock)
+        } else {
+            setQty(parseInt(e.target.value, 10))
+        }
     }
 
     //wip: show loading
@@ -234,20 +286,24 @@ function ProductDetail() {
 
 
                                     <div className='flex py-5 items-center gap-[20px]'>
-                                        <div className='flex items-center gap-[20px] bg-[#22364A] px-3 py-1 rounded-xl text-white'>
-                                            <div>
-                                                -
-                                            </div>
-                                            <div className='px-3'>1</div>
-                                            <div>
-                                                +
-                                            </div>
+                                        <div className='flex items-center justify-between w-[120px] bg-[#22364A] px-3 py-1 rounded-xl text-white'>
+                                            <button className='px-1' onClick={handleDecQty}>
+                                                <div className='text-[20px]'>
+                                                    -
+                                                </div>
+                                            </button>
+                                            <input className='w-12 placeholder:text-slate-200  text-center bg-transparent text-white' type="text" placeholder='1' value={qty} onChange={handleQty} pattern="[0-9]*" />
+                                            <button onClick={handleAddQty} className='= px-1'>
+                                                <div className='text-[20px]'>
+                                                    +
+                                                </div>
+                                            </button>
                                         </div>
                                         <div className='text-sm whitespace-nowrap'>Stok tersedia</div>
                                     </div>
                                     <h1 className='text-sm'>Pembelian Maksimal 100 pcs</h1>
                                     <div className='mt-auto'>
-                                        <button className='flex items-center justify-center px-5 py-3 text-center font-bold w-[100%] bg-[#FBC646]'>+ Keranjang</button>
+                                        <button onClick={addToCart} className='flex items-center justify-center px-5 py-3 text-center font-bold w-[100%] bg-[#FBC646]'>+ Keranjang</button>
                                     </div>
                                 </div>
                                 <div className=' mt-3 flex gap-x-3 items-center'>
