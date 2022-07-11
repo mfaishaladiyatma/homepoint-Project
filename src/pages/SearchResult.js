@@ -14,6 +14,7 @@ function SearchResult() {
     const filteredBrand = brands.filter((val) => val.includes(brandSearch));
 
     const [filterList, setFilterList] = useState({
+        name: '',
         priceMin: '',
         priceMax: '',
         rating: '',
@@ -25,6 +26,7 @@ function SearchResult() {
     });
 
     useEffect(() => {
+        const name = searchParams.get('name');
         const priceMin = searchParams.get('priceMin');
         const priceMax = searchParams.get('priceMax');
         const rating = searchParams.get('rating');
@@ -34,6 +36,7 @@ function SearchResult() {
         const size = searchParams.get('size');
         const sort = searchParams.get('sort') ? decodeURIComponent(searchParams.get('sort')) : '';
         let params = {
+            'Product name': name,
             'Min price': priceMin,
             'Max price': priceMax,
             'Rating': rating,
@@ -68,6 +71,7 @@ function SearchResult() {
                 setColors(response.data.data.colors);
                 setFilterList((prevState) => ({
                     ...prevState,
+                    name,
                     priceMin,
                     priceMax,
                     rating,
