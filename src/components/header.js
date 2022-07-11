@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { useState, Fragment, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useSelector } from 'react-redux/es/exports'
 import { useDispatch } from 'react-redux'
 import jwtDecode from 'jwt-decode'
@@ -19,7 +19,7 @@ import { Link } from "react-router-dom";
 import { AiOutlineMenu } from "react-icons/ai";
 import { AiOutlineDown } from "react-icons/ai";
 
-function Header({ searchHandler, setMenu, menu }) {
+function Header({ setMenu, menu }) {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
@@ -27,22 +27,25 @@ function Header({ searchHandler, setMenu, menu }) {
   const [namaProfil, setNamaProfil] = useState('')
   const [isClickedLogin, setIsClickedLogin] = useState(false)
   const [isClicked, setIsClicked] = useState(false)
-  const [getDataCategories, setGetDataCategories] = useState([])
+  const [categories, setCategories] = useState([])
+  const [search, setSearch] = useState('');
+
+  const [ searchParams ] = useSearchParams();
 
   const { token, name, id } = useSelector((state) => state)
 
-  const decode = token ? jwtDecode(token) : null
+  const decode = token ? jwtDecode(token) : null;
 
   // console.log(getDataCategories)
 
-  // useEffect(() => {
-  //   axios.get('https://homepoint-server-staging.herokuapp.com/api/v1/product-categories')
-  //     .then((response) => {
-  //       setGetDataCategories([...getDataCategories, response.data.data])
-  //     }).catch((error) => {
-  //       console.log(error)
-  //     })
-  // }, [])
+  useEffect(() => {
+    axios.get('https://homepoint-server-staging.herokuapp.com/api/v1/product-categories')
+      .then((response) => {
+        setCategories(response.data.data);
+      }).catch((error) => {
+        console.log(error)
+      })
+  }, [])
 
   useEffect(() => {
     if (decode) {
@@ -58,7 +61,18 @@ function Header({ searchHandler, setMenu, menu }) {
       } else {
         return 
       }
-    }, [])
+    }, []);
+
+  useEffect(() => {
+    const name = searchParams.get('name') || '';
+    setSearch(name);
+  }, [])
+
+  const searchHandler = (e) => {
+    e.preventDefault();
+    console.log('searchbar');
+    navigate(`/search?name=${search}`);
+  }
 
   return (
     <>
@@ -74,7 +88,6 @@ function Header({ searchHandler, setMenu, menu }) {
               <p>Kategori</p>
               <AiOutlineDown />
             </button>
-
             <Transition
               as={Fragment}
               show={isClicked}
@@ -89,52 +102,29 @@ function Header({ searchHandler, setMenu, menu }) {
                 <div className=" flex flex-col items-start">
                   <h3 className="font-bold text-[18px]">Semua Kategori</h3>
                 </div>
-                <div className=" flex flex-col items-start gap-y-8">
-                  <h3 className="font-bold text-[18px]">Peralatan Dapur</h3>
-                  <div className="flex flex-col items-start gap-y-3 w-full">
-                    <p className="rounded-[8px] p-1 hover:bg-sky-200  w-full text-left">Peralatan Masak</p>
-                    <p className="rounded-[8px] p-1 hover:bg-sky-200  w-full text-left">Aksesoris Dapur</p>
-                    <p className="rounded-[8px] p-1 hover:bg-sky-200  w-full text-left">Perlengkapan Masak</p>
+                {categories.map((category) => (
+                  <div key={category.id} className=" flex flex-col items-start gap-y-8">
+                    <h3 className="font-bold text-[18px]">{category.name}</h3>
+                    <div className="flex flex-col items-start gap-y-3 w-full">
+                      {category.productSubcategories.map((sub) => (
+                        <div onClick={(e) => { e.stopPropagation(); setIsClicked(false); navigate(`/search?subcategory=${sub.id}`); }}key={sub.id} className="rounded-[8px] p-1 hover:bg-sky-200 cursor-pointer w-full text-left">{sub.name}</div>
+                      ))}
+                    </div>
                   </div>
-                </div>
-                <div className=" flex flex-col items-start gap-y-8">
-                  <h3 className="font-bold text-[18px]">Furnitur</h3>
-                  <div className="flex flex-col items-start gap-y-3 w-full">
-                    <p className="rounded-[8px] p-1 hover:bg-sky-200 w-full text-left">Furnitur Interior</p>
-                    <p className="rounded-[8px] p-1 hover:bg-sky-200 w-full text-left">Furnitur Eksterior</p>
-                  </div>
-                </div>
-                <div className=" flex flex-col items-start gap-y-8">
-                  <h3 className="font-bold text-[18px]">Peralatan Kebersihan</h3>
-                  <div className="flex flex-col items-start gap-y-3 w-full">
-                    <p className="rounded-[8px] p-1 hover:bg-sky-200 w-full text-left">Kebersihan Rumah</p>
-                    <p className="rounded-[8px] p-1 hover:bg-sky-200 w-full text-left">Kebersihan Dapur</p>
-                    <p className="rounded-[8px] p-1 hover:bg-sky-200 w-full text-left">Kebersihan Toilet</p>
-                  </div>
-                </div>
-                <div className=" flex flex-col items-start gap-y-8">
-                  <h3 className="font-bold text-[18px]">Elektronik</h3>
-                  <div className="flex flex-col items-start gap-y-3 w-full">
-                    <p className="rounded-[8px] p-1 hover:bg-sky-200 w-full text-left">Elektronik Dapur</p>
-                    <p className="rounded-[8px] p-1 hover:bg-sky-200 w-full text-left">Elektronik Kebersihan</p>
-                    <p className="rounded-[8px] p-1 hover:bg-sky-200 w-full text-left">Perangkat Elektronik</p>
-                  </div>
-                </div>
-
+                ))}
               </div>
             </Transition>
-
-
           </div>
-
           {/* <select className="border-none outline-none h-[30px] text-sm px-3">
             <option value="Kategori">Kategori</option>
           </select> */}
           {/* {e => setQ(e.target.value)} */}
           <div className="w-[3px] h-[25px] bg-black rounded-full"></div>
           <div className="h-[30px] flex items-center">
-            <input onChange={(e) => searchHandler(e)} className="outline-none px-4 h-full border-none lg:w-[450px]" placeholder="Search ..." />
-            <img className="absolute right-[20px]" src={Search} alt="search" />
+            <form className="flex" onSubmit={searchHandler}>
+              <input onChange={(e) => setSearch(e.target.value)} value={search} className="outline-none px-4 h-full border-none lg:w-[450px]" placeholder="Search ..." />
+              <button type="submit"><img className="ml-auto" src={Search} alt="search" /></button>
+            </form>
           </div>
         </div>
         <div className="hidden w-fit xl:flex  gap-x-14 items-center">
@@ -207,19 +197,19 @@ function Header({ searchHandler, setMenu, menu }) {
       </div>
       {menu ? (
         <div className="flex gap-5 py-5 text-white flex-col px-6 md:px-16 w-full bg-[#6999B8]">
-          <Link to="/">
             <div className="flex items-center relative">
               <select className="border-none text-black outline-none h-[20px] sm:h-[30px] text-sm px-3">
                 <option value="Kategori">Kategori</option>
               </select>
-              <div className="h-[20px] sm:h-[30px] bg-red-500 w-full flex items-center">
-                <input onChange={(e) => searchHandler(e)} className="text-black border-none outline-none pl-3 h-full  w-[100%]" placeholder="Search ..." />
-                <img className="absolute w-[10px] md:w-[15px] right-[10px] sm:right-[20px]" src={Search} alt="search" />
+              <div className="h-[20px] sm:h-[30px] w-full flex items-center">
+                <form className="flex w-full h-full" onSubmit={searchHandler}>
+                  <input onChange={(e) => setSearch(e.target.value)} value={search} className="text-black border-none outline-none pl-3 h-full  w-[100%]" placeholder="Search ..." />
+                  <button className="bg-white p-2 ml-auto" type="submit"><img className="w-[10px] md:w-[15px]" src={Search} alt="search"/></button>
+                </form>
               </div>
             </div>
-          </Link>
           <Link to="/">Wishlist</Link>
-          <Link to="/search">Cart</Link>
+          <Link to="/cart">Cart</Link>
           <Link to="/">Notification</Link>
           <Link to="/login">Account</Link>
         </div>

@@ -154,7 +154,7 @@ function ProductDetail() {
                                     </div>
                                 </div>
 
-                                {product.discount == 0 ?
+                                {product.discount === 0 ?
                                     <div className='flex items-center'>
 
                                         <h1 className='text-2xl font-bold'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(product.price)}</h1>
@@ -221,7 +221,7 @@ function ProductDetail() {
                                         <div className='text-[#316093]'>{`>`}</div>
                                     </div>
 
-                                    {product.discount == 0 ?
+                                    {product.discount === 0 ?
                                         <div className='flex flex-col'>
                                             <h1 className='font-bold text-2xl'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(product.price)}</h1>
                                         </div>
@@ -265,9 +265,9 @@ function ProductDetail() {
                                             <button className='hover:shadow-shadow-custom-2 rounded-full '>
                                                 <img className='w-[30px]' src={facebookLogo} alt="" />
                                             </button>
-                                            <button className='hover:shadow-shadow-custom-2 rounded-full '>
-                                                <a target="_blank" href={`https://api.whatsapp.com/send?phone=628111462878&text=${urlProduct}%0AHalo%20Homepoint%F0%9F%99%8C%F0%9F%8F%BB%0AAda%20yang%20ingin%20Saya%20tanyakan%2C%20nih!%0A%0A(Tuliskan%20pertanyaanmu%20disini%20ya!)" rel="noopener noreferrer`}>
-                                                    <img className='w-[30px]' src={waLogo} alt="" />
+                                            <button className='hover:shadow-shadow-custom-2 rounded-full'>
+                                                <a target="_blank" href={`https://api.whatsapp.com/send?phone=628111462878&text=${urlProduct}%0AHalo%20Homepoint%F0%9F%99%8C%F0%9F%8F%BB%0AAda%20yang%20ingin%20Saya%20tanyakan%2C%20nih!%0A%0A(Tuliskan%20pertanyaanmu%20disini%20ya!)`} rel="noopener noreferrer">
+                                                    <img className="w-[30px]" src={waLogo} alt="test" />
                                                 </a>
                                             </button>
                                             <button className='hover:shadow-shadow-custom-2 rounded-full '>
