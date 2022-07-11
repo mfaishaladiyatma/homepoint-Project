@@ -27,7 +27,7 @@ export default function Cart() {
         .then((response) => {
           // console.log(response)
           setRekomendasiProduct(response.data.data)
-          console.log(rekomendasiProduct)
+          // console.log(rekomendasiProduct)
           // console.log(cobaGet)
         })
         .catch((error) => {
@@ -36,10 +36,10 @@ export default function Cart() {
 
       if (decode) {
 
-        const respProductInWishlist = await axios.get(`https://homepoint-server-staging.herokuapp.com/api/v1/cart/${idAkun}`)
+        const respProductInCart = await axios.get(`https://homepoint-server-staging.herokuapp.com/api/v1/cart/${idAkun}`)
           .then((response) => {
             setCart(response.data.data);
-            console.log(response.data.data)
+            // console.log(response.data.data)
             // console.log(checkProduct)
             setLoading(false);
           })
@@ -54,7 +54,34 @@ export default function Cart() {
     fetchData()
   }, [])
 
+  const addQty = async (id, qty) => {
 
+  const addPutQty = await axios({
+      method: "put",
+      url: `https://homepoint-server-staging.herokuapp.com/api/v1/cart/items/${id}`,
+      data: (qty + 1),
+      headers: { "Content-Type": "application/json" }
+    }).then((response) => {
+      //handle success
+      console.log(response)
+    }).catch((error) => {
+      //handle error
+      console.log(error)
+    })
+
+  const getPutQty = await axios.get(`https://homepoint-server-staging.herokuapp.com/api/v1/cart/${idAkun}`)
+        .then((response) => {
+          setCart(response.data.data);
+          console.log(response.data.data)
+          // console.log(checkProduct)
+          setLoading(false);
+        })
+        .catch((error) => {
+          setLoading(false);
+          console.log(error)
+          //wip: display error here
+        })
+  }
 
   return (
     <div className='flex flex-col py-3 px-16 gap-y-10'>
@@ -106,8 +133,8 @@ export default function Cart() {
                           <button>
                             -
                           </button>
-                          <p>1</p>
-                          <button>
+                          <p>{item.quantity}</p>
+                          <button onClick={() => addQty(item.id, item.quantity)}>
                             +
                           </button>
                         </div>
