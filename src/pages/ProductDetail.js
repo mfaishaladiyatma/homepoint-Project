@@ -4,6 +4,7 @@ import { AiFillStar, AiOutlineStar } from 'react-icons/ai'
 
 import { useParams, useSearchParams } from 'react-router-dom'
 import { useSelector } from 'react-redux/es/hooks/useSelector'
+import jwtDecode from "jwt-decode";
 
 import heartRed from '../images/heartRed.svg'
 import icon1 from '../assets/icon1.png'
@@ -28,12 +29,15 @@ function ProductDetail() {
     const [wishlistIcon, setWishlistIcon] = useState(loveOutline)
     const [loading, setLoading] = useState(true);
     const [product, setProduct] = useState({});
-    const [checkProduct, setCheckProduct] = useState();
+    const [checkProduct, setCheckProduct] = useState({});
+
+    const decode = token ? jwtDecode(token) : null;
 
     const urlProduct = `https://homepoint-server-staging.herokuapp.com/api/v1/products/${id}`
 
 
     useEffect(() => {
+
         const fetchData = async () => {
             const respProduct = await axios.get(urlProduct)
                 .then((response) => {
@@ -46,27 +50,29 @@ function ProductDetail() {
                     //wip: display error here
                 });
 
-            const respProductInWishlist = await axios.get(`https://homepoint-server-staging.herokuapp.com/api/v1/wishlist/items/${idAkun}/${id}`)
-                .then((response) => {
-                    setCheckProduct(response.data.data);
-                    console.log(response.data.data)
-                    // console.log(checkProduct)
-                    setLoading(false);
-                })
-                .catch((error) => {
-                    setLoading(false);
-                    console.log(error)
-                    //wip: display error here
-                })
-                .finally(() => {
+            if (decode) {
 
-                });
+                const respProductInWishlist = await axios.get(`https://homepoint-server-staging.herokuapp.com/api/v1/wishlist/items/${idAkun}/${id}`)
+                    .then((response) => {
+                        setCheckProduct(response.data.data);
+                        console.log(response.data.data)
+                        // console.log(checkProduct)
+                        setLoading(false);
+                    })
+                    .catch((error) => {
+                        setLoading(false);
+                        console.log(error)
+                        //wip: display error here
+                    })
+                    .finally(() => {
 
+                    });
+            }
         }
 
         fetchData();
 
-    }, [id, idAkun]);
+    }, [checkProduct]);
 
     const handleClickWishlist = () => {
         // setIcon(!icon)
@@ -148,10 +154,20 @@ function ProductDetail() {
                                     </div>
                                 </div>
 
-                                <div className='flex items-center'>
-                                    <h1 className='before text-lg'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(product.price)}</h1>
-                                    <h1 className='text-2xl font-bold ml-2'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format((product.price * (product.discount / 100)))}</h1>
-                                </div>
+                                {product.discount == 0 ?
+                                    <div className='flex items-center'>
+
+                                        <h1 className='text-2xl font-bold'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(product.price)}</h1>
+
+                                    </div>
+
+                                    :
+                                    <div className='flex items-center'>
+
+                                        <h1 className='line-through  text-lg'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(product.price)}</h1>
+                                        <h1 className='text-2xl font-bold ml-2'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format((product.price * (product.discount / 100)))}</h1>
+                                    </div>
+                                }
 
                                 <div className='flex bg-[#E6EFF4] w-full mt-6 px-5 py-2 rounded-md'>
                                     <div className='border-r-[1px] w-[50%] border-[#6999B8]'>
@@ -204,8 +220,19 @@ function ProductDetail() {
                                         <img src={product.productImages[0].image} className="max-w-[100px]" alt="" />
                                         <div className='text-[#316093]'>{`>`}</div>
                                     </div>
-                                    <h1 className='py-5 before'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(product.price)}</h1>
-                                    <h1 className='font-bold text-2xl'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format((product.price * (product.discount / 100)))}</h1>
+
+                                    {product.discount == 0 ?
+                                        <div className='flex flex-col'>
+                                            <h1 className='font-bold text-2xl'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(product.price)}</h1>
+                                        </div>
+                                        :
+                                        <div className='flex flex-col'>
+                                            <h1 className='py-5 line-through'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(product.price)}</h1>
+                                            <h1 className='font-bold text-2xl'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format((product.price * (product.discount / 100)))}</h1>
+                                        </div>
+                                    }
+
+
                                     <div className='flex py-5 items-center gap-[20px]'>
                                         <div className='flex items-center gap-[20px] bg-[#22364A] px-3 py-1 rounded-xl text-white'>
                                             <div>
@@ -232,21 +259,21 @@ function ProductDetail() {
                                             <img src={shareIcon} alt="" />
                                         </button>
                                         <div className='absolute  top-full left-0 bg-white  w-[230px] h-fit flex gap-x-3 p-2 invisible  opacity-0 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 translate-y-[-50%] group-hover:ease-in-out group-hover:duration-500 rounded-[8px] shadow-shadow-custom-1'>
-                                            <button>
+                                            <button className='hover:shadow-shadow-custom-2 rounded-full '>
                                                 <img className='w-[30px]' src={instagramLogo} alt="" />
                                             </button>
-                                            <button>
+                                            <button className='hover:shadow-shadow-custom-2 rounded-full '>
                                                 <img className='w-[30px]' src={facebookLogo} alt="" />
                                             </button>
-                                            <button>
+                                            <button className='hover:shadow-shadow-custom-2 rounded-full '>
                                                 <a target="_blank" href={`https://api.whatsapp.com/send?phone=628111462878&text=${urlProduct}%0AHalo%20Homepoint%F0%9F%99%8C%F0%9F%8F%BB%0AAda%20yang%20ingin%20Saya%20tanyakan%2C%20nih!%0A%0A(Tuliskan%20pertanyaanmu%20disini%20ya!)" rel="noopener noreferrer`}>
                                                     <img className='w-[30px]' src={waLogo} alt="" />
                                                 </a>
                                             </button>
-                                            <button>
+                                            <button className='hover:shadow-shadow-custom-2 rounded-full '>
                                                 <img className='w-[30px]' src={facebookLogo} alt="" />
                                             </button>
-                                            <button>
+                                            <button className='hover:shadow-shadow-custom-2 rounded-full '>
                                                 <img className='w-[30px]' src={instagramLogo} alt="" />
                                             </button>
                                         </div>

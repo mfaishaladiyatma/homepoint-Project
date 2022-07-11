@@ -4,6 +4,26 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
+@layer utilities {
+  .scrollbar::-webkit-scrollbar {
+    width: 15px;
+  }
+
+  .scrollbar::-webkit-scrollbar-track {
+    border-radius: 8px;
+    background: #ededed;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    background: #6e6e6e;
+    border-radius: 8px;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #505050;
+  }
+}
+
 .input-checkbox {
   appearance: none;
   height: 40px;

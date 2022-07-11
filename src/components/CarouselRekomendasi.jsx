@@ -1,5 +1,6 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
+import { useNavigate } from "react-router-dom";
 import axios from 'axios'
 
 import promo from '../images/promoBuy1Get1.svg'
@@ -20,6 +21,8 @@ import './CarouselRekomendasi.css'
 import { Navigation, Autoplay } from "swiper";
 
 export default function CarouselRekomendasi() {
+
+    const navigate = useNavigate()
 
     const [dataRecommend, setDataRecommend] = useState([])
 
@@ -82,7 +85,7 @@ export default function CarouselRekomendasi() {
                                 {dataRecommend.map((item) => (
                                     <SwiperSlide key={item.id}>
                                         <div className='h-full relative flex border-2 border-[#E1E1E1] bg-white rounded-[10px] container'>
-                                            <button className='flex w-full'>
+                                            <button onClick={() => navigate('/product/'+item.id)} className='flex w-full'>
 
                                                 <div className='flex flex-col items-center md:items-start w-full  h-full p-3'>
                                                     <img className='h-[180px]' src={item.productImages[0].image} alt="" />
