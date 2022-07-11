@@ -27,25 +27,25 @@ function Header({ setMenu, menu }) {
   const [namaProfil, setNamaProfil] = useState('')
   const [isClickedLogin, setIsClickedLogin] = useState(false)
   const [isClicked, setIsClicked] = useState(false)
-  const [getDataCategories, setGetDataCategories] = useState([])
+  const [categories, setCategories] = useState([])
   const [search, setSearch] = useState('');
 
-  const [ searchParams, setSearchParams ] = useSearchParams();
+  const [ searchParams ] = useSearchParams();
 
   const { token, name, id } = useSelector((state) => state)
 
-  const decode = token ? jwtDecode(token) : null
+  const decode = token ? jwtDecode(token) : null;
 
   // console.log(getDataCategories)
 
-  // useEffect(() => {
-  //   axios.get('https://homepoint-server-staging.herokuapp.com/api/v1/product-categories')
-  //     .then((response) => {
-  //       setGetDataCategories([...getDataCategories, response.data.data])
-  //     }).catch((error) => {
-  //       console.log(error)
-  //     })
-  // }, [])
+  useEffect(() => {
+    axios.get('https://homepoint-server-staging.herokuapp.com/api/v1/product-categories')
+      .then((response) => {
+        setCategories(response.data.data);
+      }).catch((error) => {
+        console.log(error)
+      })
+  }, [])
 
   useEffect(() => {
     if (decode) {
@@ -102,38 +102,16 @@ function Header({ setMenu, menu }) {
                 <div className=" flex flex-col items-start">
                   <h3 className="font-bold text-[18px]">Semua Kategori</h3>
                 </div>
-                <div className=" flex flex-col items-start gap-y-8">
-                  <h3 className="font-bold text-[18px]">Peralatan Dapur</h3>
-                  <div className="flex flex-col items-start gap-y-3 w-full">
-                    <p className="rounded-[8px] p-1 hover:bg-sky-200  w-full text-left">Peralatan Masak</p>
-                    <p className="rounded-[8px] p-1 hover:bg-sky-200  w-full text-left">Aksesoris Dapur</p>
-                    <p className="rounded-[8px] p-1 hover:bg-sky-200  w-full text-left">Perlengkapan Masak</p>
+                {categories.map((category) => (
+                  <div key={category.id} className=" flex flex-col items-start gap-y-8">
+                    <h3 className="font-bold text-[18px]">{category.name}</h3>
+                    <div className="flex flex-col items-start gap-y-3 w-full">
+                      {category.productSubcategories.map((sub) => (
+                        <div onClick={(e) => { e.stopPropagation(); setIsClicked(false); navigate(`/search?subcategory=${sub.id}`); }}key={sub.id} className="rounded-[8px] p-1 hover:bg-sky-200  w-full text-left">{sub.name}</div>
+                      ))}
+                    </div>
                   </div>
-                </div>
-                <div className=" flex flex-col items-start gap-y-8">
-                  <h3 className="font-bold text-[18px]">Furnitur</h3>
-                  <div className="flex flex-col items-start gap-y-3 w-full">
-                    <p className="rounded-[8px] p-1 hover:bg-sky-200 w-full text-left">Furnitur Interior</p>
-                    <p className="rounded-[8px] p-1 hover:bg-sky-200 w-full text-left">Furnitur Eksterior</p>
-                  </div>
-                </div>
-                <div className=" flex flex-col items-start gap-y-8">
-                  <h3 className="font-bold text-[18px]">Peralatan Kebersihan</h3>
-                  <div className="flex flex-col items-start gap-y-3 w-full">
-                    <p className="rounded-[8px] p-1 hover:bg-sky-200 w-full text-left">Kebersihan Rumah</p>
-                    <p className="rounded-[8px] p-1 hover:bg-sky-200 w-full text-left">Kebersihan Dapur</p>
-                    <p className="rounded-[8px] p-1 hover:bg-sky-200 w-full text-left">Kebersihan Toilet</p>
-                  </div>
-                </div>
-                <div className=" flex flex-col items-start gap-y-8">
-                  <h3 className="font-bold text-[18px]">Elektronik</h3>
-                  <div className="flex flex-col items-start gap-y-3 w-full">
-                    <p className="rounded-[8px] p-1 hover:bg-sky-200 w-full text-left">Elektronik Dapur</p>
-                    <p className="rounded-[8px] p-1 hover:bg-sky-200 w-full text-left">Elektronik Kebersihan</p>
-                    <p className="rounded-[8px] p-1 hover:bg-sky-200 w-full text-left">Perangkat Elektronik</p>
-                  </div>
-                </div>
-
+                ))}
               </div>
             </Transition>
           </div>

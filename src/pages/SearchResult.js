@@ -27,6 +27,7 @@ function SearchResult() {
 
     useEffect(() => {
         const name = searchParams.get('name');
+        const subcategory = searchParams.get('subcategory');
         const priceMin = searchParams.get('priceMin');
         const priceMax = searchParams.get('priceMax');
         const rating = searchParams.get('rating');
@@ -37,6 +38,7 @@ function SearchResult() {
         const sort = searchParams.get('sort') ? decodeURIComponent(searchParams.get('sort')) : '';
         let params = {
             'Product name': name,
+            'Product subcategory': subcategory,
             'Min price': priceMin,
             'Max price': priceMax,
             'Rating': rating,
