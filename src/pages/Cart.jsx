@@ -16,7 +16,12 @@ export default function Cart() {
 
   const [rekomendasiProduct, setRekomendasiProduct] = useState([]);
   const [cart, setCart] = useState([]);
+  const [qty, setQty] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  // qty.forEach((item) => {
+  //   console.log(item)
+  // })
 
   const decode = token ? jwtDecode(token) : null;
 
@@ -39,6 +44,7 @@ export default function Cart() {
         const respProductInCart = await axios.get(`https://homepoint-server-staging.herokuapp.com/api/v1/cart/${idAkun}`)
           .then((response) => {
             setCart(response.data.data);
+            setQty(response.data.data.map(item => item.quantity))
             // console.log(response.data.data)
             // console.log(checkProduct)
             setLoading(false);
@@ -54,12 +60,12 @@ export default function Cart() {
     fetchData()
   }, [])
 
-  const addQty = async (id, qty) => {
+  const addQty = async (id, quantity) => {
 
-  const addPutQty = await axios({
+    const addPutQty = await axios({
       method: "put",
       url: `https://homepoint-server-staging.herokuapp.com/api/v1/cart/items/${id}`,
-      data: (qty + 1),
+      data: (quantity + 1),
       headers: { "Content-Type": "application/json" }
     }).then((response) => {
       //handle success
@@ -69,18 +75,29 @@ export default function Cart() {
       console.log(error)
     })
 
-  const getPutQty = await axios.get(`https://homepoint-server-staging.herokuapp.com/api/v1/cart/${idAkun}`)
-        .then((response) => {
-          setCart(response.data.data);
-          console.log(response.data.data)
-          // console.log(checkProduct)
-          setLoading(false);
-        })
-        .catch((error) => {
-          setLoading(false);
-          console.log(error)
-          //wip: display error here
-        })
+    const getPutQty = await axios.get(`https://homepoint-server-staging.herokuapp.com/api/v1/cart/${idAkun}`)
+      .then((response) => {
+        setCart(response.data.data);
+        setQty(response.data.data.map(item => item.quantity))
+        console.log(response.data.data)
+        // console.log(checkProduct)
+        setLoading(false);
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.log(error)
+        //wip: display error here
+      })
+  }
+  const calcTotal = () => {
+    
+    const total = cart.map(item => item.products.discount == 0 ? 
+      item.products.price * item.quantity
+      : 
+      ((item.products.price * (item.products.discount /100)) * item.quantity)).reduce((a, b) => {
+      return a + parseInt(b, 10)
+    }, 0)
+    return total
   }
 
   return (
@@ -162,7 +179,11 @@ export default function Cart() {
                   <img src={item.productImages[0].image} alt="" />
                   <p className='font-semibold'>{item.name}</p>
                   <div className='flex flex-col gap-y-3'>
-                    <h4 className='font-bold text-[18px] text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(item.price)}</h4>
+                    <h4 className='font-bold text-[18px] text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(
+
+                      item.price
+
+                    )}</h4>
                     <div className='flex gap-x-2'>
                       <div className='flex items-center gap-x-2'>
                         <div className='text-yellow-400'><AiFillStar /></div>
@@ -193,17 +214,57 @@ export default function Cart() {
             </div>
           </div>
           <div className='h-[2px] w-full bg-blue-300'></div>
+          <h3 className='font-bold text-[22px]'>Ringkasan Belanja</h3>
           <div className='flex flex-col gap-y-6'>
-            <h3 className='font-bold text-[22px]'>Ringkasan Belanja</h3>
-            <div className='flex justify-between'>
-              <p>Total harga (1 barang)</p>
+            {cart.map((item, index) => {
+              if (item.products.discount == 0) {
+                return (
+                  <React.Fragment key={index}>
+                    <div className='flex justify-between'>
+                      <p>Total harga ({item.quantity} barang)</p>
+                      <p>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 9 }).format(
+
+                        item.products.price * item.quantity
+
+                      )}</p>
+                    </div>
+                  </React.Fragment>
+                )
+              } else {
+                return (
+                  <React.Fragment key={index}>
+                    <div className='flex justify-between'>
+                      <p>Total harga ({item.quantity} barang)</p>
+                      <p>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 9 }).format(
+
+                        (item.products.price * (item.products.discount / 100)) * item.quantity
+
+                      )}</p>
+                    </div>
+                  </React.Fragment>
+                )
+              }
+            })}
+            {/* <div className='flex justify-between'>
+              <p>Total harga ( barang)</p>
               <p>Rp. 800.000</p>
-            </div>
+            </div> */}
           </div>
           <div className='h-[2px] w-full bg-blue-300'></div>
+
+          {/* {cart.map((item, index) => {
+            const totalAll = [((item.products.price * (item.products.discount / 100)) * item.quantity)]
+            console.log(totalAll ? totalAll : 0)
+          })} */}
+          {/* {cart.map(item => item.products.price).reduce((a, b) => a + parseInt(b, 10), 0)} */}
           <div className='flex justify-between'>
             <p className='font-bold text-[22px]'>Total Harga</p>
-            <p className='font-bold text-[22px]'>Rp. 800.000</p>
+            {/* <p className='font-bold text-[22px]'>Rp. 800.000</p> */}
+            <p className='font-bold text-[22px]'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 9 }).format(
+
+              calcTotal()
+
+            )}</p>
           </div>
           <div className='rounded-[8px] font-bold text-[#505050] bg-[#FBC646] h-10 flex justify-center items-center'>
             Beli (1)
