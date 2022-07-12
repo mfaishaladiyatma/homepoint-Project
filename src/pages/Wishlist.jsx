@@ -3,7 +3,7 @@ import axios from 'axios'
 import { useState, useEffect } from 'react'
 import jwtDecode from 'jwt-decode'
 import { useSelector } from 'react-redux/es/hooks/useSelector'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 
 import gambarWishlist from '../images/gambarWishlist.svg'
 import { AiFillStar } from "react-icons/ai";
@@ -12,6 +12,8 @@ import trashIcon from '../images/trashIcon.svg'
 
 
 export default function Wishlist() {
+
+  const navigate = useNavigate()
 
   const [dataWishlist, setDataWishlist] = useState([])
   const [loading, setLoading] = useState(false)
@@ -54,6 +56,7 @@ export default function Wishlist() {
       //handle success
       console.log(response)
       // window.location.reload()
+      navigate(0)
   }).catch((error) => {
       //handle error
       console.log(error)
