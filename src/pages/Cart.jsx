@@ -16,7 +16,8 @@ export default function Cart() {
 
   const [rekomendasiProduct, setRekomendasiProduct] = useState([]);
   const [cart, setCart] = useState([]);
-  const [qty, setQty] = useState([]);
+  // const [stock, setStock] = useState([]);
+  const [productWishlist, setProductWishlist] = useState([]);
   const [loading, setLoading] = useState(true);
 
   // qty.forEach((item) => {
@@ -44,7 +45,7 @@ export default function Cart() {
         const respProductInCart = await axios.get(`https://homepoint-server-staging.herokuapp.com/api/v1/cart/${idAkun}`)
           .then((response) => {
             setCart(response.data.data);
-            setQty(response.data.data.map(item => item.quantity))
+            // setStock(response.data.data.map(item => item.products.stock))
             // console.log(response.data.data)
             // console.log(checkProduct)
             setLoading(false);
@@ -54,31 +55,46 @@ export default function Cart() {
             console.log(error)
             //wip: display error here
           })
+
+        const respProductInWishlist = await
+          axios.get(`https://homepoint-server-staging.herokuapp.com/api/v1/wishlist/${idAkun}`)
+            .then((response) => {
+              setProductWishlist(response.data.data);
+              // console.log(response.data.data)
+              // console.log(checkProduct)
+              setLoading(false);
+            })
+            .catch((error) => {
+              setLoading(false);
+              console.log(error)
+              //wip: display error here
+            })
       }
     }
 
     fetchData()
   }, [])
 
-  const addQty = async (id, quantity) => {
+  const addQty = async (id, quantity, stock) => {
 
-    const addPutQty = await axios({
-      method: "put",
-      url: `https://homepoint-server-staging.herokuapp.com/api/v1/cart/items/${id}`,
-      data: (quantity + 1),
-      headers: { "Content-Type": "application/json" }
-    }).then((response) => {
-      //handle success
-      console.log(response)
-    }).catch((error) => {
-      //handle error
-      console.log(error)
-    })
+    if (quantity < stock) {
+      const addPutQty = await axios({
+        method: "put",
+        url: `https://homepoint-server-staging.herokuapp.com/api/v1/cart/items/${id}`,
+        data: (quantity + 1),
+        headers: { "Content-Type": "application/json" }
+      }).then((response) => {
+        //handle success
+        console.log(response)
+      }).catch((error) => {
+        //handle error
+        console.log(error)
+      })
+    }
 
     const getPutQty = await axios.get(`https://homepoint-server-staging.herokuapp.com/api/v1/cart/${idAkun}`)
       .then((response) => {
         setCart(response.data.data);
-        setQty(response.data.data.map(item => item.quantity))
         console.log(response.data.data)
         // console.log(checkProduct)
         setLoading(false);
@@ -90,13 +106,13 @@ export default function Cart() {
       })
   }
   const calcTotal = () => {
-    
-    const total = cart.map(item => item.products.discount == 0 ? 
-      item.products.price * item.quantity
-      : 
-      ((item.products.price * (item.products.discount /100)) * item.quantity)).reduce((a, b) => {
-      return a + parseInt(b, 10)
-    }, 0)
+
+    const total = cart.map(item => item.products.discount == 0 ?
+      (item.products.price * item.quantity)
+      :
+      ((item.products.price * (item.products.discount / 100)) * item.quantity)).reduce((a, b) => {
+        return a + parseInt(b, 10)
+      }, 0)
     return total
   }
 
@@ -118,7 +134,7 @@ export default function Cart() {
 
           {/* card untuk product yang dibeli */}
           <section>
-            {cart.map((item) => {
+            {cart && cart.sort((a,b) => a.id > b.id ? 1 : -1).map((item) => {
               return (
                 <div key={item.id} className='flex flex-col '>
 
@@ -151,7 +167,7 @@ export default function Cart() {
                             -
                           </button>
                           <p>{item.quantity}</p>
-                          <button onClick={() => addQty(item.id, item.quantity)}>
+                          <button onClick={() => addQty(item.id, item.quantity, item.products.stock)}>
                             +
                           </button>
                         </div>
@@ -173,8 +189,8 @@ export default function Cart() {
               <h4 className='text-[30px] font-medium'>Rekomendasi Untukmu</h4>
               <p className='text-[#316093] font-[600]'>Lihat Selengkapnya &gt;</p>
             </div>
-            <div className='grid grid-cols-4  h-full  gap-4 mt-10'>
-              {rekomendasiProduct.slice(0, 8).map((item) => (
+            <div className='grid grid-cols-2 xl:grid-cols-4  h-full  gap-4 mt-10'>
+              {rekomendasiProduct.slice(0, 4).map((item) => (
                 <div key={item.id} className='flex flex-col border-2  p-3 justify-between gap-y-6 rounded-[10px] border-[#E1E1E1]'>
                   <img src={item.productImages[0].image} alt="" />
                   <p className='font-semibold'>{item.name}</p>
