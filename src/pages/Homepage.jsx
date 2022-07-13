@@ -31,6 +31,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux/es/exports";
 import { useSelector } from "react-redux/es/exports";
 import jwtDecode from "jwt-decode";
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function Homepage() {
   const dispatch = useDispatch();
@@ -42,6 +43,36 @@ export default function Homepage() {
   return (
     <>
       <Carousel />
+
+      <Toaster
+                position='bottom-right'
+                reverseOrder={false}
+
+                toastOptions={{
+                  duration: 5000,
+                  style: {
+                    backgroundColor: '#FBC646',
+                    color: '#22364A',
+                    fontWeight: 'bold',
+                  },
+
+                  success: {
+                    duration: 5000,
+                    theme: {
+                      primary: 'blue',
+                      secondary: 'yellow'
+                    }
+                  },
+
+                  error: {
+                    duration: 5000,
+                    theme: {
+                      primary: 'red',
+                      secondary: 'yellow'
+                    }
+                  }
+                }}
+              />
 
       <section className="font-Inter flex flex-col justify-center mt-10 gap-y-3 px-5  h-fit">
         <h2 className=" md:text-left text-center text-[30px] md:text-[40px]">Pilihan Kategori</h2>

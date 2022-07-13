@@ -7,6 +7,8 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux/es/exports";
 
+import toast, { Toaster } from 'react-hot-toast';
+
 import homePointLogo from "../images/HomepointLoginRegister.svg";
 import backgroundImage from "../images/BgRegisLogin.svg";
 import Google from "../images/GoogleLogo.svg";
@@ -26,19 +28,13 @@ export default function Login() {
   const { token } = useSelector((state) => state);
 
   const handleLogin = () => {
-    dispatch(loginActionAsync(email, password, navigate));
+    if(email !== "" && password !== ""){
+    dispatch(loginActionAsync(email, password, navigate, toast));
+  } else {
+    toast.error("Mohon isi email dan password");
+  }
     // redirectIfLogin()
   };
-  
-  // useEffect(() => {
-  //     axios.get(`https://homepoint-server-staging.herokuapp.com/api/v1/users`)
-  //     // https://cosmetic-b.herokuapp.com/api/v1/product
-  //     // https://rent-cars-api.herokuapp.com/admin/car
-  //     // https://homepoint-server-staging.herokuapp.com/api/v1/users
-  //     .then((response) => {
-  //         console.log(response)
-  //     });
-  // }, []);
 
   return (
     <>
@@ -173,8 +169,39 @@ export default function Login() {
             {/* <Link to="/profile" onClick={handleLogin} className="bg-[#FBC646] w-[95%] py-3 flex justify-center rounded-[10px] mt-3">
               <div className="font-bold ">Masuk</div>
             </Link> */}
-            <button  onClick={handleLogin} className="bg-[#FBC646] w-[95%] py-3 flex justify-center rounded-[10px] mt-3">
+            <button onClick={handleLogin} className="bg-[#FBC646] w-[95%] py-3 flex justify-center rounded-[10px] mt-3">
               <div className="font-bold ">Masuk</div>
+
+              <Toaster
+                position='bottom-right'
+                reverseOrder={false}
+
+                toastOptions={{
+                  duration: 5000,
+                  style: {
+                    backgroundColor: '#FBC646',
+                    color: '#22364A',
+                    fontWeight: 'bold',
+                  },
+
+                  success: {
+                    duration: 5000,
+                    theme: {
+                      primary: 'blue',
+                      secondary: 'yellow'
+                    }
+                  },
+
+                  error: {
+                    duration: 5000,
+                    theme: {
+                      primary: 'red',
+                      secondary: 'yellow'
+                    }
+                  }
+                }}
+              />
+
             </button>
 
             <div className="my-3">Atau</div>

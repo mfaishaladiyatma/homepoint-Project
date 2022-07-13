@@ -105,6 +105,38 @@ export default function Cart() {
         //wip: display error here
       })
   }
+
+  const decQty = async (id, quantity, stock) => {
+
+    if (quantity > 1) {
+      const addPutQty = await axios({
+        method: "put",
+        url: `https://homepoint-server-staging.herokuapp.com/api/v1/cart/items/${id}`,
+        data: (quantity - 1),
+        headers: { "Content-Type": "application/json" }
+      }).then((response) => {
+        //handle success
+        console.log(response)
+      }).catch((error) => {
+        //handle error
+        console.log(error)
+      })
+    }
+
+    const getPutQty = await axios.get(`https://homepoint-server-staging.herokuapp.com/api/v1/cart/${idAkun}`)
+      .then((response) => {
+        setCart(response.data.data);
+        console.log(response.data.data)
+        // console.log(checkProduct)
+        setLoading(false);
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.log(error)
+        //wip: display error here
+      })
+  }
+
   const calcTotal = () => {
 
     const total = cart.map(item => item.products.discount == 0 ?
@@ -163,7 +195,7 @@ export default function Cart() {
                           </button>
                         </div>
                         <div className='flex justify-between px-2 rounded-[10px] w-[80px] text-white bg-[#22364A]'>
-                          <button>
+                          <button onClick={() => decQty(item.id, item.quantity, item.products.stock)}>
                             -
                           </button>
                           <p>{item.quantity}</p>

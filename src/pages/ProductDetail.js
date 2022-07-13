@@ -1,10 +1,11 @@
 import axios from 'axios'
 import React, { useState, useEffect } from 'react'
-import { AiFillStar, AiOutlineStar } from 'react-icons/ai'
-
 import { useParams, useSearchParams, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux/es/hooks/useSelector'
 import jwtDecode from "jwt-decode";
+
+import { AiFillStar, AiOutlineStar } from 'react-icons/ai'
+import toast, { Toaster } from 'react-hot-toast';
 
 import heartRed from '../images/heartRed.svg'
 import icon1 from '../assets/icon1.png'
@@ -89,10 +90,14 @@ function ProductDetail() {
         }
     }
 
-    const addToWishlist = () => {
+    const addToWishlist =  () => {
         if (!idAkun) {
             navigate('/login')
+            toast('Silahkan login terlebih dahulu',{
+                icon: '⚠️',
+            })
         } else {
+            
             axios({
                 method: "post",
                 url: `https://homepoint-server-staging.herokuapp.com/api/v1/wishlist/items/${idAkun}/${id}`,
@@ -104,24 +109,44 @@ function ProductDetail() {
             }).then((response) => {
                 //handle success
                 console.log(response, "<<<Add To Wishlist>>>")
-                setCheckProduct(true)
-                navigate(0)
+                checkProductInWishlist()
+                // setCheckProduct(true)
+                toast.success("Berhasil menambahkan ke wishlist")
+                // navigate(0)
             }).catch((error) => {
                 //handle error
                 console.log(error)
             })
+            
         }
     }
 
-    const removeFromWishlist = () => {
+    const checkProductInWishlist = () => {
+        axios.get(`https://homepoint-server-staging.herokuapp.com/api/v1/wishlist/items/${idAkun}/${id}`)
+                .then((response) => {
+                    setCheckProduct(response.data.data);
+                    console.log(response.data.data)
+                    // console.log(checkProduct)
+                    setLoading(false);
+                })
+                .catch((error) => {
+                    setLoading(false);
+                    console.log(error)
+                    //wip: display error here
+                })
+    }
+
+    const removeFromWishlist =  () => {
         axios({
             method: "delete",
             url: ('https://homepoint-server-staging.herokuapp.com/api/v1/wishlist/items/' + checkProduct.id),
         }).then((response) => {
+            checkProductInWishlist()
             //handle success
-            setCheckProduct(false)
+            toast.success("Produk telah terhapus dari wishlist")
+            // setCheckProduct(false)
             console.log(response, "<<<Remove From Wishlist>>>")
-            navigate(0)
+            // navigate(0)
         }).catch((error) => {
             //handle error
             console.log(error)
@@ -131,6 +156,11 @@ function ProductDetail() {
     const addToCart = () => {
         if (!idAkun) {
             navigate('/login')
+            toast('Silahkan login terlebih dahulu',{
+                icon: '⚠️',
+            })
+        } else if (qty == 0){
+            toast.error("Jumlah produk tidak boleh 0");
         } else {
             axios({
                 method: "post",
@@ -141,6 +171,7 @@ function ProductDetail() {
             }).then((response) => {
                 //handle success
                 console.log(response, "<<<Add To Cart>>>")
+                toast.success("Produk berhasil ditambahkan ke keranjang");
                 // window.location.reload()
             }).catch((error) => {
                 //handle error
@@ -307,6 +338,37 @@ function ProductDetail() {
                                     <h1 className='text-sm'>Pembelian Maksimal 100 pcs</h1>
                                     <div className='mt-auto'>
                                         <button onClick={addToCart} className='flex items-center justify-center px-5 py-3 text-center font-bold w-[100%] bg-[#FBC646]'>+ Keranjang</button>
+
+                                        <Toaster 
+                                            position='bottom-right'
+                                            reverseOrder={false}
+
+                                            toastOptions={{
+                                                duration: 5000,
+                                                style: {
+                                                    backgroundColor: '#FBC646',
+                                                    color: '#22364A',
+                                                    fontWeight: 'bold',
+                                                },
+
+                                                success: {
+                                                    duration: 5000,
+                                                    theme:{
+                                                        primary: 'blue',
+                                                        secondary: 'yellow'
+                                                    }
+                                                },
+
+                                                error: {
+                                                    duration: 5000,
+                                                    theme:{
+                                                        primary: 'red',
+                                                        secondary: 'yellow'
+                                                    }
+                                                }
+                                            }}
+                                        />
+
                                     </div>
                                 </div>
                                 <div className=' mt-3 flex gap-x-3 items-center'>
