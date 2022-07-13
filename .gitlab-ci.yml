@@ -6,6 +6,7 @@ staging:
   script:
     - gem install faraday -v 1.8.0
     - gem install dpl
+    - npm install
     - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api_key=$HEROKU_API_KEY
   only:
     - development

@@ -337,7 +337,7 @@ function ProductDetail() {
                                     </div>
                                     <h1 className='text-sm'>Pembelian Maksimal 100 pcs</h1>
                                     <div className='mt-auto'>
-                                        <button onClick={addToCart} className='flex items-center justify-center px-5 py-3 text-center font-bold w-[100%] bg-[#FBC646]'>+ Keranjang</button>
+                                        <button onClick={addToCart} className={` ${ qty == 0 ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#FBC646]'} ' flex items-center justify-center px-5 py-3 text-center font-bold w-[100%]  rounded-[8px] ' `}>+ Keranjang</button>
 
                                         <Toaster 
                                             position='bottom-right'
