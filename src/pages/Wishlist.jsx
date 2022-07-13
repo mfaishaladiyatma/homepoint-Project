@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import jwtDecode from 'jwt-decode'
 import { useSelector } from 'react-redux/es/hooks/useSelector'
 import { useParams, useNavigate } from 'react-router-dom'
+import toast, { Toaster } from 'react-hot-toast';
 
 import gambarWishlist from '../images/gambarWishlist.svg'
 import { AiFillStar } from "react-icons/ai";
@@ -19,7 +20,9 @@ export default function Wishlist() {
   const [loading, setLoading] = useState(false)
 
   const { token } = useSelector((state) => state)
+  const idAkun = useSelector((state) => state.id)
   const { id } = useParams()
+
 
   const decode = token ? jwtDecode(token) : null
 
@@ -35,12 +38,11 @@ export default function Wishlist() {
           //   response.data.data
           // ]))
           setDataWishlist(response.data.data.wishlistItems)
+          setLoading(false)
           // console.log(cobaGet)
         })
         .catch((error) => {
           console.log(error)
-        })
-        .finally(() => {
           setLoading(false)
         })
     } else {
@@ -48,19 +50,56 @@ export default function Wishlist() {
     }
   }, [])
 
+  const getWishlistData = () => {
+    axios.get('https://homepoint-server-staging.herokuapp.com/api/v1/wishlist/' + id)
+      .then((response) => {
+        // setDataWishlist((prevState) =>([
+        //   ...prevState,
+        //   response.data.data
+        // ]))
+        setDataWishlist(response.data.data.wishlistItems)
+        setLoading(false)
+        // console.log(cobaGet)
+      })
+      .catch((error) => {
+        console.log(error)
+        setLoading(false)
+      })
+  }
+
   const deleteWishlist = (id) => {
     axios({
       method: "delete",
-      url: ('https://homepoint-server-staging.herokuapp.com/api/v1/wishlist/items/' + id ),
-  }).then((response) => {
+      url: ('https://homepoint-server-staging.herokuapp.com/api/v1/wishlist/items/' + id),
+    }).then((response) => {
       //handle success
       console.log(response)
       // window.location.reload()
-      navigate(0)
-  }).catch((error) => {
+      toast.success("Item berhasil dihapus")
+      getWishlistData()
+    }).catch((error) => {
       //handle error
       console.log(error)
-  })
+    })
+  }
+
+  const addToCart = (id) => {
+    axios({
+      method: "post",
+      url: (`https://homepoint-server-staging.herokuapp.com/api/v1/cart/items/${idAkun}/` + id),
+      data: 1
+      ,
+      headers: { "Content-Type": "application/json" },
+    }).then((response) => {
+      //handle success
+      console.log(response, "<<<Add To Cart>>>")
+      toast.success("Produk berhasil ditambahkan ke keranjang");
+      getWishlistData()
+      // window.location.reload()
+    }).catch((error) => {
+      //handle error
+      console.log(error)
+    })
   }
 
   return (
@@ -69,10 +108,42 @@ export default function Wishlist() {
         <div className='font-Inter p-10 flex flex-col'>
           <div className=' flex flex-row justify-between items-center'>
 
+            <Toaster
+              position='bottom-right'
+              reverseOrder={false}
+
+              toastOptions={{
+                duration: 5000,
+                style: {
+                  backgroundColor: '#FBC646',
+                  color: '#22364A',
+                  fontWeight: 'bold',
+                },
+
+                success: {
+                  duration: 5000,
+                  theme: {
+                    primary: 'blue',
+                    secondary: 'yellow'
+                  }
+                },
+
+                error: {
+                  duration: 5000,
+                  theme: {
+                    primary: 'red',
+                    secondary: 'yellow'
+                  }
+                }
+              }}
+            />
+
             <div className='flex flex-row  p-3 w-[700px] justify-between'>
               <h3 className='text-[32px] font-bold'>Wishlist</h3>
               <div className='border-2 rounded-[8px] border-[#316093] w-[450px] flex items-center px-3'>
-                <input placeholder='Search Wishlist' type="text" />
+                <form >
+                  <input placeholder='Search Wishlist' type="text" />
+                </form>
               </div>
             </div>
             <div>
@@ -112,7 +183,7 @@ export default function Wishlist() {
                         <button onClick={() => deleteWishlist(data.id)}>
                           <img className='w-[25px]' src={trashIcon} alt="" />
                         </button>
-                        <button className='bg-[#FBC646] p-3 flex flex-row justify-between w-[130px] font-semibold rounded-[8px] text-[#252525]'>
+                        <button onClick={() => addToCart(data.products.id)} className='bg-[#FBC646] p-3 flex flex-row justify-between w-[130px] font-semibold rounded-[8px] text-[#252525]'>
                           <p>+</p>
                           <p>Keranjang</p>
                         </button>

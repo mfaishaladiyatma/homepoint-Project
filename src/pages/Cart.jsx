@@ -75,24 +75,8 @@ export default function Cart() {
     fetchData()
   }, [])
 
-  const addQty = async (id, quantity, stock) => {
-
-    if (quantity < stock) {
-      const addPutQty = await axios({
-        method: "put",
-        url: `https://homepoint-server-staging.herokuapp.com/api/v1/cart/items/${id}`,
-        data: (quantity + 1),
-        headers: { "Content-Type": "application/json" }
-      }).then((response) => {
-        //handle success
-        console.log(response)
-      }).catch((error) => {
-        //handle error
-        console.log(error)
-      })
-    }
-
-    const getPutQty = await axios.get(`https://homepoint-server-staging.herokuapp.com/api/v1/cart/${idAkun}`)
+  const checkCart = () => {
+    axios.get(`https://homepoint-server-staging.herokuapp.com/api/v1/cart/${idAkun}`)
       .then((response) => {
         setCart(response.data.data);
         console.log(response.data.data)
@@ -106,10 +90,30 @@ export default function Cart() {
       })
   }
 
-  const decQty = async (id, quantity, stock) => {
+  const addQty = (id, quantity, stock) => {
+
+    if (quantity < stock) {
+      const addPutQty = axios({
+        method: "put",
+        url: `https://homepoint-server-staging.herokuapp.com/api/v1/cart/items/${id}`,
+        data: (quantity + 1),
+        headers: { "Content-Type": "application/json" }
+      }).then((response) => {
+        //handle success
+        console.log(response)
+        checkCart()
+      }).catch((error) => {
+        //handle error
+        console.log(error)
+      })
+    }
+
+  }
+
+  const decQty =  (id, quantity, stock) => {
 
     if (quantity > 1) {
-      const addPutQty = await axios({
+      const addPutQty =  axios({
         method: "put",
         url: `https://homepoint-server-staging.herokuapp.com/api/v1/cart/items/${id}`,
         data: (quantity - 1),
@@ -117,24 +121,13 @@ export default function Cart() {
       }).then((response) => {
         //handle success
         console.log(response)
+        checkCart()
       }).catch((error) => {
         //handle error
         console.log(error)
       })
     }
 
-    const getPutQty = await axios.get(`https://homepoint-server-staging.herokuapp.com/api/v1/cart/${idAkun}`)
-      .then((response) => {
-        setCart(response.data.data);
-        console.log(response.data.data)
-        // console.log(checkProduct)
-        setLoading(false);
-      })
-      .catch((error) => {
-        setLoading(false);
-        console.log(error)
-        //wip: display error here
-      })
   }
 
   const calcTotal = () => {
@@ -166,7 +159,7 @@ export default function Cart() {
 
           {/* card untuk product yang dibeli */}
           <section>
-            {cart && cart.sort((a,b) => a.id > b.id ? 1 : -1).map((item) => {
+            {cart && cart.sort((a, b) => a.id > b.id ? 1 : -1).map((item) => {
               return (
                 <div key={item.id} className='flex flex-col '>
 
