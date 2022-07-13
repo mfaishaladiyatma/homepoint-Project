@@ -209,43 +209,52 @@ export default function Wishlist() {
 
           <div className=' mt-10'>
             <div className='grid grid-cols-6 h-fit gap-3 p-3'>
-              
-                {dataWishlist.length > 0 && dataWishlist.map((data) => {
-                  // console.log(data.wishlistItems)
-                  return (
 
-                    <div key={data.id} className='border-2 border-slate-300 flex flex-col items-center justify-between rounded-[8px] p-2 gap-y-5 max-h-[450px]'>
-                      <img src={data.products.productImages[0].image} alt="" />
+              {dataWishlist.length > 0 && dataWishlist.map((data) => {
+                // console.log(data.wishlistItems)
+                return (
+                  <button onClick={() => navigate('/product/'+data.products.id)} key={data.id}>
+                  <div  className='border-2 border-slate-300 flex flex-col items-center justify-between rounded-[8px] p-2 gap-y-5 h-full max-h-[450px]'>
+                    <img src={data.products.productImages[0].image} alt="" />
 
-                      <h3 className='w-full text-left font-bold text-[18px]'>{data.products.name}</h3>
+                    <h3 className='w-full text-left font-bold text-[18px]'>{data.products.name}</h3>
 
-                      <div className='flex flex-col w-full gap-y-2'>
-                        <h4 className='text-[14px] text-gray-500 line-through decoration-red-600 decoration-2 text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(data.products.price * (data.products.discount / 100))}</h4>
+                    <div className='flex flex-col w-full gap-y-2'>
+                      {data.products.discount === 0 ?
                         <h3 className='font-bold text-[18px] text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(data.products.price)}</h3>
-                        <div className='flex flex-row items-center gap-x-2'>
-                          <div className='text-yellow-500'>
-                            <AiFillStar />
-                          </div>
-                          <p>{data.products.ratingAverage}</p>
-                          <p> | </p>
-                          <p>Terjual {data.products.amountSold}</p>
-                        </div>
-                        <div className='flex flex-row gap-x-3'>
-                          <button onClick={() => deleteWishlist(data.id)}>
-                            <img className='w-[25px]' src={trashIcon} alt="" />
-                          </button>
-                          <button onClick={() => addToCart(data.products.id)} className='bg-[#FBC646] p-3 flex flex-row justify-between w-[130px] font-semibold rounded-[8px] text-[#252525]'>
-                            <p>+</p>
-                            <p>Keranjang</p>
-                          </button>
-                        </div>
-                      </div>
+                        :
+                        <>
+                          <h4 className='text-[14px] text-gray-500 line-through decoration-red-600 decoration-2 text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(data.products.price)}</h4>
+                          <h3 className='font-bold text-[18px] text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(data.products.price * (data.products.discount / 100))}</h3>
+                        </>
+                      }
 
+
+                      <div className='flex flex-row items-center gap-x-2'>
+                        <div className='text-yellow-500'>
+                          <AiFillStar />
+                        </div>
+                        <p>{data.products.ratingAverage}</p>
+                        <p> | </p>
+                        <p>Terjual {data.products.amountSold}</p>
+                      </div>
+                      <div className='flex flex-row gap-x-3'>
+                        <button onClick={() => deleteWishlist(data.id)}>
+                          <img className='w-[25px]' src={trashIcon} alt="" />
+                        </button>
+                        <button onClick={() => addToCart(data.products.id)} className='bg-[#FBC646] p-3 flex flex-row justify-between w-[130px] font-semibold rounded-[8px] text-[#252525]'>
+                          <p>+</p>
+                          <p>Keranjang</p>
+                        </button>
+                      </div>
                     </div>
-                  )
-                }
-                )}
-              
+
+                  </div>
+                  </button>
+                )
+              }
+              )}
+
 
             </div>
           </div>
