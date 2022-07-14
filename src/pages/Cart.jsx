@@ -1,16 +1,19 @@
 import React from 'react'
 import { useEffect, useState } from 'react';
+import { useParams, useSearchParams, useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import { useSelector } from 'react-redux/es/hooks/useSelector'
 import jwtDecode from "jwt-decode";
+import toast, { Toaster } from 'react-hot-toast';
 
-import productCartImage from '../images/productCartImage.svg'
 import { BsHeart, BsFillTrashFill } from "react-icons/bs";
 import { HiOutlineChevronRight } from "react-icons/hi";
 import { AiFillStar } from "react-icons/ai";
 
 
 export default function Cart() {
+  const navigate = useNavigate()
+
   const { token, name } = useSelector((state) => state)
   const idAkun = useSelector((state) => state.id)
 
@@ -59,7 +62,7 @@ export default function Cart() {
         const respProductInWishlist = await
           axios.get(`https://homepoint-server-staging.herokuapp.com/api/v1/wishlist/${idAkun}`)
             .then((response) => {
-              setProductWishlist(response.data.data);
+              setProductWishlist(response.data.data.wishlistItems);
               // console.log(response.data.data)
               // console.log(checkProduct)
               setLoading(false);
@@ -90,6 +93,44 @@ export default function Cart() {
       })
   }
 
+  const checkWishlist = () => {
+    axios.get(`https://homepoint-server-staging.herokuapp.com/api/v1/wishlist/${idAkun}`)
+      .then((response) => {
+        setProductWishlist(response.data.data.wishlistItems);
+        console.log(response.data.data)
+        // console.log(checkProduct)
+        setLoading(false);
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.log(error)
+        //wip: display error here
+      })
+  }
+
+  const addToWishlist = (id) => {
+    axios({
+      method: "post",
+      url: `https://homepoint-server-staging.herokuapp.com/api/v1/wishlist/items/${idAkun}/${id}`,
+      data: {
+        'productId': id,
+        'userId': idAkun
+      },
+      // headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    }).then((response) => {
+      //handle success
+      console.log(response, "<<<Add To Wishlist>>>")
+      checkCart()
+      checkWishlist()
+      // setCheckProduct(true)
+      toast.success("Berhasil menambahkan ke wishlist")
+      // navigate(0)
+    }).catch((error) => {
+      //handle error
+      console.log(error)
+    })
+  }
+
   const addQty = (id, quantity, stock) => {
 
     if (quantity < stock) {
@@ -110,10 +151,10 @@ export default function Cart() {
 
   }
 
-  const decQty =  (id, quantity, stock) => {
+  const decQty = (id, quantity, stock) => {
 
     if (quantity > 1) {
-      const addPutQty =  axios({
+      const addPutQty = axios({
         method: "put",
         url: `https://homepoint-server-staging.herokuapp.com/api/v1/cart/items/${id}`,
         data: (quantity - 1),
@@ -128,6 +169,22 @@ export default function Cart() {
       })
     }
 
+  }
+
+  const deleteCart = (id) => {
+    axios({
+      method: "delete",
+      url: ('https://homepoint-server-staging.herokuapp.com/api/v1/cart/items/' + id),
+    }).then((response) => {
+      //handle success
+      console.log(response)
+      // window.location.reload()
+      toast.success("Item berhasil dihapus")
+      checkCart()
+    }).catch((error) => {
+      //handle error
+      console.log(error)
+    })
   }
 
   const calcTotal = () => {
@@ -147,6 +204,36 @@ export default function Cart() {
       <div className='flex flex-row  gap-x-5 font-Inter'>
         <div className='flex flex-col w-[70%]  px-2 gap-y-8'>
 
+          <Toaster
+            position='bottom-right'
+            reverseOrder={false}
+
+            toastOptions={{
+              duration: 5000,
+              style: {
+                backgroundColor: '#FBC646',
+                color: '#22364A',
+                fontWeight: 'bold',
+              },
+
+              success: {
+                duration: 5000,
+                theme: {
+                  primary: 'blue',
+                  secondary: 'yellow'
+                }
+              },
+
+              error: {
+                duration: 5000,
+                theme: {
+                  primary: 'red',
+                  secondary: 'yellow'
+                }
+              }
+            }}
+          />
+
           <div className='flex justify-between'>
             <div className='flex gap-x-2 items-center'>
               <input className='accent-[#FBC646] w-[20px] h-[30px] border-blue-500 text-red-500 outline-none' type="checkbox" />
@@ -165,7 +252,7 @@ export default function Cart() {
 
                   <div className='flex flex-row  items-center gap-x-2'>
                     <input className='accent-[#FBC646] w-[20px] h-[30px]' type="checkbox" />
-                    <img className='w-[250px]' src={item.products.productImages[0].image} alt="" />
+                    <img className='w-[250px] rounded-[8px]' src={item.products.productImages[0].image} alt="" />
                     <div className='flex flex-col  w-full h-full gap-y-12'>
                       <div className='flex flex-col'>
                         <h4 className='text-[18px]'>{item.products.name}</h4>
@@ -175,13 +262,13 @@ export default function Cart() {
                       </div>
                       <div className='flex flex-row justify-between'>
                         <div className='flex items-center gap-x-2'>
-                          <button>
+                          <button onClick={() => addToWishlist(item.products.id)}>
                             <div>
                               <BsHeart />
                             </div>
                           </button>
                           <p>|</p>
-                          <button>
+                          <button onClick={() => deleteCart(item.id)}>
                             <div className='text-red-500'>
                               <BsFillTrashFill />
                             </div>
@@ -208,37 +295,91 @@ export default function Cart() {
 
           </section>
 
-          {/* card untuk product yang rekomendasi */}
+          {/* card untuk product yang rekomendasi & card untuk wishlist*/}
           <section className='flex flex-col '>
             <div className='flex justify-between items-center'>
               <h4 className='text-[30px] font-medium'>Rekomendasi Untukmu</h4>
+              <button onClick={() => navigate('/search')}>
               <p className='text-[#316093] font-[600]'>Lihat Selengkapnya &gt;</p>
+              </button>
             </div>
             <div className='grid grid-cols-2 xl:grid-cols-4  h-full  gap-4 mt-10'>
+
               {rekomendasiProduct.slice(0, 4).map((item) => (
-                <div key={item.id} className='flex flex-col border-2  p-3 justify-between gap-y-6 rounded-[10px] border-[#E1E1E1]'>
-                  <img src={item.productImages[0].image} alt="" />
-                  <p className='font-semibold'>{item.name}</p>
-                  <div className='flex flex-col gap-y-3'>
-                    <h4 className='font-bold text-[18px] text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(
+                <button onClick={() => navigate('/product/' + item.id)}>
+                  <div key={item.id} className='flex flex-col h-full border-2  p-3 justify-between gap-y-6 rounded-[10px] border-[#E1E1E1] shadow-shadow-custom-1 hover:-translate-y-3 ease-in-out duration-300'>
+                    <img className='rounded-[8px]' src={item.productImages[0].image} alt="" />
+                    <p className='font-semibold text-left'>{item.name}</p>
+                    <div className='flex flex-col gap-y-3'>
+                      {item.discount === 0 ?
 
-                      item.price
+                        <h4 className='font-bold text-[18px] text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(item.price)}</h4>
+                        :
+                        <>
+                          <h4 className='text-[14px] text-gray-500 line-through decoration-red-600 decoration-2 text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(item.price)}</h4>
 
-                    )}</h4>
-                    <div className='flex gap-x-2'>
-                      <div className='flex items-center gap-x-2'>
-                        <div className='text-yellow-400'><AiFillStar /></div>
-                        <p className='text-[16px]'>{item.ratingAverage}</p>
-                      </div>
-                      <div>
-                        |
-                      </div>
-                      <div className='flex items-center'>
-                        <p className='text-[16px]'>Terjual {item.amountSold}</p>
+                          <h3 className='font-bold text-[18px] text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(item.price * (item.discount / 100))}</h3>
+                        </>
+                      }
+
+                      <div className='flex gap-x-2'>
+                        <div className='flex items-center gap-x-2'>
+                          <div className='text-yellow-400'><AiFillStar /></div>
+                          <p className='text-[16px]'>{item.ratingAverage}</p>
+                        </div>
+                        <div>
+                          |
+                        </div>
+                        <div className='flex items-center'>
+                          <p className='text-[16px]'>Terjual {item.amountSold}</p>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                </button>
+              ))}
+            </div>
+
+            <div className='mt-10 flex justify-between items-center'>
+              <h4 className='text-[30px] font-medium'>Wishlist</h4>
+              <button onClick={() => navigate('/wishlist-'+ idAkun)}>
+              <p className='text-[#316093] font-[600]'>Lihat Selengkapnya &gt;</p>
+              </button>
+            </div>
+            <div className='grid grid-cols-2 xl:grid-cols-4 h-full gap-4 mt-10'>
+              {productWishlist.slice(0, 4).map((item) => (
+                <button onClick={() => navigate('/product/' + item.products.id)}>
+                  <div key={item.id} className='flex flex-col border-2 h-full p-3 justify-between gap-y-6 rounded-[10px] border-[#E1E1E1] shadow-shadow-custom-1 hover:-translate-y-3 ease-in-out duration-300'>
+                    <img className='rounded-[8px]' src={item.products.productImages[0].image} alt="" />
+                    <p className='font-semibold text-left'>{item.products.name}</p>
+                    <div className='flex flex-col gap-y-3'>
+
+                      {item.products.discount === 0 ?
+
+                        <h4 className='font-bold text-[18px] text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(item.products.price)}</h4>
+                        :
+                        <>
+                          <h4 className='text-[14px] text-gray-500 line-through decoration-red-600 decoration-2 text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(item.products.price)}</h4>
+
+                          <h3 className='font-bold text-[18px] text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(item.products.price * (item.products.discount / 100))}</h3>
+                        </>
+                      }
+
+                      <div className='flex gap-x-2'>
+                        <div className='flex items-center gap-x-2'>
+                          <div className='text-yellow-400'><AiFillStar /></div>
+                          <p className='text-[16px]'>{item.products.ratingAverage}</p>
+                        </div>
+                        <div>
+                          |
+                        </div>
+                        <div className='flex items-center'>
+                          <p className='text-[16px]'>Terjual {item.products.amountSold}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </button>
               ))}
             </div>
           </section>
