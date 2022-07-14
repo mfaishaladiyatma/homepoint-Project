@@ -79,14 +79,23 @@ export default function Cart() {
     fetchData()
   }, [])
 
-  const handleCheckboxItem = (e, productId, cartItemsId) => {
+  const delay = (ms) => new Promise (
+    (resolve) => setTimeout(resolve, ms)
+  )
+
+  const handleCheckboxItem = async (e, productId, cartItemsId) => {
+
     if (e) {
       axios.get(`https://homepoint-server-staging.herokuapp.com/api/v1/cart/items/${idAkun}/${productId}`)
         .then((response) => {
-          setCartItems((prevState) => ([
-            ...prevState,
-            response.data.data
-          ]));
+          if (cartItemsId !== cartItems.map(item => item.id)) {
+            setCartItems((prevState) => ([
+              ...prevState,
+              response.data.data
+            ]));
+          }else{
+            console.log('item sama bosku')
+          }
           console.log(response.data.data)
           // console.log(response.data.data)
           // console.log(checkProduct)
@@ -187,9 +196,9 @@ export default function Cart() {
         //handle success
         console.log(response)
         checkCart()
-        if(cartItems.length > 0){
+        if (cartItems.length > 0) {
           cartItems.map(item => {
-            if(item.id === id){
+            if (item.id === id) {
               item.quantity = quantity + 1
             }
           }
@@ -199,10 +208,10 @@ export default function Cart() {
         //handle error
         console.log(error)
       })
-    }else {
-      toast('Mohon maaf jumlah item sudah melebihi stok kami 🙏',{
+    } else {
+      toast('Mohon maaf jumlah item sudah melebihi stok kami 🙏', {
         icon: '⚠️',
-    })
+      })
     }
 
   }
@@ -219,9 +228,9 @@ export default function Cart() {
         //handle success
         console.log(response)
         checkCart()
-        if(cartItems.length > 0){
+        if (cartItems.length > 0) {
           cartItems.map(item => {
-            if(item.id === id){
+            if (item.id === id) {
               item.quantity = quantity - 1
             }
           }
@@ -231,10 +240,10 @@ export default function Cart() {
         //handle error
         console.log(error)
       })
-    }else{
-      toast('Silahkan tekan icon tong sampah, jika ingin menghapus item',{
+    } else {
+      toast('Silahkan tekan icon tong sampah, jika ingin menghapus item', {
         icon: '⚠️',
-    })
+      })
     }
 
   }

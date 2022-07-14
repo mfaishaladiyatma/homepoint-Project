@@ -141,9 +141,9 @@ function Header({ setMenu, menu }) {
           <img className=" h-[23px]" src={bell} alt="bell" />
 
           <div className='relative flex flex-row items-center '>
-            <button className="flex flex-row" onClick={() => setIsClickedLogin(!isClickedLogin)}>
+            <button className="flex flex-row items-center gap-x-3" onClick={() => setIsClickedLogin(!isClickedLogin)}>
             <img src={user} alt="User" />
-              <p className='text-white text-center  w-[150px] overflow-hidden  text-ellipsis font-[400] '>{decode ? namaProfil : 'Masuk/Daftar'}</p>
+              <p className='text-white overflow-hidden w-[150px] whitespace-nowrap text-ellipsis  font-[400] '>{decode ? namaProfil : 'Masuk/Daftar'}</p>
 
             </button>
 
