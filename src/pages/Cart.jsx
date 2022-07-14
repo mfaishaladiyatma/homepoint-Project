@@ -19,6 +19,7 @@ export default function Cart() {
 
   const [rekomendasiProduct, setRekomendasiProduct] = useState([]);
   const [cart, setCart] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
   // const [stock, setStock] = useState([]);
   const [productWishlist, setProductWishlist] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -77,6 +78,49 @@ export default function Cart() {
 
     fetchData()
   }, [])
+
+  const handleCheckboxItem = (e, productId, cartItemsId) => {
+    if (e) {
+      axios.get(`https://homepoint-server-staging.herokuapp.com/api/v1/cart/items/${idAkun}/${productId}`)
+        .then((response) => {
+          setCartItems((prevState) => ([
+            ...prevState,
+            response.data.data
+          ]));
+          console.log(response.data.data)
+          // console.log(response.data.data)
+          // console.log(checkProduct)
+          setLoading(false);
+        })
+        .catch((error) => {
+          setLoading(false);
+          console.log(error)
+          //wip: display error here
+        })
+    } else {
+      setCartItems(cartItems.filter(item => item.id !== cartItemsId))
+    }
+
+  }
+
+  // const checkCartById = (productId) => {
+  //   axios.get(`https://homepoint-server-staging.herokuapp.com/api/v1/cart/items/${idAkun}/${productId}`)
+  //       .then((response) => {
+  //         setCartItems((prevState) => ([
+  //           ...prevState,
+  //           response.data.data
+  //         ]));
+  //         console.log(response.data.data)
+  //         // console.log(response.data.data)
+  //         // console.log(checkProduct)
+  //         setLoading(false);
+  //       })
+  //       .catch((error) => {
+  //         setLoading(false);
+  //         console.log(error)
+  //         //wip: display error here
+  //       })
+  // }
 
   const checkCart = () => {
     axios.get(`https://homepoint-server-staging.herokuapp.com/api/v1/cart/${idAkun}`)
@@ -143,10 +187,22 @@ export default function Cart() {
         //handle success
         console.log(response)
         checkCart()
+        if(cartItems.length > 0){
+          cartItems.map(item => {
+            if(item.id === id){
+              item.quantity = quantity + 1
+            }
+          }
+          )
+        }
       }).catch((error) => {
         //handle error
         console.log(error)
       })
+    }else {
+      toast('Mohon maaf jumlah item sudah melebihi stok kami 🙏',{
+        icon: '⚠️',
+    })
     }
 
   }
@@ -163,10 +219,22 @@ export default function Cart() {
         //handle success
         console.log(response)
         checkCart()
+        if(cartItems.length > 0){
+          cartItems.map(item => {
+            if(item.id === id){
+              item.quantity = quantity - 1
+            }
+          }
+          )
+        }
       }).catch((error) => {
         //handle error
         console.log(error)
       })
+    }else{
+      toast('Silahkan tekan icon tong sampah, jika ingin menghapus item',{
+        icon: '⚠️',
+    })
     }
 
   }
@@ -189,7 +257,7 @@ export default function Cart() {
 
   const calcTotal = () => {
 
-    const total = cart.map(item => item.products.discount == 0 ?
+    const total = cartItems.map(item => item.products.discount == 0 ?
       (item.products.price * item.quantity)
       :
       ((item.products.price * (item.products.discount / 100)) * item.quantity)).reduce((a, b) => {
@@ -249,9 +317,8 @@ export default function Cart() {
             {cart && cart.sort((a, b) => a.id > b.id ? 1 : -1).map((item) => {
               return (
                 <div key={item.id} className='flex flex-col '>
-
                   <div className='flex flex-row  items-center gap-x-2'>
-                    <input className='accent-[#FBC646] w-[20px] h-[30px]' type="checkbox" />
+                    <input className='accent-[#FBC646] w-[20px] h-[30px]' onChange={(e) => handleCheckboxItem(e.target.checked, item.products.id, item.id)} type="checkbox" name='cartItems' />
                     <img className='w-[250px] rounded-[8px]' src={item.products.productImages[0].image} alt="" />
                     <div className='flex flex-col  w-full h-full gap-y-12'>
                       <div className='flex flex-col'>
@@ -300,14 +367,14 @@ export default function Cart() {
             <div className='flex justify-between items-center'>
               <h4 className='text-[30px] font-medium'>Rekomendasi Untukmu</h4>
               <button onClick={() => navigate('/search')}>
-              <p className='text-[#316093] font-[600]'>Lihat Selengkapnya &gt;</p>
+                <p className='text-[#316093] font-[600]'>Lihat Selengkapnya &gt;</p>
               </button>
             </div>
             <div className='grid grid-cols-2 xl:grid-cols-4  h-full  gap-4 mt-10'>
 
               {rekomendasiProduct.slice(0, 4).map((item) => (
-                <button onClick={() => navigate('/product/' + item.id)}>
-                  <div key={item.id} className='flex flex-col h-full border-2  p-3 justify-between gap-y-6 rounded-[10px] border-[#E1E1E1] shadow-shadow-custom-1 hover:-translate-y-3 ease-in-out duration-300'>
+                <button key={item.id} onClick={() => navigate('/product/' + item.id)}>
+                  <div className='flex flex-col h-full border-2  p-3 justify-between gap-y-6 rounded-[10px] border-[#E1E1E1] shadow-shadow-custom-1 hover:-translate-y-3 ease-in-out duration-300'>
                     <img className='rounded-[8px]' src={item.productImages[0].image} alt="" />
                     <p className='font-semibold text-left'>{item.name}</p>
                     <div className='flex flex-col gap-y-3'>
@@ -342,14 +409,14 @@ export default function Cart() {
 
             <div className='mt-10 flex justify-between items-center'>
               <h4 className='text-[30px] font-medium'>Wishlist</h4>
-              <button onClick={() => navigate('/wishlist-'+ idAkun)}>
-              <p className='text-[#316093] font-[600]'>Lihat Selengkapnya &gt;</p>
+              <button onClick={() => navigate('/wishlist-' + idAkun)}>
+                <p className='text-[#316093] font-[600]'>Lihat Selengkapnya &gt;</p>
               </button>
             </div>
             <div className='grid grid-cols-2 xl:grid-cols-4 h-full gap-4 mt-10'>
               {productWishlist.slice(0, 4).map((item) => (
-                <button onClick={() => navigate('/product/' + item.products.id)}>
-                  <div key={item.id} className='flex flex-col border-2 h-full p-3 justify-between gap-y-6 rounded-[10px] border-[#E1E1E1] shadow-shadow-custom-1 hover:-translate-y-3 ease-in-out duration-300'>
+                <button key={item.id} onClick={() => navigate('/product/' + item.products.id)}>
+                  <div className='flex flex-col border-2 h-full p-3 justify-between gap-y-6 rounded-[10px] border-[#E1E1E1] shadow-shadow-custom-1 hover:-translate-y-3 ease-in-out duration-300'>
                     <img className='rounded-[8px]' src={item.products.productImages[0].image} alt="" />
                     <p className='font-semibold text-left'>{item.products.name}</p>
                     <div className='flex flex-col gap-y-3'>
@@ -396,42 +463,50 @@ export default function Cart() {
             </div>
           </div>
           <div className='h-[2px] w-full bg-blue-300'></div>
-          <h3 className='font-bold text-[22px]'>Ringkasan Belanja</h3>
-          <div className='flex flex-col gap-y-6'>
-            {cart.map((item, index) => {
-              if (item.products.discount == 0) {
-                return (
-                  <React.Fragment key={index}>
-                    <div className='flex justify-between'>
-                      <p>Total harga ({item.quantity} barang)</p>
-                      <p>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 9 }).format(
+          {cartItems.length > 0
+            ?
+            <>
+              <h3 className='font-bold text-[22px]'>Ringkasan Belanja</h3>
+              <div className='flex flex-col gap-y-6'>
+                {cartItems.map((item, index) => {
+                  if (item.products.discount == 0) {
+                    return (
+                      <React.Fragment key={index}>
+                        <div className='flex justify-between'>
+                          <p>Total harga ({item.quantity} barang)</p>
+                          <p>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 9 }).format(
 
-                        item.products.price * item.quantity
+                            item.products.price * item.quantity
 
-                      )}</p>
-                    </div>
-                  </React.Fragment>
-                )
-              } else {
-                return (
-                  <React.Fragment key={index}>
-                    <div className='flex justify-between'>
-                      <p>Total harga ({item.quantity} barang)</p>
-                      <p>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 9 }).format(
+                          )}</p>
+                        </div>
+                      </React.Fragment>
+                    )
+                  } else {
+                    return (
+                      <React.Fragment key={index}>
+                        <div className='flex justify-between'>
+                          <p>Total harga ({item.quantity} barang)</p>
+                          <p>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 9 }).format(
 
-                        (item.products.price * (item.products.discount / 100)) * item.quantity
+                            (item.products.price * (item.products.discount / 100)) * item.quantity
 
-                      )}</p>
-                    </div>
-                  </React.Fragment>
-                )
-              }
-            })}
-            {/* <div className='flex justify-between'>
+                          )}</p>
+                        </div>
+                      </React.Fragment>
+                    )
+                  }
+                })}
+                {/* <div className='flex justify-between'>
               <p>Total harga ( barang)</p>
               <p>Rp. 800.000</p>
             </div> */}
-          </div>
+              </div>
+            </>
+            :
+            <p className='font-bold text-[22px] '>Masih kosong 🥲</p>
+          }
+
           <div className='h-[2px] w-full bg-blue-300'></div>
 
           {/* {cart.map((item, index) => {
@@ -440,16 +515,23 @@ export default function Cart() {
           })} */}
           {/* {cart.map(item => item.products.price).reduce((a, b) => a + parseInt(b, 10), 0)} */}
           <div className='flex justify-between'>
-            <p className='font-bold text-[22px]'>Total Harga</p>
             {/* <p className='font-bold text-[22px]'>Rp. 800.000</p> */}
-            <p className='font-bold text-[22px]'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 9 }).format(
+            {cartItems.length > 0
+              ?
+              <>
+                <p className='font-bold text-[22px]'>Total Harga</p>
+                <p className='font-bold text-[22px]'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 9 }).format(
 
-              calcTotal()
+                  calcTotal()
 
-            )}</p>
+                )}</p>
+              </>
+              :
+              <p className='font-bold text-[22px] '></p>
+            }
           </div>
           <div className='rounded-[8px] font-bold text-[#505050] bg-[#FBC646] h-10 flex justify-center items-center'>
-            Beli (1)
+            Beli ({cartItems.length})
           </div>
         </section>
 

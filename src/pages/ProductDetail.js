@@ -215,7 +215,7 @@ function ProductDetail() {
                     </div>
                     <div className='w-full md:py-12 flex flex-col'>
                         <div className='flex flex-col lg:flex-row gap-[20px] justify-between'>
-                            <img className="max-w-[200px] md:max-w-[400px] max-h-[400px]" src={product.productImages[0].image} alt="" />
+                            <img className="max-w-[200px] md:max-w-[400px] max-h-[400px] rounded-[10px] shadow-shadow-custom-2" src={product.productImages[0].image} alt="" />
                             <div>
                                 <h1 className='text-2xl font-semibold'>{product.name}</h1>
                                 <div className='flex flex-row md:items-center text-sm md py-4'>
@@ -300,8 +300,8 @@ function ProductDetail() {
                             </div>
                             <div className='w-full flex flex-col justify-start items-center '>
 
-                                <div className='p-3 w-fit flex flex-col max-h-[425px] ml-4 border-[#6999B8] border-[1px] rounded-md'>
-                                    <div className='flex justify-center rounded-md gap-[20px] items-center p-3 border-black border-[1px]'>
+                                <div className='p-3 w-fit flex flex-col max-h-[425px] ml-4 border-[#6999B8] border-2 rounded-md shadow-shadow-custom-2'>
+                                    <div className='flex justify-center rounded-md gap-[20px] items-center p-3 border-black border-2'>
                                         <div className='text-[#316093]'>{`<`}</div>
                                         <img src={product.productImages[0].image} className="max-w-[100px]" alt="" />
                                         <div className='text-[#316093]'>{`>`}</div>
@@ -335,8 +335,8 @@ function ProductDetail() {
                                         </div>
                                         <div className='text-sm whitespace-nowrap'>Stok tersedia</div>
                                     </div>
-                                    <h1 className='text-sm'>Pembelian Maksimal 100 pcs</h1>
-                                    <div className='mt-auto'>
+                                    <h1 className='text-sm'>Pembelian Maksimal {product.stock} pcs</h1>
+                                    <div className='mt-5'>
                                         <button onClick={addToCart} className={` ${ qty == 0 ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#FBC646]'} ' flex items-center justify-center px-5 py-3 text-center font-bold w-[100%]  rounded-[8px] ' `}>+ Keranjang</button>
 
                                         <Toaster 
