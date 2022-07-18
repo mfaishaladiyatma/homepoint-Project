@@ -58,19 +58,19 @@ export default function CarouselBestOffer() {
                 breakpoints={{
                   640: {
                     slidesPerView: 2,
-                    spaceBetween: 20,
+                    spaceBetween: 15,
                   },
                   768: {
                     slidesPerView: 3,
-                    spaceBetween: 20,
+                    spaceBetween: 15,
                   },
                   1024: {
                     slidesPerView: 4,
-                    spaceBetween: 25,
+                    spaceBetween: 15,
                   },
                   1280: {
                     slidesPerView: 5,
-                    spaceBetween: 30,
+                    spaceBetween: 15,
                   },
                 }}
                 navigation={{
@@ -88,14 +88,14 @@ export default function CarouselBestOffer() {
               >
                 {dataBestOffer.map((item) => (
                   <SwiperSlide key={item.id}>
-                    <div className='h-full relative flex border-2 border-[#E1E1E1] bg-white rounded-[10px] container'>
+                    <div className='h-full relative flex border-[1px] border-[#E1E1E1] bg-white rounded-[10px] hover:shadow-shadow-custom-3 hover:-translate-y-2 container ease-in-out duration-200'>
                       <button onClick={() => navigate('/product/'+item.id)} className='flex w-full'>
                         <div className='absolute top-0 right-2 '>
                           <img className='w-[55px] relative' src={discountTag} alt="" />
                           <p className='absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] text-white'>{item.discount}&#37;</p>
                         </div>
                         <div className='flex flex-col items-center md:items-start w-full  h-full p-3'>
-                          <img className='h-[180px]' src={item.productImages[0].image} alt="" />
+                          <img className='h-[180px] rounded-[8px]' src={item.productImages[0].image} alt="" />
                           <div className='flex container flex-col justify-between items-center md:items-start  h-[50%] gap-y-8'>
                             <h4 className='font-bold mt-2  text-[18px] text-left'>{item.name}</h4>
                             <div className='flex flex-col gap-y-2'>

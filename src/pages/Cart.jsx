@@ -88,14 +88,11 @@ export default function Cart() {
     if (e) {
       axios.get(`https://homepoint-server-staging.herokuapp.com/api/v1/cart/items/${idAkun}/${productId}`)
         .then((response) => {
-          if (cartItemsId !== cartItems.map(item => item.id)) {
             setCartItems((prevState) => ([
               ...prevState,
               response.data.data
             ]));
-          }else{
-            console.log('item sama bosku')
-          }
+            
           console.log(response.data.data)
           // console.log(response.data.data)
           // console.log(checkProduct)
