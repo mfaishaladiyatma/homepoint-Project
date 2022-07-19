@@ -143,7 +143,7 @@ export default function Wishlist() {
       headers: { "Content-Type": "application/json" },
     }).then((response) => {
       //handle success
-      console.log(response, "<<<Add To Cart>>>")
+      // console.log(response, "<<<Add To Cart>>>")
       toast.success("Produk berhasil ditambahkan ke keranjang");
       getWishlistData()
       // window.location.reload()
@@ -208,13 +208,13 @@ export default function Wishlist() {
           </div>
 
           <div className=' mt-10'>
-            <div className='grid grid-cols-6 h-fit gap-3 p-3'>
+            <div className={`${dataWishlist.length > 0 ? 'grid grid-cols-6' :'flex'}  h-fit gap-3 p-3 `}>
 
-              {dataWishlist.length > 0 && dataWishlist.map((data) => {
+              {dataWishlist.length > 0 ? dataWishlist.map((data) => {
                 // console.log(data.wishlistItems)
                 return (
-                  
-                  <div onClick={() => navigate('/product/'+data.products.id)} key={data.id}  className='border-2 border-slate-300 flex flex-col items-center justify-between rounded-[8px] p-2 gap-y-5 h-full max-h-[450px] cursor-pointer'>
+
+                  <div onClick={() => navigate('/product/' + data.products.id)} key={data.id} className='border-2 border-slate-300 flex flex-col items-center justify-between rounded-[8px] p-2 gap-y-5 h-full max-h-[450px] cursor-pointer'>
                     <img className='rounded-[8px]' src={data.products.productImages[0].image} alt="" />
 
                     <h3 className='w-full text-left font-bold text-[18px]'>{data.products.name}</h3>
@@ -239,10 +239,10 @@ export default function Wishlist() {
                         <p>Terjual {data.products.amountSold}</p>
                       </div>
                       <div className='flex flex-row gap-x-3'>
-                        <button onClick={() => deleteWishlist(data.id)}>
+                        <button onClick={(e) => { deleteWishlist(data.id); e.stopPropagation() }}>
                           <img className='w-[25px]' src={trashIcon} alt="" />
                         </button>
-                        <button onClick={() => addToCart(data.products.id)} className='bg-[#FBC646] p-3 flex flex-row justify-between w-[130px] font-semibold rounded-[8px] text-[#252525]'>
+                        <button onClick={(e) => { addToCart(data.products.id); e.stopPropagation() }} className='bg-[#FBC646] p-3 flex flex-row justify-between w-[130px] font-semibold rounded-[8px] text-[#252525]'>
                           <p>+</p>
                           <p>Keranjang</p>
                         </button>
@@ -250,12 +250,15 @@ export default function Wishlist() {
                     </div>
 
                   </div>
-                  
+
                 )
               }
-              )}
-
-
+              )
+                :
+                <div className='min-h-[500px] flex justify-center items-center w-full'>
+                  <p className='text-[32px] font-semibold bg-sky-300/20 px-10 rounded-[8px]'>Masih Kosong 🥲</p>
+                </div>
+              }
             </div>
           </div>
         </div>

@@ -96,7 +96,7 @@ export default function Cart() {
           } else {
             console.log('sudah ada bro')
           }
-          console.log(response.data.data)
+          // console.log(response.data.data)
           // console.log(response.data.data)
           // console.log(checkProduct)
           setLoading(false);
@@ -135,7 +135,7 @@ export default function Cart() {
     axios.get(`https://homepoint-server-staging.herokuapp.com/api/v1/cart/${idAkun}`)
       .then((response) => {
         setCart(response.data.data);
-        console.log(response.data.data)
+        // console.log(response.data.data)
         // console.log(checkProduct)
         setLoading(false);
       })
@@ -150,7 +150,7 @@ export default function Cart() {
     axios.get(`https://homepoint-server-staging.herokuapp.com/api/v1/wishlist/${idAkun}`)
       .then((response) => {
         setProductWishlist(response.data.data.wishlistItems);
-        console.log(response.data.data)
+        // console.log(response.data.data)
         // console.log(checkProduct)
         setLoading(false);
       })
@@ -161,20 +161,21 @@ export default function Cart() {
       })
   }
 
-  const addToWishlist = (id) => {
+  const addToWishlist = (productId, cartItemsId) => {
     axios({
       method: "post",
-      url: `https://homepoint-server-staging.herokuapp.com/api/v1/wishlist/items/${idAkun}/${id}`,
+      url: `https://homepoint-server-staging.herokuapp.com/api/v1/wishlist/items/${idAkun}/${productId}`,
       data: {
-        'productId': id,
+        'productId': productId,
         'userId': idAkun
       },
       // headers: { "Content-Type": "application/x-www-form-urlencoded" },
     }).then((response) => {
       //handle success
-      console.log(response, "<<<Add To Wishlist>>>")
+      // console.log(response, "<<<Add To Wishlist>>>")
       checkCart()
       checkWishlist()
+      setCartItems(cartItems.filter(item => item.id !== cartItemsId))
       // setCheckProduct(true)
       toast.success("Berhasil menambahkan ke wishlist")
       // navigate(0)
@@ -322,7 +323,7 @@ export default function Cart() {
             </div>
           </div>
 
-          
+
           <section>
             {cart && cart.sort((a, b) => a.id > b.id ? 1 : -1).map((item) => {
               return (
@@ -339,7 +340,7 @@ export default function Cart() {
                       </div>
                       <div className='flex flex-row justify-between'>
                         <div className='flex items-center gap-x-2'>
-                          <button onClick={() => addToWishlist(item.products.id)}>
+                          <button onClick={() => addToWishlist(item.products.id, item.id)}>
                             <div>
                               <BsHeart />
                             </div>
@@ -466,41 +467,48 @@ export default function Cart() {
               <p className='text-[#316093] font-[600]'>Lihat Selengkapnya &gt;</p>
             </button>
           </div>
-          <div className='grid grid-cols-2 xl:grid-cols-4 h-full gap-4 mt-10 justify-items-center'>
-            {productWishlist.slice(0, 4).map((item) => (
-              <button key={item.id} onClick={() => navigate('/product/' + item.products.id)}>
-                <div className='flex flex-col border-2 h-full w-full  max-w-[250px] lg:max-w-full p-3 justify-between gap-y-6 rounded-[10px] border-[#E1E1E1] shadow-shadow-custom-1 hover:-translate-y-3 ease-in-out duration-300'>
-                  <img className='rounded-[8px]' src={item.products.productImages[0].image} alt="" />
-                  <p className='font-semibold text-left'>{item.products.name}</p>
-                  <div className='flex flex-col gap-y-3'>
+          <div className={`${productWishlist.length > 0 ? 'grid grid-cols-2 xl:grid-cols-4' :'flex justify-center'}  h-full gap-4 mt-10 justify-items-center `}>
 
-                    {item.products.discount === 0 ?
+            {productWishlist.length > 0
+              ?
+              productWishlist.slice(0, 4).map((item) => (
+                <button key={item.id} onClick={() => navigate('/product/' + item.products.id)}>
+                  <div className='flex flex-col border-2 h-full w-full  max-w-[250px] lg:max-w-full p-3 justify-between gap-y-6 rounded-[10px] border-[#E1E1E1] shadow-shadow-custom-1 hover:-translate-y-3 ease-in-out duration-300'>
+                    <img className='rounded-[8px]' src={item.products.productImages[0].image} alt="" />
+                    <p className='font-semibold text-left'>{item.products.name}</p>
+                    <div className='flex flex-col gap-y-3'>
 
-                      <h4 className='font-bold text-[18px] text-left mt-8'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(item.products.price)}</h4>
-                      :
-                      <>
-                        <h4 className='text-[14px] text-gray-500 line-through decoration-red-600 decoration-2 text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(item.products.price)}</h4>
+                      {item.products.discount === 0 ?
 
-                        <h3 className='font-bold text-[18px] text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(item.products.price * (item.products.discount / 100))}</h3>
-                      </>
-                    }
+                        <h4 className='font-bold text-[18px] text-left mt-8'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(item.products.price)}</h4>
+                        :
+                        <>
+                          <h4 className='text-[14px] text-gray-500 line-through decoration-red-600 decoration-2 text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(item.products.price)}</h4>
 
-                    <div className='flex gap-x-2'>
-                      <div className='flex items-center gap-x-2'>
-                        <div className='text-yellow-400'><AiFillStar /></div>
-                        <p className='text-[16px]'>{item.products.ratingAverage}</p>
-                      </div>
-                      <div>
-                        |
-                      </div>
-                      <div className='flex items-center'>
-                        <p className='text-[16px]'>Terjual {item.products.amountSold}</p>
+                          <h3 className='font-bold text-[18px] text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(item.products.price * (item.products.discount / 100))}</h3>
+                        </>
+                      }
+
+                      <div className='flex gap-x-2'>
+                        <div className='flex items-center gap-x-2'>
+                          <div className='text-yellow-400'><AiFillStar /></div>
+                          <p className='text-[16px]'>{item.products.ratingAverage}</p>
+                        </div>
+                        <div>
+                          |
+                        </div>
+                        <div className='flex items-center'>
+                          <p className='text-[16px]'>Terjual {item.products.amountSold}</p>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </button>
-            ))}
+                </button>
+              ))
+              :
+              <p className='text-center bg-sky-300/20 px-10 rounded-[8px]'>Masih kosong 🥲</p>
+            }
+
           </div>
 
           <div className='mt-12 flex justify-between items-center'>
