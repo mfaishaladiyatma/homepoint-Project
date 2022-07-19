@@ -60,7 +60,7 @@ function ProductDetail() {
                 const respProductInWishlist = await axios.get(`https://homepoint-server-staging.herokuapp.com/api/v1/wishlist/items/${idAkun}/${id}`)
                     .then((response) => {
                         setCheckProduct(response.data.data);
-                        console.log(response.data.data)
+                        // console.log(response.data.data)
                         // console.log(checkProduct)
                         setLoading(false);
                     })
@@ -170,7 +170,7 @@ function ProductDetail() {
                 headers: { "Content-Type": "application/json" },
             }).then((response) => {
                 //handle success
-                console.log(response, "<<<Add To Cart>>>")
+                // console.log(response, "<<<Add To Cart>>>")
                 toast.success("Produk berhasil ditambahkan ke keranjang");
                 // window.location.reload()
             }).catch((error) => {

@@ -52,7 +52,7 @@ function Header({ setMenu, menu }) {
     if (decode) {
       axios.get('https://homepoint-server-staging.herokuapp.com/api/v1/users/' + id)
         .then((response) => {
-          console.log(response.data.data)
+          // console.log(response.data.data)
           setNamaProfil(response.data.data.name)
           // console.log(cobaGet)
         })
@@ -77,13 +77,13 @@ function Header({ setMenu, menu }) {
 
   return (
     <>
-      <div className="sticky top-0 w-full bg-[#6999B8] px-6  h-[8vh]   flex md:px-3 items-center z-20 justify-between">
+      <div className="sticky top-0 w-full bg-[#6999B8] px-6  h-[8vh]   flex lg:px-3 items-center z-20 justify-between">
         <div className="">
           <Link to="/">
-            <img className="max-w-[100px] md:max-w-[140px] relative" src={Logo} alt="Homepoint" />
+            <img className="max-w-[100px] lg:max-w-[140px] relative" src={Logo} alt="Homepoint" />
           </Link>
         </div>
-        <div className="hidden xl:flex xl:gap-x-5 xl:rounded-[8px] xl:bg-white  xl:px-3 items-center ">
+        <div className="hidden lg:flex lg:gap-x-5 lg:rounded-[8px] lg:bg-white w-fit lg:px-3 items-center ">
           <div className="  flex flex-row justify-between items-center w-[100px]">
             <button className=" flex flex-row justify-between items-center w-full " onClick={() => {setIsClicked(!isClicked); setIsClickedLogin(false);}}>
               <p>Kategori</p>
@@ -121,15 +121,15 @@ function Header({ setMenu, menu }) {
           </select> */}
           {/* {e => setQ(e.target.value)} */}
           <div className="w-[2px] h-[25px] bg-black/60 rounded-full"></div>
-          <div className="h-[30px] flex items-center">
-            <form className="flex" onSubmit={searchHandler}>
-              <input onChange={(e) => setSearch(e.target.value)} value={search} className="outline-none px-4 h-full border-none lg:w-[450px]" placeholder="Search ..." />
+          <div className="h-[30px]   flex items-center">
+            <form className="flex  lg:w-[250px] xl:w-[450px]" onSubmit={searchHandler}>
+              <input onChange={(e) => setSearch(e.target.value)} value={search} className="outline-none px-4 h-full border-none w-full" placeholder="Search ..." />
               <button type="submit"><img className="ml-auto" src={Search} alt="search" /></button>
             </form>
           </div>
         </div>
-        <div className="hidden w-fit xl:flex  gap-x-14 items-center">
-          <button onClick={() => navigate(`/wishlist-${id}`)}>
+        <div className="hidden w-fit lg:flex gap-x-10  xl:gap-x-14 items-center">
+          <button className="flex w-[30px] items-center justify-center" onClick={() => navigate(`/wishlist-${id}`)}>
           <img className=" h-[23px]" src={love} alt="love" />
           </button>
 
@@ -194,10 +194,10 @@ function Header({ setMenu, menu }) {
           </div>
 
         </div>
-        <AiOutlineMenu onClick={() => setMenu(!menu)} className="text-white xl:hidden text-[2rem]" />
+        <AiOutlineMenu onClick={() => setMenu(!menu)} className="text-white lg:hidden text-[2rem]" />
       </div>
       {menu ? (
-        <div className="sticky top-[60px] z-20 flex gap-5 py-5 text-white flex-col px-6 md:px-16 w-full bg-[#6999B8]">
+        <div className="sticky top-[60px] z-20 flex gap-5 py-5 text-white flex-col px-6 lg:px-16 w-full bg-[#6999B8]">
             <div className="flex items-center relative">
               <select className="border-none text-black outline-none h-[20px] sm:h-[30px] text-sm px-3">
                 <option value="Kategori">Kategori</option>
@@ -205,14 +205,14 @@ function Header({ setMenu, menu }) {
               <div className="h-[20px] sm:h-[30px] w-full flex items-center">
                 <form className="flex w-full h-full" onSubmit={searchHandler}>
                   <input onChange={(e) => setSearch(e.target.value)} value={search} className="text-black border-none outline-none pl-3 h-full  w-[100%]" placeholder="Search ..." />
-                  <button className="bg-white p-2 ml-auto" type="submit"><img className="w-[10px] md:w-[15px]" src={Search} alt="search"/></button>
+                  <button className="bg-white p-2 ml-auto" type="submit"><img className="w-[10px] lg:w-[15px]" src={Search} alt="search"/></button>
                 </form>
               </div>
             </div>
-          <Link to="/">Wishlist</Link>
-          <Link to="/cart">Cart</Link>
+          <Link to={`../wishlist-${id}`}>Wishlist</Link>
+          <Link to={`../cart`}>Cart</Link>
           <Link to="/">Notification</Link>
-          <Link to="/login">Account</Link>
+          <Link to={`../profile`}>Profile</Link>
         </div>
       ) : (
         ""

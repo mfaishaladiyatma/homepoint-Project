@@ -38,7 +38,7 @@ export default function Homepage() {
 
   const { token } = useSelector((state) => state);
   const decode = token ? jwtDecode(token) : null;
-  console.log(decode ? decode.sub : "no token");
+  // console.log(decode ? decode.sub : "no token");
 
   return (
     <>

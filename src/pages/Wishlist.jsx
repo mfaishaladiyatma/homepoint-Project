@@ -197,13 +197,13 @@ export default function Wishlist() {
                 </div>
               </form>
             </div>
-            <div>
+            {/* <div>
               <p className='text-[#316093]'>
                 <button className='font-medium'>
                   Atur Wishlist
                 </button>
               </p>
-            </div>
+            </div> */}
 
           </div>
 
@@ -213,9 +213,9 @@ export default function Wishlist() {
               {dataWishlist.length > 0 && dataWishlist.map((data) => {
                 // console.log(data.wishlistItems)
                 return (
-                  <button onClick={() => navigate('/product/'+data.products.id)} key={data.id}>
-                  <div  className='border-2 border-slate-300 flex flex-col items-center justify-between rounded-[8px] p-2 gap-y-5 h-full max-h-[450px]'>
-                    <img src={data.products.productImages[0].image} alt="" />
+                  
+                  <div onClick={() => navigate('/product/'+data.products.id)} key={data.id}  className='border-2 border-slate-300 flex flex-col items-center justify-between rounded-[8px] p-2 gap-y-5 h-full max-h-[450px] cursor-pointer'>
+                    <img className='rounded-[8px]' src={data.products.productImages[0].image} alt="" />
 
                     <h3 className='w-full text-left font-bold text-[18px]'>{data.products.name}</h3>
 
@@ -250,7 +250,7 @@ export default function Wishlist() {
                     </div>
 
                   </div>
-                  </button>
+                  
                 )
               }
               )}

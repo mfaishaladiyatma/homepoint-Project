@@ -30,7 +30,7 @@ export default function CarouselBestOffer() {
   useEffect(() => {
     axios.get('https://homepoint-server-staging.herokuapp.com/api/v1/products/discount')
       .then((response) => {
-        console.log(response)
+        // console.log(response)
         setDataBestOffer(response.data.data)
         // console.log(cobaGet)
       })

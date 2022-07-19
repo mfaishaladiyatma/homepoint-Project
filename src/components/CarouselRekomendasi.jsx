@@ -29,7 +29,7 @@ export default function CarouselRekomendasi() {
     useEffect(() => {
         axios.get('https://homepoint-server-staging.herokuapp.com/api/v1/products/latest')
             .then((response) => {
-                console.log(response)
+                // console.log(response)
                 setDataRecommend(response.data.data)
                 // console.log(cobaGet)
             })
