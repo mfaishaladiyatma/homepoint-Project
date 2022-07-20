@@ -309,7 +309,7 @@ export default function Cart() {
   return (
     <div className='flex flex-col py-12 px-16 gap-y-10'>
       {/* <h2 className='font-bold text-[30px]'>Keranjang</h2> */}
-      <div className='flex flex-col lg:flex-row gap-x-5 font-Inter'>
+      <div className='flex flex-col lg:flex-row gap-x-5 gap-y-20 md:gap-y-0 font-Inter'>
 
         {/* card untuk product yang dibeli */}
         <div className='flex flex-col w-full lg:w-[70%]  px-2 gap-y-8'>
@@ -350,7 +350,7 @@ export default function Cart() {
             </div>
             <div>
               <button onClick={() => bulkDelete()}>
-                <p className='font-bold text-red-500'>Hapus</p>
+                <p className='font-bold text-[14px] md:text-[16px] text-red-500'>Hapus</p>
               </button>
             </div>
           </div>
@@ -359,37 +359,37 @@ export default function Cart() {
           <section>
             {cart && cart.sort((a, b) => a.id > b.id ? 1 : -1).map((item) => {
               return (
-                <div key={item.id} className='flex flex-col '>
-                  <div className='flex flex-row  items-center gap-x-2'>
+                <div key={item.id} className='flex flex-col gap-y-5'>
+                  <div className='flex flex-row  items-center gap-x-5 md:gap-x-2'>
                     <input className='accent-[#FBC646] scale-[1.5] outline-none' onChange={(e) => handleCheckboxItem(e.target.checked, item.products.id, item.id)} type="checkbox" name='cartItems' />
-                    <img className='w-[250px] rounded-[8px]' src={item.products.productImages[0].image} alt="" />
+                    <img className='w-[130px] md:w-[250px] rounded-[8px]' src={item.products.productImages[0].image} alt="" />
                     <div className='flex flex-col  w-full h-full gap-y-12'>
                       <div className='flex flex-col'>
-                        <h4 className='text-[18px]'>{item.products.name}</h4>
+                        <h4 className='text-[16px] md:text-[18px]'>{item.products.name}</h4>
 
-                        <h4 className='font-bold text-[18px]'>{item.products.discount == 0 ? new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 9 }).format(item.products.price) : new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 9 }).format(item.products.price * (item.products.discount / 100))}</h4>
+                        <h4 className='font-bold text-[16px] md:text-[18px]'>{item.products.discount == 0 ? new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 9 }).format(item.products.price) : new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 9 }).format(item.products.price * (item.products.discount / 100))}</h4>
 
                       </div>
                       <div className='flex flex-row justify-between'>
                         <div className='flex items-center gap-x-2'>
                           <button onClick={() => addToWishlist(item.products.id, item.id)}>
-                            <div>
+                            <div className='text-[14px] md:text-[16px]'>
                               <BsHeart />
                             </div>
                           </button>
-                          <p>|</p>
+                          <p className='text-[14px] md:text-[16px]'>|</p>
                           <button onClick={() => deleteCart(item.id)}>
-                            <div className='text-red-500'>
+                            <div className='text-red-500 text-[14px] md:text-[16px]'>
                               <BsFillTrashFill />
                             </div>
                           </button>
                         </div>
-                        <div className='flex justify-between px-2 rounded-[10px] w-[80px] text-white bg-[#22364A]'>
-                          <button onClick={() => decQty(item.id, item.quantity, item.products.stock)}>
+                        <div className='flex justify-between items-center px-2 rounded-[10px] w-[80px] h-[25px] text-white bg-[#22364A]'>
+                          <button className='text-[14px] md:text-[16px]' onClick={() => decQty(item.id, item.quantity, item.products.stock)}>
                             -
                           </button>
-                          <p>{item.quantity}</p>
-                          <button onClick={() => addQty(item.id, item.quantity, item.products.stock)}>
+                          <p className='text-[14px] md:text-[16px]'>{item.quantity}</p>
+                          <button className='text-[14px] md:text-[16px]' onClick={() => addQty(item.id, item.quantity, item.products.stock)}>
                             +
                           </button>
                         </div>
@@ -407,7 +407,7 @@ export default function Cart() {
         </div>
 
         {/* card untuk tab harga/bayar */}
-        <section className=' flex flex-col gap-y-8 w-full lg:w-[30%] rounded-[8px] shadow-shadow-custom-2 px-3 py-5 h-fit'>
+        <section className=' flex flex-col gap-y-8 w-full lg:w-[30%] rounded-[8px] shadow-shadow-custom-2 px-5 md:px-3 py-7 md:py-5 h-fit'>
           {/* <div className='flex h-10 items-center justify-between  rounded-[8px] border-2 border-blue-300 px-3'>
             <div className='flex justify-center w-full'>
               <p className='font-semibold text-[#505050]'>Makin hemat dengan promo</p>
@@ -427,8 +427,8 @@ export default function Cart() {
                     return (
                       <React.Fragment key={index}>
                         <div className='flex justify-between'>
-                          <p>Total harga ({item.quantity} barang)</p>
-                          <p>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 9 }).format(
+                          <p className='text-[14px] md:text-[16px]'>Total harga ({item.quantity} barang)</p>
+                          <p className='text-[14px] md:text-[16px]'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 9 }).format(
 
                             item.products.price * item.quantity
 
@@ -440,8 +440,8 @@ export default function Cart() {
                     return (
                       <React.Fragment key={index}>
                         <div className='flex justify-between'>
-                          <p>Total harga ({item.quantity} barang)</p>
-                          <p>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 9 }).format(
+                          <p className='text-[14px] md:text-[16px]'>Total harga ({item.quantity} barang)</p>
+                          <p className='text-[14px] md:text-[16px]'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 9 }).format(
 
                             (item.products.price * (item.products.discount / 100)) * item.quantity
 
@@ -473,8 +473,8 @@ export default function Cart() {
             {cartItems.length > 0
               ?
               <>
-                <p className='font-bold text-[22px]'>Total Harga</p>
-                <p className='font-bold text-[22px]'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 9 }).format(
+                <p className='font-bold text-[20px] md:text-[22px]'>Total Harga</p>
+                <p className='font-bold text-[20px] md:text-[22px]'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 9 }).format(
 
                   calcTotal()
 
@@ -484,7 +484,7 @@ export default function Cart() {
               <p className='font-bold text-[22px] '></p>
             }
           </div>
-          <div className='rounded-[8px] font-bold text-[#505050] bg-[#FBC646] h-10 flex justify-center items-center'>
+          <div className='rounded-[8px] font-bold text-[14px] md:text-[16px] text-[#505050] bg-[#FBC646] h-20 md:h-12 flex justify-center items-center'>
             Beli ({cartItems.length})
           </div>
         </section>
@@ -493,21 +493,23 @@ export default function Cart() {
       {/* card untuk product yang rekomendasi & card untuk wishlist*/}
       <div className='flex w-full lg:w-[70%] flex-col'>
         <section className='mb-20 flex flex-col '>
-          <div className=' flex justify-between items-center'>
-            <h4 className='text-[30px] font-medium'>Wishlist</h4>
+          <div className=' flex flex-col md:flex-row justify-start items-start md:justify-between md:items-center'>
+            <h4 className='text-[22px] md:text-[30px] font-medium'>Wishlist</h4>
             <button onClick={() => navigate('/wishlist-' + idAkun)}>
-              <p className='text-[#316093] font-[600]'>Lihat Selengkapnya &gt;</p>
+              <p className='text-[#316093] text-[14px] md:text-[16px] font-[600]'>Lihat Selengkapnya &gt;</p>
             </button>
           </div>
-          <div className={`${productWishlist.length > 0 ? 'grid grid-cols-2 xl:grid-cols-4' : 'flex justify-center'}  h-full gap-4 mt-10 justify-items-center `}>
+          <div className={`${productWishlist.length > 0 ? 'grid grid-cols-2 xl:grid-cols-4' : 'flex justify-center min-h-[300px] items-center'}  h-full gap-4 mt-10 justify-items-center `}>
 
             {productWishlist.length > 0
               ?
               productWishlist.slice(0, 4).map((item) => (
                 <button key={item.id} onClick={() => navigate('/product/' + item.products.id)}>
-                  <div className='flex flex-col border-2 h-full w-full  max-w-[250px] lg:max-w-full p-3 justify-between gap-y-6 rounded-[10px] border-[#E1E1E1] shadow-shadow-custom-1 hover:-translate-y-3 ease-in-out duration-300'>
-                    <img className='rounded-[8px]' src={item.products.productImages[0].image} alt="" />
-                    <p className='font-semibold text-left'>{item.products.name}</p>
+                  <div className='flex flex-col border-2 h-full w-full  max-w-[250px] lg:max-w-full p-3 justify-between gap-y-6 rounded-[10px] border-[#E1E1E1] shadow-shadow-custom-1 hover:-translate-y-3 ease-in-out duration-300 '>
+                    <div className='flex flex-row items-center justify-center '>
+                      <img className='rounded-[8px] w-[200px]' src={item.products.productImages[0].image} alt="" />
+                    </div>
+                    <p className='font-semibold text-left text-[16px]'>{item.products.name}</p>
                     <div className='flex flex-col gap-y-3'>
 
                       {item.products.discount === 0 ?
@@ -523,10 +525,10 @@ export default function Cart() {
 
                       <div className='flex gap-x-2'>
                         <div className='flex items-center gap-x-2'>
-                          <div className='text-yellow-400'><AiFillStar /></div>
+                          <div className='text-yellow-400 text-[14px] md:text-[16px]'><AiFillStar /></div>
                           <p className='text-[16px]'>{item.products.ratingAverage}</p>
                         </div>
-                        <div>
+                        <div className='text-[14px] md:text-[16px]'>
                           |
                         </div>
                         <div className='flex items-center'>
@@ -538,24 +540,26 @@ export default function Cart() {
                 </button>
               ))
               :
-              <p className='text-center bg-sky-300/20 px-10 rounded-[8px]'>Masih kosong 🥲</p>
+              <p className='text-center text-[14px] md:text-[16px] bg-sky-300/20 p-5 h-fit rounded-[8px]'>Masih kosong 🥲</p>
             }
 
           </div>
 
-          <div className='mt-12 flex justify-between items-center'>
-            <h4 className='text-[30px] font-medium'>Rekomendasi Untukmu</h4>
+          <div className='mt-12 flex flex-col md:flex-row justify-start items-start md:justify-between md:items-center'>
+            <h4 className='text-[22px] md:text-[30px] font-medium'>Rekomendasi Untukmu</h4>
             <button onClick={() => navigate('/search')}>
-              <p className='text-[#316093] font-[600]'>Lihat Selengkapnya &gt;</p>
+              <p className='text-[#316093] text-[14px] md:text-[16px] font-[600]'>Lihat Selengkapnya &gt;</p>
             </button>
           </div>
-          <div className='grid grid-cols-2 xl:grid-cols-4  h-full  gap-4 mt-10'>
+          <div className='grid grid-cols-2 xl:grid-cols-4 justify-items-center h-full  gap-4 mt-10'>
 
             {rekomendasiProduct.slice(0, 4).map((item) => (
               <button key={item.id} onClick={() => navigate('/product/' + item.id)}>
-                <div className='flex flex-col h-full border-2  p-3 justify-between gap-y-6 rounded-[10px] border-[#E1E1E1] shadow-shadow-custom-1 hover:-translate-y-3 ease-in-out duration-300'>
-                  <img className='rounded-[8px]' src={item.productImages[0].image} alt="" />
-                  <p className='font-semibold text-left '>{item.name}</p>
+                <div className='flex flex-col h-full border-2  p-3 justify-between gap-y-6 rounded-[10px] border-[#E1E1E1] shadow-shadow-custom-1 hover:-translate-y-3 ease-in-out duration-300 max-w-[250px]'>
+                  <div className='flex flex-row items-center justify-center '>
+                    <img className='rounded-[8px]  w-[200px] ' src={item.productImages[0].image} alt="" />
+                  </div>
+                  <p className='font-semibold text-[16px] text-left '>{item.name}</p>
                   <div className='flex flex-col gap-y-3'>
                     {item.discount === 0 ?
 
@@ -570,10 +574,10 @@ export default function Cart() {
 
                     <div className='flex gap-x-2'>
                       <div className='flex items-center gap-x-2'>
-                        <div className='text-yellow-400'><AiFillStar /></div>
+                        <div className='text-yellow-400 text-[14px] md:text-[16px]'><AiFillStar /></div>
                         <p className='text-[16px]'>{item.ratingAverage}</p>
                       </div>
-                      <div>
+                      <div className='text-[14px] md:text-[16px]'>
                         |
                       </div>
                       <div className='flex items-center'>
