@@ -214,18 +214,18 @@ export default function Wishlist() {
                 // console.log(data.wishlistItems)
                 return (
 
-                  <div onClick={() => navigate('/product/' + data.products.id)} key={data.id} className='border-2 border-slate-300 flex flex-col items-center justify-between rounded-[8px] p-2 gap-y-5 h-full max-h-[450px] cursor-pointer'>
+                  <div onClick={() => navigate('/product/' + data.products.id)} key={data.id} className='border-2 border-slate-300 flex flex-col items-center justify-between rounded-[8px] p-2 gap-y-5 h-full max-h-[480px] cursor-pointer '>
                     <img className='rounded-[8px]' src={data.products.productImages[0].image} alt="" />
 
                     <h3 className='w-full text-left font-bold text-[18px]'>{data.products.name}</h3>
 
                     <div className='flex flex-col w-full gap-y-2'>
                       {data.products.discount === 0 ?
-                        <h3 className='font-bold text-[18px] text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(data.products.price)}</h3>
+                        <h3 className='font-bold text-[18px] text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 9 }).format(data.products.price)}</h3>
                         :
                         <>
                           <h4 className='text-[14px] text-gray-500 line-through decoration-red-600 decoration-2 text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(data.products.price)}</h4>
-                          <h3 className='font-bold text-[18px] text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(data.products.price * (data.products.discount / 100))}</h3>
+                          <h3 className='font-bold text-[18px] text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 9 }).format(data.products.price - (data.products.price * (data.products.discount / 100)))}</h3>
                         </>
                       }
 
@@ -238,11 +238,11 @@ export default function Wishlist() {
                         <p> | </p>
                         <p>Terjual {data.products.amountSold}</p>
                       </div>
-                      <div className='flex flex-row gap-x-3'>
+                      <div className='flex flex-row  gap-x-3'>
                         <button onClick={(e) => { deleteWishlist(data.id); e.stopPropagation() }}>
-                          <img className='w-[25px]' src={trashIcon} alt="" />
+                          <img className='w-[35px]' src={trashIcon} alt="" />
                         </button>
-                        <button onClick={(e) => { addToCart(data.products.id); e.stopPropagation() }} className='bg-[#FBC646] p-3 flex flex-row justify-between w-[130px] font-semibold rounded-[8px] text-[#252525]'>
+                        <button onClick={(e) => { addToCart(data.products.id); e.stopPropagation() }} className='bg-[#FBC646] p-3 flex flex-row justify-center gap-x-3 w-full font-semibold rounded-[8px] text-[#252525]'>
                           <p>+</p>
                           <p>Keranjang</p>
                         </button>

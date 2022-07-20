@@ -300,7 +300,7 @@ export default function Cart() {
     const total = cartItems.map(item => item.products.discount == 0 ?
       (item.products.price * item.quantity)
       :
-      ((item.products.price * (item.products.discount / 100)) * item.quantity)).reduce((a, b) => {
+      ((item.products.price - (item.products.price * (item.products.discount / 100))) * item.quantity)).reduce((a, b) => {
         return a + parseInt(b, 10)
       }, 0)
     return total
@@ -367,7 +367,7 @@ export default function Cart() {
                       <div className='flex flex-col'>
                         <h4 className='text-[16px] md:text-[18px]'>{item.products.name}</h4>
 
-                        <h4 className='font-bold text-[16px] md:text-[18px]'>{item.products.discount == 0 ? new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 9 }).format(item.products.price) : new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 9 }).format(item.products.price * (item.products.discount / 100))}</h4>
+                        <h4 className='font-bold text-[16px] md:text-[18px]'>{item.products.discount == 0 ? new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 9 }).format(item.products.price) : new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 9 }).format(item.products.price - (item.products.price * (item.products.discount / 100)))}</h4>
 
                       </div>
                       <div className='flex flex-row justify-between'>
@@ -443,7 +443,7 @@ export default function Cart() {
                           <p className='text-[14px] md:text-[16px]'>Total harga ({item.quantity} barang)</p>
                           <p className='text-[14px] md:text-[16px]'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 9 }).format(
 
-                            (item.products.price * (item.products.discount / 100)) * item.quantity
+                            (item.products.price - (item.products.price * (item.products.discount / 100))) * item.quantity
 
                           )}</p>
                         </div>
@@ -519,7 +519,7 @@ export default function Cart() {
                         <>
                           <h4 className='text-[14px] text-gray-500 line-through decoration-red-600 decoration-2 text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(item.products.price)}</h4>
 
-                          <h3 className='font-bold text-[18px] text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(item.products.price * (item.products.discount / 100))}</h3>
+                          <h3 className='font-bold text-[18px] text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(item.products.price - (item.products.price * (item.products.discount / 100)))}</h3>
                         </>
                       }
 
@@ -568,7 +568,7 @@ export default function Cart() {
                       <>
                         <h4 className='text-[14px] text-gray-500 line-through decoration-red-600 decoration-2 text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(item.price)}</h4>
 
-                        <h3 className='font-bold text-[18px] text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(item.price * (item.discount / 100))}</h3>
+                        <h3 className='font-bold text-[18px] text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(item.price - (item.price * (item.discount / 100)))}</h3>
                       </>
                     }
 

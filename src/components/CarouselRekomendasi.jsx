@@ -85,15 +85,17 @@ export default function CarouselRekomendasi() {
                                 {dataRecommend.map((item) => (
                                     <SwiperSlide key={item.id}>
                                         <div className='h-full relative flex border-[1px] border-[#E1E1E1] bg-white rounded-[10px] container hover:shadow-shadow-custom-3 hover:-translate-y-2 ease-in-out duration-200'>
-                                            <button onClick={() => navigate('/product/'+item.id)} className='flex w-full'>
+                                            <button onClick={() => navigate('/product/' + item.id)} className='flex w-full'>
 
                                                 <div className='flex flex-col items-center md:items-start w-full  h-full p-3'>
-                                                    <img className='h-[180px] rounded-[8px]' src={item.productImages[0].image} alt="" />
+                                                    <div className='w-full flex justify-center'>
+                                                        <img className='h-[180px] w-full rounded-[8px]' src={item.productImages[0].image} alt="" />
+                                                    </div>
                                                     <div className='flex container flex-col justify-between items-center md:items-start h-[50%] gap-y-8'>
                                                         <h4 className='font-bold mt-2  text-[18px] text-left'>{item.name}</h4>
                                                         <div className='flex flex-col gap-y-2'>
 
-                                                            <h4 className='font-bold text-[18px] text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(item.price)}</h4>
+                                                            <h4 className='font-bold text-[18px] text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 9 }).format(item.price)}</h4>
 
                                                             <div className='flex gap-x-2'>
                                                                 <div className='flex items-center gap-x-2'>

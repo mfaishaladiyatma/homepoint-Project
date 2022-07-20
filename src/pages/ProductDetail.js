@@ -183,12 +183,19 @@ function ProductDetail() {
     const handleAddQty = () => {
         if ((qty || 0) < stock) {
             setQty(qty + 1)
+        }else{
+            toast('Tidak bisa melebihi stock',{
+                icon: '⚠️',
+            })
         }
     }
 
     const handleDecQty = () => {
         if (qty === 1 || qty === 0) {
             setQty(0)
+            toast('Tidak bisa kurang dari 0',{
+                icon: '⚠️',
+            })
         }
         if (qty > 0) {
             setQty(qty - 1)
@@ -251,7 +258,7 @@ function ProductDetail() {
                                     <div className='flex items-center'>
 
                                         <h1 className='line-through  text-lg'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(product.price)}</h1>
-                                        <h1 className='text-2xl font-bold ml-2'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format((product.price * (product.discount / 100)))}</h1>
+                                        <h1 className='text-2xl font-bold ml-2'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format((product.price - (product.price * (product.discount / 100))))}</h1>
                                     </div>
                                 }
 
@@ -273,8 +280,7 @@ function ProductDetail() {
                                     <h1 className='py-2 font-bold'>Deskripsi</h1>
                                     <div>
                                         <div>
-                                            <div dangerouslySetInnerHTML={{ __html: product.description }}>
-
+                                            <div className='max-w-[90%]' dangerouslySetInnerHTML={{ __html: product.description }}>
                                             </div>
                                         </div>
 
@@ -314,7 +320,7 @@ function ProductDetail() {
                                         :
                                         <div className='flex flex-col'>
                                             <h1 className='py-5 line-through'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(product.price)}</h1>
-                                            <h1 className='font-bold text-2xl'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format((product.price * (product.discount / 100)))}</h1>
+                                            <h1 className='font-bold text-2xl'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format((product.price - (product.price * (product.discount / 100))))}</h1>
                                         </div>
                                     }
 
@@ -379,7 +385,7 @@ function ProductDetail() {
                                         <button >
                                             <img src={shareIcon} alt="" />
                                         </button>
-                                        <div className='absolute  top-full left-0 bg-white  w-[230px] h-fit flex gap-x-3 p-2 invisible  opacity-0 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 translate-y-[-50%] group-hover:ease-in-out group-hover:duration-500 rounded-[8px] shadow-shadow-custom-1'>
+                                        <div className='absolute  top-full left-0 bg-white  w-[180px] h-fit flex gap-x-3 p-2 invisible  opacity-0 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 translate-y-[-50%] group-hover:ease-in-out group-hover:duration-500 rounded-[8px] shadow-shadow-custom-1'>
                                             <button className='hover:shadow-shadow-custom-2 rounded-full '>
                                                 <img className='w-[30px]' src={instagramLogo} alt="" />
                                             </button>
@@ -393,9 +399,6 @@ function ProductDetail() {
                                             </button>
                                             <button className='hover:shadow-shadow-custom-2 rounded-full '>
                                                 <img className='w-[30px]' src={facebookLogo} alt="" />
-                                            </button>
-                                            <button className='hover:shadow-shadow-custom-2 rounded-full '>
-                                                <img className='w-[30px]' src={instagramLogo} alt="" />
                                             </button>
                                         </div>
                                     </div>
