@@ -20,6 +20,7 @@ export default function Cart() {
   const [rekomendasiProduct, setRekomendasiProduct] = useState([]);
   const [cart, setCart] = useState([]);
   const [cartItems, setCartItems] = useState([]);
+  const [deleteBulk, setDeleteBulk] = useState([]);
   // const [stock, setStock] = useState([]);
   const [productWishlist, setProductWishlist] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -88,6 +89,11 @@ export default function Cart() {
     if (e) {
       axios.get(`https://homepoint-server-staging.herokuapp.com/api/v1/cart/items/${idAkun}/${productId}`)
         .then((response) => {
+          setDeleteBulk((prevState) =>
+          ([...prevState,
+            cartItemsId])
+          )
+
           if ((cartItems.filter(item => item.id === cartItemsId)).length === 0) {
             setCartItems((prevState) => ([
               ...prevState,
@@ -108,6 +114,7 @@ export default function Cart() {
         })
     } else {
       setCartItems(cartItems.filter(item => item.id !== cartItemsId))
+      setDeleteBulk(deleteBulk.filter(item => item !== cartItemsId))
     }
 
   }
@@ -130,6 +137,28 @@ export default function Cart() {
   //         //wip: display error here
   //       })
   // }
+
+  const bulkDelete = () => {
+    axios({
+      method: "delete",
+      url: `https://homepoint-server-staging.herokuapp.com/api/v1/cart/items`,
+      data: deleteBulk,
+      // headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    }).then((response) => {
+      //handle success
+      // console.log(response, "<<<Add To Wishlist>>>")
+      // console.log(response, "<<< removed items")
+      checkCart()
+      checkWishlist()
+      setCartItems(cartItems.filter(item => !deleteBulk.includes(item.id)))
+      // setCheckProduct(true)
+      toast.success("Item berhasil terhapus")
+      // navigate(0)
+    }).catch((error) => {
+      //handle error
+      console.log(error)
+    })
+  }
 
   const checkCart = () => {
     axios.get(`https://homepoint-server-staging.herokuapp.com/api/v1/cart/${idAkun}`)
@@ -255,10 +284,11 @@ export default function Cart() {
       url: ('https://homepoint-server-staging.herokuapp.com/api/v1/cart/items/' + id),
     }).then((response) => {
       //handle success
-      console.log(response)
+      // console.log(response)
       // window.location.reload()
       toast.success("Item berhasil dihapus")
       checkCart()
+      setCartItems(cartItems.filter(item => item.id !== id))
     }).catch((error) => {
       //handle error
       console.log(error)
@@ -314,12 +344,14 @@ export default function Cart() {
             }}
           />
 
-          <div className='flex justify-between'>
+          <div className='flex justify-between items-center'>
             <div className='flex gap-x-2 items-center'>
               <h2 className='font-bold text-[30px]'>Keranjang</h2>
             </div>
             <div>
-              <p className='font-bold text-red-500'>Hapus</p>
+              <button onClick={() => bulkDelete()}>
+                <p className='font-bold text-red-500'>Hapus</p>
+              </button>
             </div>
           </div>
 
@@ -467,7 +499,7 @@ export default function Cart() {
               <p className='text-[#316093] font-[600]'>Lihat Selengkapnya &gt;</p>
             </button>
           </div>
-          <div className={`${productWishlist.length > 0 ? 'grid grid-cols-2 xl:grid-cols-4' :'flex justify-center'}  h-full gap-4 mt-10 justify-items-center `}>
+          <div className={`${productWishlist.length > 0 ? 'grid grid-cols-2 xl:grid-cols-4' : 'flex justify-center'}  h-full gap-4 mt-10 justify-items-center `}>
 
             {productWishlist.length > 0
               ?
