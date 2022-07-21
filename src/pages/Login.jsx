@@ -121,7 +121,7 @@ export default function Login() {
       </div> */}
       {/* whole page */}
 
-      <div style={{ backgroundImage: `url(${backgroundImage})` }} className=" bg-cover bg-left-bottom relative font-Inter flex flex-col py-12 h-screen md:h-full items-center justify-center  w-full">
+      <div style={{ backgroundImage: `url(${backgroundImage})` }} className=" bg-cover bg-left-bottom relative font-Inter flex flex-col py-12 h-screen lg:h-full items-center justify-center  w-full">
         <div className="absolute top-[5%] left-[3%]">
           <button onClick={() => navigate(-1)} className="ml-10">
             <AiOutlineArrowLeft className="text-[26px] md:text-[32px]" />

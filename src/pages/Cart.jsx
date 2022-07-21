@@ -224,7 +224,7 @@ export default function Cart() {
         headers: { "Content-Type": "application/json" }
       }).then((response) => {
         //handle success
-        console.log(response)
+        // console.log(response)
         checkCart()
         if (cartItems.length > 0) {
           cartItems.map(item => {
@@ -256,7 +256,7 @@ export default function Cart() {
         headers: { "Content-Type": "application/json" }
       }).then((response) => {
         //handle success
-        console.log(response)
+        // console.log(response)
         checkCart()
         if (cartItems.length > 0) {
           cartItems.map(item => {

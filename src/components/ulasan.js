@@ -1,151 +1,141 @@
 import React from 'react'
+import { useState, useEffect } from 'react'
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai'
+import axios from 'axios'
+import { useParams, useSearchParams, useNavigate } from 'react-router-dom'
 import { BsStarHalf } from 'react-icons/bs'
-import review from '../assets/review.png'
-import review2 from '../assets/review2.png'
+// import review from '../assets/review.png'
+// import review2 from '../assets/review2.png'
 
-import gambar1 from '../assets/products/gambar1.png'
-import gambar2 from '../assets/products/gambar2.png'
-import gambar3 from '../assets/products/gambar3.png'
-import gambar4 from '../assets/products/gambar4.png'
-import gambar5 from '../assets/products/gambar5.png'
-import gambar6 from '../assets/products/gambar6.png'
-import UlasanProps from './ulasan/ulasanProps'
-import ReviewProps from './ulasan/reviewProps'
+// import gambar1 from '../assets/products/gambar1.png'
+// import gambar2 from '../assets/products/gambar2.png'
+// import gambar3 from '../assets/products/gambar3.png'
+// import gambar4 from '../assets/products/gambar4.png'
+// import gambar5 from '../assets/products/gambar5.png'
+// import gambar6 from '../assets/products/gambar6.png'
+// import UlasanProps from './ulasan/ulasanProps'
+// import ReviewProps from './ulasan/reviewProps'
 
 function Ulasan({ product }) {
+    const navigate = useNavigate()
+    const [otherProduct, setOtherProduct] = useState([])
+
+    useEffect(() => {
+        axios.get('https://homepoint-server-staging.herokuapp.com/api/v1/products/latest')
+            .then((response) => {
+                setOtherProduct(response.data.data)
+                // console.log(response.data.data)
+            })
+            .catch((error) => {
+                console.log(error)
+                //wip: display error here
+            })
+    },[])
     return (
-        <div className='py-12 px-4 w-full'>
-            <h1>Ulasan</h1>
-            <div className='flex flex-col md:flex-row w-full'>
-                <div className='py-12 flex flex-col justify-center w-[150px] items-center'>
-                    <h1 className='text-3xl font-bold'>{product.ratingAverage} <span className='text-xl'>/ 5</span></h1>
-                    <div className='mt-2 flex items-center text-[#FBC646]'>
-                        {product.ratingAverage >= 1 ? <AiFillStar className='text-xl' /> : <AiOutlineStar className='text-xl' />}
-                        {product.ratingAverage >= 2 ? <AiFillStar className='text-xl' /> : <AiOutlineStar className='text-xl' />}
-                        {product.ratingAverage >= 3 ? <AiFillStar className='text-xl' /> : <AiOutlineStar className='text-xl' />}
-                        {product.ratingAverage >= 4 ? <AiFillStar className='text-xl' /> : <AiOutlineStar className='text-xl' />}
-                        {product.ratingAverage >= 5 ? <AiFillStar className='text-xl' /> : <AiOutlineStar className='text-xl' />}
-                    </div>
-                    <h1 className='text-xl'>{`(${product.ratingCount} ulasan)`}</h1>
-                </div>
-                <div className='md:ml-24 px-5 flex flex-col md:items-center justify-center'>
-                    <div className='py-1 items-center flex gap-[20px]'>
-                        <h1>5</h1>
-                        <AiFillStar className='text-[#FBC646]' />
-                        <div className='blue-1 relative bg-[#E1E1E1] rounded-md h-[10px] w-[250px]'></div>
-                        <h1 className="w-[30px]">24</h1>
-                    </div>
-                    <div className='py-1 items-center flex gap-[20px]'>
-                        <h1>4</h1>
-                        <AiFillStar className='text-[#FBC646]' />
-                        <div className='blue-2 relative bg-[#E1E1E1] rounded-md h-[10px] w-[250px]'></div>
-                        <h1 className="w-[30px]">8</h1>
-                    </div>
-                    <div className='py-1 items-center flex gap-[20px]'>
-                        <h1>3</h1>
-                        <AiFillStar className='text-[#FBC646]' />
-                        <div className='blue-3 relative bg-[#E1E1E1] rounded-md h-[10px] w-[250px]'></div>
-                        <h1 className="w-[30px]">4</h1>
-                    </div>
-                    <div className='py-1 items-center flex gap-[20px]'>
-                        <h1>2</h1>
-                        <AiFillStar className='text-[#FBC646]' />
-                        <div className='bg-[#E1E1E1] rounded-md h-[10px] w-[250px]'></div>
-                        <h1 className="w-[30px]">0</h1>
-                    </div>
-                    <div className='py-1 items-center flex gap-[20px]'>
-                        <h1>1</h1>
-                        <AiFillStar className='text-[#FBC646]' />
-                        <div className='bg-[#E1E1E1] rounded-md h-[10px] w-[250px]'></div>
-                        <h1 className="w-[30px]">0</h1>
-                    </div>
-                </div>
-            </div>
+        <div className="ulasan flex flex-col font-Inter mb-20">
 
-            <div className='py-8 flex flex-col md:flex-row'>
-                <h1>Semua Ulasan {`(${product.ratingCount})`}</h1>
-                <div className='flex flex-wrap md:ml-12 gap-[5px] md:gap-[20px]'>
-                    <div className='p-2 rounded-2xl px-4 border-[1px] flex items-center gap-[10px] border-black'>
-                        <AiFillStar className='text-[#FBC646]' />
-                        <h1>5</h1>
+            <div className='flex flex-col gap-y-5 justify-center m-auto w-fit items-center'>
+                <h2 className='text-left w-full text-[20px] font-medium'>Penilaian Pembeli</h2>
+                <div className='flex bg-[#E6EFF4] gap-x-20 py-5 px-14 rounded-[8px] justify-between'>
+                    <div className='flex flex-col h-full items-center gap-y-5'>
+                        <div className='flex items-center'>
+                            <h3 className='font-semibold text-[42px]'>{product.ratingAverage}</h3>
+                            <p className='text-[20px]'>/5</p>
+                        </div>
+                        <div>
+                            <p className='text-slate-600'>{product.ratingCount} Penilaian</p>
+                        </div>
                     </div>
-                    <div className='p-2 rounded-2xl px-4 border-[1px] flex items-center gap-[10px] border-black'>
-                        <AiFillStar className='text-[#FBC646]' />
-                        <h1>4</h1>
-                    </div>
-                    <div className='p-2 rounded-2xl px-4 border-[1px] flex items-center gap-[10px] border-black'>
-                        <AiFillStar className='text-[#FBC646]' />
-                        <h1>3</h1>
-                    </div>
-                    <div className='p-2 rounded-2xl px-4 border-[1px] flex items-center gap-[10px] border-black'>
-                        <AiFillStar className='text-[#FBC646]' />
-                        <h1>2</h1>
-                    </div>
-                    <div className='p-2 rounded-2xl px-4 border-[1px] flex items-center gap-[10px] border-black'>
-                        <AiFillStar className='text-[#FBC646]' />
-                        <h1>1</h1>
-                    </div>
-                </div>
-            </div>
-
-            <div className='flex flex-col gap-[20px]'>
-                <ReviewProps />
-                <ReviewProps />
-                <ReviewProps />
-                <ReviewProps />
-            </div>
-
-            <div className='py-24'>
-                <h1 className='font-bold'>Diskusi</h1>
-                <div className='flex flex-col'>
-                    <div className='max-w-fit mt-4 flex gap-[10px] items-center justify-between py-4 px-5 border-[1px] border-black rounded-md'>
-                        <h1 className='text-sm md:text-md text-[#505050]'>Diskusikan pertanyaanmu terkait produk ini dengan kami maupun pembeli lainnya</h1>
-                        <button className='font-bold bg-[#FBC646] text-[#22364A] p-3 ml-auto rounded-md'>Tulis Pertanyaan</button>
-                    </div>
-                    <div className='mt-12 max-w-fit rounded-md p-5 border-[1px] border-black'>
-                        <h1 className='font-bold'>Lynn Tanner • <span className='font-light'>2022-02-22</span></h1>
-                        <h1 className='py-2'>Apakah terdapat garansi? Jika ya berapa lama garansinya?</h1>
-                        <div className='flex items-center py-2 border-t-[1px] border-black'>
-                            <div className='flex flex-col items-center justify-center'>
-                                <div className='w-[10px] h-[10px] bg-gray-300 rounded-full'></div>
-                                <div className='w-[2px] h-[65px] bg-gray-400 rounded-md'></div>
-                            </div>
-                            <div>
-                                <div className='ml-6'>
-                                    <div className='flex items-center py-3 gap-[20px]'>
-                                        <h1 className='bg-[#316093] text-white px-2 py-1 rounded-xl'>Customer Care</h1>
-                                        •
-                                        <h1>2022-02-22</h1>
-                                    </div>
-                                    <h1>Halo, Garansi produk ini satu tahun, jika anda menemui masalah produk silahkan hubungi kami<br></br> atau datang ke toko offline terdekat.</h1>
-                                    <input className="mt-4 p-1 border-none outline-none indent-[10px] font-bold text-black bg-gray-300 w-[100%] rounded-md" placeholder="Tambahkan komentar" />
-                                </div>
-                            </div>
+                    <div className='flex flex-col'>
+                        <div className='flex items-center text-yellow-400 gap-x-2'>
+                            <AiFillStar />
+                            <AiFillStar />
+                            <AiFillStar />
+                            <AiFillStar />
+                            <AiFillStar />
+                            <p className='text-black'>990</p>
+                        </div>
+                        <div className='flex items-center text-yellow-400 gap-x-2'>
+                            <AiFillStar />
+                            <AiFillStar />
+                            <AiFillStar />
+                            <AiFillStar />
+                            <AiOutlineStar />
+                            <p className='text-black'>24</p>
+                        </div>
+                        <div className='flex items-center text-yellow-400 gap-x-2'>
+                            <AiFillStar />
+                            <AiFillStar />
+                            <AiFillStar />
+                            <AiOutlineStar />
+                            <AiOutlineStar />
+                            <p className='text-black'>0</p>
+                        </div>
+                        <div className='flex items-center text-yellow-400 gap-x-2'>
+                            <AiFillStar />
+                            <AiFillStar />
+                            <AiOutlineStar />
+                            <AiOutlineStar />
+                            <AiOutlineStar />
+                            <p className='text-black'>0</p>
+                        </div>
+                        <div className='flex items-center text-yellow-400 gap-x-2'>
+                            <AiFillStar />
+                            <AiOutlineStar />
+                            <AiOutlineStar />
+                            <AiOutlineStar />
+                            <AiOutlineStar />
+                            <p className='text-black'>0</p>
                         </div>
                     </div>
                 </div>
-
-                <div>
-                    <div className='flex pt-12 pb-6 items-center justify-between'>
-                        <h1 className='text-2xl font-bold'>Produk Lainnya</h1>
-                        <a href="/">Lihat Selengkapnya</a>
-                    </div>
-
-                    <div className='grid grid-cols-2 gap-[10px] md:gap-[0] md:grid-cols-4 lg:grid-cols-6'>
-                        <UlasanProps gambar={gambar1} />
-                        <UlasanProps gambar={gambar2} />
-                        <UlasanProps gambar={gambar3} />
-                        <UlasanProps gambar={gambar4} />
-                        <UlasanProps gambar={gambar5} />
-                        <UlasanProps gambar={gambar6} />
-                    </div>
-
-                </div>
-
             </div>
 
+            <div className='flex flex-col gap-y-14 mt-20'>
+                <div className='flex justify-between'>
+                    <h3 className='font-bold text-[30px]'>Produk lainnya</h3>
+                    <h4 className='text-[16px] text-[#316093]'>Lihat Selengkapnya &gt;</h4>
+                </div>
+                <div className='grid gap-x-3 grid-cols-6'>
+                    {otherProduct.slice(0,6).map((product) => {
+                        return (
+                            <button key={product.id} onClick={() => navigate('/product/' + product.id)}>
+                                <div className='flex flex-col h-full border-2  p-3 justify-between gap-y-6 rounded-[10px] border-[#E1E1E1] shadow-shadow-custom-1 hover:-translate-y-3 ease-in-out duration-300 max-w-[250px]'>
+                                    <div className='flex flex-row items-center justify-center '>
+                                        <img className='rounded-[8px]  w-[200px] ' src={product.productImages[0].image} alt="" />
+                                    </div>
+                                    <p className='font-semibold text-[16px] text-left '>{product.name}</p>
+                                    <div className='flex flex-col gap-y-3'>
+                                        {product.discount === 0 ?
 
+                                            <h4 className='font-bold text-[18px] text-left mt-8'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(product.price)}</h4>
+                                            :
+                                            <>
+                                                <h4 className='text-[14px] text-gray-500 line-through decoration-red-600 decoration-2 text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(product.price)}</h4>
+
+                                                <h3 className='font-bold text-[18px] text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(product.price - (product.price * (product.discount / 100)))}</h3>
+                                            </>
+                                        }
+
+                                        <div className='flex gap-x-2'>
+                                            <div className='flex items-center gap-x-2'>
+                                                <div className='text-yellow-400 text-[14px] md:text-[16px]'><AiFillStar /></div>
+                                                <p className='text-[16px]'>{product.ratingAverage}</p>
+                                            </div>
+                                            <div className='text-[14px] md:text-[16px]'>
+                                                |
+                                            </div>
+                                            <div className='flex items-center'>
+                                                <p className='text-[16px]'>Terjual {product.amountSold}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </button>
+                        )
+                    })}
+                </div>
+            </div>
         </div>
     )
 }
