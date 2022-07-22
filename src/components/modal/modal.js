@@ -17,7 +17,7 @@ function Modal({ setModal, setData, data }) {
     useEffect(() => {
         if (decode) {
             const userById = 'https://homepoint-server-staging.herokuapp.com/api/v1/users/' + id
-            console.log(userById)
+            // console.log(userById)
             axios.get(userById)
                 .then((response) => {
                     setUserData(response.data.data);

@@ -1,5 +1,5 @@
 .carouselPromo {
-    @apply  h-full flex justify-center   
+    @apply  h-full flex justify-center px-3 py-2
 }
 
 .carouselPromo .swiper-wrapper {

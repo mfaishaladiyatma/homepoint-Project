@@ -12,8 +12,8 @@ import Youtube from '../images/YouTube.svg'
 export default function Footer() {
   return (
     <footer>
-      <div className=' bg-light-blue-pale flex items-center justify-center px-4 py-10 font-Inter w-full h-fit z-30'>
-        <div className=' container  px-3 h-full flex flex-wrap xl:flex-nowrap gap-x-10  justify-center xl:justify-between items-center'>
+      <div className=' bg-light-blue-pale flex items-center justify-center px-4 py-20 font-Inter w-full h-fit z-30'>
+        <div className=' container  px-3 h-full grid grid-cols-2 gap-10 xl:grid-cols-4 items-center'>
           <div className='w-[150px] md:w-[200px] mr-5 '>
             <img  src={HomepointLogo} alt="" />
           </div>
@@ -25,9 +25,11 @@ export default function Footer() {
             <p className='text-[16px] xl:text-[20px]'>Pengiriman & Pengambilan barang</p>
             <p className='text-[16px] xl:text-[20px]'>FAQ</p>
           </div>
-          <div className='flex flex-col h-fit  gap-y-3  '>
+          <div className='flex flex-col h-full  gap-y-3  '>
             <h3 className='font-[600] xl:text-[30px] text-[24px]'>Hubungi kami</h3>
-            <p className='flex flex-wrap  text-[16px] xl:text-[20px]'>Helpcenter@homepoint.com</p>
+            <div className=' break-all'>
+            <p className='flex text-[16px] text-left'>Helpcenter@homepoint.com</p>
+            </div>
             <p className='text-[16px] xl:text-[20px]'>+62 21 911</p>
           </div>
           <div className='flex flex-col items-start h-full gap-y-10   '>

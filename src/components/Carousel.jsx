@@ -35,10 +35,10 @@ export default function Carousel() {
                             nextEl: ".button-next",
                             prevEl: ".button-prev",
                         }}
-                        // autoplay={{
-                        //     delay: 3000,
-                        //     disableOnInteraction: false,
-                        // }}
+                        autoplay={{
+                            delay: 3000,
+                            disableOnInteraction: false,
+                        }}
                         modules={[Pagination, Navigation, Autoplay]}
                         speed={700}
                         centeredSlides={true}

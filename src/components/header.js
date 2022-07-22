@@ -18,6 +18,7 @@ import user from "../assets/icon/user.png";
 import { Link } from "react-router-dom";
 import { AiOutlineMenu } from "react-icons/ai";
 import { AiOutlineDown } from "react-icons/ai";
+import { HiChevronDown } from 'react-icons/hi'
 
 function Header({ setMenu, menu }) {
   const navigate = useNavigate()
@@ -51,6 +52,7 @@ function Header({ setMenu, menu }) {
     if (decode) {
       axios.get('https://homepoint-server-staging.herokuapp.com/api/v1/users/' + id)
         .then((response) => {
+          // console.log(response.data.data)
           setNamaProfil(response.data.data.name)
           // console.log(cobaGet)
         })
@@ -75,29 +77,29 @@ function Header({ setMenu, menu }) {
 
   return (
     <>
-      <div className="sticky top-0 w-full bg-[#6999B8] px-6  h-[8vh]   flex md:px-3 items-center z-20 justify-between">
+      <div className="sticky top-0 w-full bg-[#6999B8] px-6  h-[8vh]   flex lg:px-3 items-center z-20 justify-between">
         <div className="">
           <Link to="/">
-            <img className="max-w-[100px] md:max-w-[140px]" src={Logo} alt="Homepoint" />
+            <img className="max-w-[100px] lg:max-w-[140px] relative" src={Logo} alt="Homepoint" />
           </Link>
         </div>
-        <div className="hidden xl:flex xl:gap-x-5 xl:rounded-[8px] xl:bg-white  xl:px-3 items-center relative">
-          <div className="relative  flex flex-row justify-between items-center w-[100px]">
-            <button className=" flex flex-row justify-between items-center w-full " onClick={() => setIsClicked(!isClicked)}>
+        <div className="hidden lg:flex lg:gap-x-5 lg:rounded-[8px] lg:bg-white w-fit lg:px-3 items-center ">
+          <div className="  flex flex-row justify-between items-center w-[100px]">
+            <button className=" flex flex-row justify-between items-center w-full " onClick={() => {setIsClicked(!isClicked); setIsClickedLogin(false);}}>
               <p>Kategori</p>
-              <AiOutlineDown />
+              <HiChevronDown size={'1.2rem'}/>
             </button>
             <Transition
               as={Fragment}
               show={isClicked}
-              enter="transition-all duration-[350ms]"
-              enterFrom="opacity-0 translate-y-[-25%]"
+              enter="transition-all duration-300"
+              enterFrom="opacity-0 translate-y-[-10%]"
               enterTo="opacity-100 translate-y-0"
-              leave="transition-all duration-[350ms]"
+              leave="transition-all duration-300"
               leaveFrom="opacity-100 translate-y-0"
-              leaveTo="opacity-0 translate-y-[-25%]"
+              leaveTo="opacity-0 translate-y-[-10%]"
             >
-              <div className="absolute border-2 border-black w-[1000px] h-[230px] rounded-[8px] bg-white top-full mt-5 grid grid-cols-5 gap-x-3 p-2">
+              <div className="absolute border-2 border-slate-400 w-full h-[230px] left-0 rounded-b-[8px] bg-white top-full grid grid-cols-5 gap-x-3 p-2">
                 <div className=" flex flex-col items-start">
                   <h3 className="font-bold text-[18px]">Semua Kategori</h3>
                 </div>
@@ -106,7 +108,7 @@ function Header({ setMenu, menu }) {
                     <h3 className="font-bold text-[18px]">{category.name}</h3>
                     <div className="flex flex-col items-start gap-y-3 w-full">
                       {category.productSubcategories.map((sub) => (
-                        <div onClick={(e) => { e.stopPropagation(); setIsClicked(false); navigate(`/search?subcategory=${sub.id}`); }}key={sub.id} className="rounded-[8px] p-1 hover:bg-sky-200 cursor-pointer w-full text-left">{sub.name}</div>
+                        <div onClick={(e) => { e.stopPropagation(); setIsClicked(false); navigate(`/search?subcategory=${sub.id}`); }}key={sub.id} className="rounded-[8px] p-1 hover:bg-orange-100 hover:text-orange-600 hover:font-medium cursor-pointer w-full text-left">{sub.name}</div>
                       ))}
                     </div>
                   </div>
@@ -118,16 +120,16 @@ function Header({ setMenu, menu }) {
             <option value="Kategori">Kategori</option>
           </select> */}
           {/* {e => setQ(e.target.value)} */}
-          <div className="w-[3px] h-[25px] bg-black rounded-full"></div>
-          <div className="h-[30px] flex items-center">
-            <form className="flex" onSubmit={searchHandler}>
-              <input onChange={(e) => setSearch(e.target.value)} value={search} className="outline-none px-4 h-full border-none lg:w-[450px]" placeholder="Search ..." />
+          <div className="w-[2px] h-[25px] bg-black/60 rounded-full"></div>
+          <div className="h-[30px]   flex items-center">
+            <form className="flex  lg:w-[250px] xl:w-[450px]" onSubmit={searchHandler}>
+              <input onChange={(e) => setSearch(e.target.value)} value={search} className="outline-none px-4 h-full border-none w-full" placeholder="Search ..." />
               <button type="submit"><img className="ml-auto" src={Search} alt="search" /></button>
             </form>
           </div>
         </div>
-        <div className="hidden w-fit xl:flex  gap-x-14 items-center">
-          <button onClick={() => navigate(`/wishlist-${id}`)}>
+        <div className="hidden w-fit lg:flex gap-x-10  xl:gap-x-14 items-center">
+          <button className="flex w-[30px] items-center justify-center" onClick={() => navigate(`/wishlist-${id}`)}>
           <img className=" h-[23px]" src={love} alt="love" />
           </button>
 
@@ -140,9 +142,9 @@ function Header({ setMenu, menu }) {
           <img className=" h-[23px]" src={bell} alt="bell" />
 
           <div className='relative flex flex-row items-center '>
-            <button className="flex flex-row" onClick={() => setIsClickedLogin(!isClickedLogin)}>
+            <button className="flex flex-row items-center gap-x-3" onClick={() => {setIsClickedLogin(!isClickedLogin); setIsClicked(false);}}>
             <img src={user} alt="User" />
-              <p className='text-white text-center  w-[150px] overflow-hidden  text-ellipsis font-[400] '>{decode ? namaProfil : 'Masuk/Daftar'}</p>
+              <p className='text-white overflow-hidden w-[150px] whitespace-nowrap text-ellipsis  font-[400] '>{decode ? namaProfil : 'Masuk/Daftar'}</p>
 
             </button>
 
@@ -150,21 +152,21 @@ function Header({ setMenu, menu }) {
               as={Fragment}
               show={(isClickedLogin && token) ? true : false}
               enter="transition-all duration-300"
-              enterFrom="opacity-0 translate-y-[-30%]"
+              enterFrom="opacity-0 translate-y-[-20%]"
               enterTo="opacity-100 translate-y-0"
               leave="transition-all duration-300"
               leaveFrom="opacity-100 translate-y-0"
-              leaveTo="opacity-0 translate-y-[-30%]"
+              leaveTo="opacity-0 translate-y-[-20%]"
             >
               <div className='bg-white absolute rounded-[8px] border-2 border-slate-400 w-full top-full mt-5 flex flex-col p-2 '>
                 <button onClick={() => {navigate('/profile'); setIsClickedLogin(!isClickedLogin);}}>
-                  <div  className='h-[40px] px-2 flex justify-start items-center rounded-[8px] hover:bg-sky-200'>Profile</div>
+                  <div  className='h-[40px] px-2 flex justify-start items-center rounded-[8px] hover:bg-sky-200 hover:font-medium'>Profile</div>
                 </button>
                 <button onClick={() => {navigate('/pesanan'); setIsClickedLogin(!isClickedLogin);}}>
-                  <div  className='h-[40px] px-2 flex justify-start items-center rounded-[8px] hover:bg-sky-200'>Pesanan</div>
+                  <div  className='h-[40px] px-2 flex justify-start items-center rounded-[8px] hover:bg-sky-200 hover:font-medium'>Pesanan</div>
                 </button>
                 <button onClick={() => { dispatch(logoutAction()); setIsClickedLogin(!isClickedLogin); }}>
-                  <div className='h-[40px] px-2 flex justify-start items-center rounded-[8px] hover:bg-sky-200'>Keluar</div>
+                  <div className='h-[40px] px-2 flex justify-start items-center rounded-[8px] hover:bg-sky-200 hover:font-medium'>Keluar</div>
                 </button>
               </div>
             </Transition>
@@ -173,18 +175,18 @@ function Header({ setMenu, menu }) {
               as={Fragment}
               show={(isClickedLogin && !token) ? true : false}
               enter="transition-all duration-300"
-              enterFrom="opacity-0 translate-y-[-30%]"
+              enterFrom="opacity-0 translate-y-[-20%]"
               enterTo="opacity-100 translate-y-0"
               leave="transition-all duration-300"
               leaveFrom="opacity-100 translate-y-0"
-              leaveTo="opacity-0 translate-y-[-30%]"
+              leaveTo="opacity-0 translate-y-[-20%]"
             >
               <div className='bg-white absolute rounded-[8px] border-2 border-slate-400 w-full top-full mt-5 flex flex-col p-2 '>
                 <button onClick={() => { navigate('/login'); setIsClickedLogin(!isClickedLogin); }}>
-                  <div className='h-[40px] px-2 flex justify-start items-center rounded-[8px] hover:bg-sky-200'>Masuk</div>
+                  <div className='h-[40px] px-2 flex justify-start items-center rounded-[8px] hover:bg-sky-200 hover:font-medium'>Masuk</div>
                 </button>
                 <button onClick={() => { navigate('/register'); setIsClickedLogin(!isClickedLogin); }}>
-                  <div className='h-[40px] px-2 flex justify-start items-center rounded-[8px] hover:bg-sky-200'>Daftar</div>
+                  <div className='h-[40px] px-2 flex justify-start items-center rounded-[8px] hover:bg-sky-200 hover:font-medium'>Daftar</div>
                 </button>
               </div>
             </Transition>
@@ -192,10 +194,10 @@ function Header({ setMenu, menu }) {
           </div>
 
         </div>
-        <AiOutlineMenu onClick={() => setMenu(!menu)} className="text-white xl:hidden text-[2rem]" />
+        <AiOutlineMenu onClick={() => setMenu(!menu)} className="text-white lg:hidden text-[2rem]" />
       </div>
       {menu ? (
-        <div className="flex gap-5 py-5 text-white flex-col px-6 md:px-16 w-full bg-[#6999B8]">
+        <div className="sticky top-[60px] z-20 flex gap-5 py-5 text-white flex-col px-6 lg:px-16 w-full bg-[#6999B8]">
             <div className="flex items-center relative">
               <select className="border-none text-black outline-none h-[20px] sm:h-[30px] text-sm px-3">
                 <option value="Kategori">Kategori</option>
@@ -203,14 +205,14 @@ function Header({ setMenu, menu }) {
               <div className="h-[20px] sm:h-[30px] w-full flex items-center">
                 <form className="flex w-full h-full" onSubmit={searchHandler}>
                   <input onChange={(e) => setSearch(e.target.value)} value={search} className="text-black border-none outline-none pl-3 h-full  w-[100%]" placeholder="Search ..." />
-                  <button className="bg-white p-2 ml-auto" type="submit"><img className="w-[10px] md:w-[15px]" src={Search} alt="search"/></button>
+                  <button className="bg-white p-2 ml-auto" type="submit"><img className="w-[10px] lg:w-[15px]" src={Search} alt="search"/></button>
                 </form>
               </div>
             </div>
-          <Link to="/">Wishlist</Link>
-          <Link to="/cart">Cart</Link>
+          <Link to={`../wishlist-${id}`}>Wishlist</Link>
+          <Link to={`../cart`}>Cart</Link>
           <Link to="/">Notification</Link>
-          <Link to="/login">Account</Link>
+          <Link to={`../profile`}>Profile</Link>
         </div>
       ) : (
         ""

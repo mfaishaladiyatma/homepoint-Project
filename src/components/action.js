@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
 
-const loginActionAsync = (email, password, navigate) => {
+const loginActionAsync = (email, password, navigate, toast) => {
 
     // const bodyFormData = new FormData()
     // bodyFormData.append('email', email)
@@ -25,8 +25,10 @@ const loginActionAsync = (email, password, navigate) => {
             dispatch(loginActionSuccessToken((response.data.data.token), (response.data.data.name), (response.data.data.id)))
             console.log(response.data.data.name)
             navigate('/')
+            toast.success('Login Sukses')
         }).catch((error) => {
             //handle error
+            toast.error('Login Gagal')
             console.log(error)
         })
 

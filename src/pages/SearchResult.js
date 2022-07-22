@@ -1,16 +1,18 @@
 import { useState, useEffect } from 'react'
 import { AiFillStar, AiOutlineSearch } from 'react-icons/ai'
 import { Link, useSearchParams } from 'react-router-dom'
+import discountTag from '../images/discountTag.svg'
+import ReactPaginate from 'react-paginate';
 import axios from 'axios'
 
 import PaginationPage from '../components/pagination/pagination.js'
 
 function SearchResult() {
-    const [ searchParams, setSearchParams ] = useSearchParams();
-    const [ products, setProducts ] = useState([]);
-    const [ brands, setBrands ] = useState([]);
-    const [ colors, setColors ] = useState([]);
-    const [ brandSearch, setBrandSearch ] = useState('');
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [products, setProducts] = useState([]);
+    const [brands, setBrands] = useState([]);
+    const [colors, setColors] = useState([]);
+    const [brandSearch, setBrandSearch] = useState('');
     const filteredBrand = brands.filter((val) => val.includes(brandSearch));
 
     const [filterList, setFilterList] = useState({
@@ -21,7 +23,7 @@ function SearchResult() {
         brand: '',
         color: '',
         sort: '',
-        page: 0,
+        page: 1,
         size: 16
     });
 
@@ -42,12 +44,12 @@ function SearchResult() {
             'Min price': priceMin,
             'Max price': priceMax,
             'Rating': rating,
-            'Brand': brand, 
+            'Brand': brand,
             'Color': color,
-            'Page number': page,
-            'Size': size
+            'Page number': page || 1,
+            'size': size
         };
-        switch(sort) {
+        switch (sort) {
             case 'best-seller':
                 params['Sort by best seller'] = true;
                 break;
@@ -120,7 +122,7 @@ function SearchResult() {
     return (
         <>
             <div className='px-4 lg:px-16 flex flex-col items-center lg:flex-row lg:items-start py-5'>
-                <div className='border-[1px] w-full lg:w-max border-blue-pale rounded-md'>
+                <div className='border-[1px] w-full lg:w-max border-blue-pale rounded-md shadow-shadow-custom-1'>
                     <div className='p-5'>
                         <div className='flex justify-between'>
                             <h2 className='font-bold'>Filter</h2>
@@ -141,21 +143,21 @@ function SearchResult() {
                                 onChange={e => setFilterList((prevState) => ({ ...prevState, rating: e.target.value }))}
                                 value={4}
                                 checked={filterList.rating === '4'}
-                                name="rating" 
-                                className='border-[1px] border-light-blue-pale rounded-md' 
+                                name="rating"
+                                className='border-[1px] border-light-blue-pale rounded-md'
                                 type="radio"
                             />
                             <AiFillStar className='text-[#FBC646]' />
                             <label>4 Keatas</label>
                         </div>
                         <div className='flex items-center gap-[10px]'>
-                            <input 
+                            <input
                                 onChange={e => setFilterList((prevState) => ({ ...prevState, rating: e.target.value }))}
-                                value={3} 
+                                value={3}
                                 checked={filterList.rating === '3'}
-                                name="rating" 
-                                className='border-[1px] border-light-blue-pale rounded-md' 
-                                type="radio" 
+                                name="rating"
+                                className='border-[1px] border-light-blue-pale rounded-md'
+                                type="radio"
                             />
                             <AiFillStar className='text-[#FBC646]' />
                             <label>3 Keatas</label>
@@ -165,21 +167,21 @@ function SearchResult() {
                                 onChange={e => setFilterList((prevState) => ({ ...prevState, rating: e.target.value }))}
                                 value={2}
                                 checked={filterList.rating === '2'}
-                                name="rating" 
-                                className='border-[1px] border-light-blue-pale rounded-md' 
-                                type="radio" 
+                                name="rating"
+                                className='border-[1px] border-light-blue-pale rounded-md'
+                                type="radio"
                             />
                             <AiFillStar className='text-[#FBC646]' />
                             <label>2 Keatas</label>
                         </div>
                         <div className='flex items-center gap-[10px]'>
-                            <input 
+                            <input
                                 onChange={e => setFilterList((prevState) => ({ ...prevState, rating: e.target.value }))}
                                 value={1}
                                 checked={filterList.rating === '1'}
-                                name="rating" 
-                                className='border-[1px] border-light-blue-pale rounded-md' 
-                                type="radio" 
+                                name="rating"
+                                className='border-[1px] border-light-blue-pale rounded-md'
+                                type="radio"
                             />
                             <AiFillStar className='text-[#FBC646]' />
                             <label>1 Keatas</label>
@@ -195,12 +197,12 @@ function SearchResult() {
                         <div className='py-5 max-h-[230px] overflow-y-auto flex flex-col gap-[10px] mt-5'>
                             {filteredBrand.map((brand) => (
                                 <div className='flex gap-[20px] items-center' key={brand}>
-                                    <input 
+                                    <input
                                         name="brand"
                                         value={brand}
                                         checked={filterList.brand === brand}
                                         onChange={e => setFilterList((prevState) => ({ ...prevState, brand: e.target.value }))}
-                                        type="radio" 
+                                        type="radio"
                                         className="border-[1px] border-light-blue-pale rounded-md" />
                                     <h2>{brand}</h2>
                                 </div>
@@ -216,10 +218,10 @@ function SearchResult() {
                                     key={color}
                                     value={color}
                                     checked={filterList.color === color}
-                                    type="radio" 
-                                    onChange={e => setFilterList((prevState) => ({ ...prevState, color: e.target.value }))} 
-                                    name="green" 
-                                    className="input-checkbox border-[1px] border-solid border-light-blue-pale" 
+                                    type="radio"
+                                    onChange={e => setFilterList((prevState) => ({ ...prevState, color: e.target.value }))}
+                                    name="green"
+                                    className="input-checkbox border-[1px] border-solid border-light-blue-pale"
                                     style={{ backgroundColor: color }}
                                 >
                                 </input>
@@ -240,18 +242,35 @@ function SearchResult() {
                         </select>
                     </div>
                     {/* {data.length > 0 */}
-                        {/* ? */}
-                        <div className='mt-5 grid grid-cols-2 md:grid-cols-3 gap-x-[0] xl:grid-cols-4 gap-[10px] md:gap-[20px] '>
-                            {products.map(each => {
-                                return (
-                                    <Link className='flex w-[200px] justify-center' key={each.id} to={`../product/${each.id}`}>
-                                    <div  className='border-[1px] w-full flex flex-col p-3 gap-y-5 border-light-blue-pale rounded-md'>
-                                       
-                                            <img className='max-w-[100px] lg:max-w-[150px]' src={each.productImages[0].image} alt={each.name}/>
-                                        
+                    {/* ? */}
+
+                    <div className='mt-5 grid grid-cols-2 md:grid-cols-3 gap-x-[0] xl:grid-cols-4 gap-[10px] md:gap-[20px] '>
+                        {products.map(each => {
+                            return (
+                                <Link className='flex justify-center' key={each.id} to={`../product/${each.id}`}>
+                                    <div className='relative border-[1px] w-full flex flex-col p-3 gap-y-5 border-light-blue-pale rounded-md shadow-shadow-custom-2'>
+                                        {each.discount == 0 ? null
+                                            :
+                                            <div className='absolute top-0 right-2'>
+                                                <img className='w-[50px] relative' src={discountTag} alt="" />
+                                                <p className='absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] text-white'>{each.discount}&#37;</p>
+                                            </div>
+                                        }
+
+                                        <img className='w-[100px] lg:w-[180px] rounded-[8px]' src={each.productImages[0].image} alt={each.name} />
+
                                         <h3 className='text-left'>{each.name}</h3>
                                         <div className='mt-auto'>
-                                            <h3 className='font-bold mt-auto'>Rp {each.price}</h3>
+                                            {each.discount == 0
+                                                ?
+                                                <h3 className='font-bold mt-auto'>Rp {each.price}</h3>
+                                                :
+                                                <>
+                                                    <h3 className='mt-auto line-through decoration-red-600 decoration-2'>Rp {each.price}</h3>
+                                                    <h3 className='font-bold mt-auto'>Rp {each.price - (each.price * (each.discount / 100))}</h3>
+                                                </>
+                                            }
+
                                             <div className='flex gap-[10px] items-center'>
                                                 <div className='flex items-center gap-[5px]'>
                                                     <AiFillStar className='text-[#FBC646]' />
@@ -262,17 +281,27 @@ function SearchResult() {
                                             </div>
                                         </div>
                                     </div>
-                                    </Link>
-                                )
-                            })}
-                        </div>
-                        {/* :
+                                </Link>
+                            )
+                        })}
+                    </div>
+                    {/* :
                         <div className='mt-5'>
                             Produk tidak dapat ditemukan...
                         </div> */}
                     {/* } */}
                     <div className='w-full flex flex-wrap mt-5'>
                         {/* buat nampilin pagination pakai library aja */}
+                        <ReactPaginate
+                            className='border-2 border-black flex gap-x-3'
+                            breakLabel="..."
+                            nextLabel="next >"
+                            // onPageChange={handlePageClick}
+                            pageRangeDisplayed={5}
+                            // pageCount={pageCount}
+                            previousLabel="< previous"
+                            renderOnZeroPageCount={null}
+                        />
                         {/* <PaginationPage data={data} paginate={paginate} currentPage={currentPage} productPerPage={productPerPage} totalPosts={dataProduct.length} /> */}
                     </div>
                 </div>

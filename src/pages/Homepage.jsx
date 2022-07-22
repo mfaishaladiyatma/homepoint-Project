@@ -31,20 +31,51 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux/es/exports";
 import { useSelector } from "react-redux/es/exports";
 import jwtDecode from "jwt-decode";
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function Homepage() {
   const dispatch = useDispatch();
 
   const { token } = useSelector((state) => state);
   const decode = token ? jwtDecode(token) : null;
-  console.log(decode ? decode.sub : "no token");
+  // console.log(decode ? decode.sub : "no token");
 
   return (
     <>
       <Carousel />
 
+      <Toaster
+                position='bottom-right'
+                reverseOrder={false}
+
+                toastOptions={{
+                  duration: 5000,
+                  style: {
+                    backgroundColor: '#FBC646',
+                    color: '#22364A',
+                    fontWeight: 'bold',
+                  },
+
+                  success: {
+                    duration: 5000,
+                    theme: {
+                      primary: 'blue',
+                      secondary: 'yellow'
+                    }
+                  },
+
+                  error: {
+                    duration: 5000,
+                    theme: {
+                      primary: 'red',
+                      secondary: 'yellow'
+                    }
+                  }
+                }}
+              />
+
       <section className="font-Inter flex flex-col justify-center mt-10 gap-y-3 px-5  h-fit">
-        <h2 className=" md:text-left text-center text-[30px] md:text-[40px]">Pilihan Kategori</h2>
+        <h2 className=" md:text-left text-center text-[30px] md:text-[40px] font-medium">Pilihan Kategori</h2>
         <div className="grid grid-cols-3 md:grid-cols-4 xl:grid-cols-6   gap-3 p-2 ">
           <div className="border-2 border-gray-200 rounded-[8px] w-full h-full flex justify-center items-center">
             <img src={kategoriImage} alt="" />
@@ -87,31 +118,31 @@ export default function Homepage() {
       </section>
 
       <section className="font-Inter  flex justify-center">
-        <div className="container  xl:mt-10 h-fit p-5 gap-y-12 flex flex-col">
+        <div className=" container xl:mt-10 h-fit p-5 gap-y-12 flex flex-col">
           <div>
             <h2 className="font-[500] text-center md:text-left text-[30px] md:text-[40px]">Kitchenware Weeks</h2>
           </div>
-          <div className="text-white flex md:flex-row flex-col h-full gap-y-3  gap-x-5">
-            <div className="flex flex-col relative  items-center  w-full rounded-[10px]">
-              <img className="md:w-full w-[250px] rounded-[10px]" src={kitchenwarePeralatanDapur} alt="" />
+          <div className="text-white grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 h-fit gap-y-3  gap-x-5 ">
+            <div className="flex flex-col relative  items-center  w-full rounded-[10px] cursor-pointer hover:shadow-shadow-custom-3 hover:-translate-y-2 ease-in-out duration-200">
+              <img className="lg:w-full md:w-[350px] w-[250px] rounded-[10px]" src={kitchenwarePeralatanDapur} alt="" />
               <div className="absolute bottom-5 left-[50%] translate-x-[-50%] font-[700] text-[20px] md:text-[22px] xl:text-[25px] w-fit">
                 <p>Peralatan Dapur</p>
               </div>
             </div>
-            <div className="flex flex-col relative items-center w-full rounded-[10px]">
-              <img className="md:w-full w-[250px] rounded-[10px]" src={kitchenwareElektronikDapur} alt="" />
+            <div className="flex flex-col relative items-center w-full rounded-[10px] cursor-pointer hover:shadow-shadow-custom-3 hover:-translate-y-2 ease-in-out duration-200">
+              <img className="lg:w-full md:w-[350px] w-[250px] rounded-[10px]" src={kitchenwareElektronikDapur} alt="" />
               <div className="absolute bottom-5 left-[50%] translate-x-[-50%] font-[700] text-[20px] md:text-[22px] xl:text-[25px] w-fit">
                 <p>Elektronik Dapur</p>
               </div>
             </div>
-            <div className="flex flex-col relative items-center w-full rounded-[10px]">
-              <img className="md:w-full w-[250px] rounded-[10px]" src={kitchenwareAlatMakan} alt="" />
+            <div className="flex flex-col relative items-center w-full rounded-[10px] cursor-pointer hover:shadow-shadow-custom-3 hover:-translate-y-2 ease-in-out duration-200">
+              <img className="lg:w-full md:w-[350px] w-[250px] rounded-[10px]" src={kitchenwareAlatMakan} alt="" />
               <div className="absolute bottom-5 left-[50%] translate-x-[-50%] font-[700] text-[20px] md:text-[22px] xl:text-[25px] w-fit">
                 <p>Alat Makan &amp; Minuman</p>
               </div>
             </div>
-            <div className="flex flex-col relative items-center w-full rounded-[10px]">
-              <img className="md:w-full w-[250px] rounded-[10px]" src={kitchenwarePenyimpananMakanan} alt="" />
+            <div className="flex flex-col relative items-center w-full rounded-[10px] cursor-pointer hover:shadow-shadow-custom-3 hover:-translate-y-2 ease-in-out duration-200">
+              <img className="lg:w-full md:w-[350px] w-[250px] rounded-[10px]" src={kitchenwarePenyimpananMakanan} alt="" />
               <div className="absolute bottom-5 left-[50%] translate-x-[-50%] font-[700] text-[20px] md:text-[22px] xl:text-[25px] w-fit">
                 <p>Penyimpanan Makanan</p>
               </div>

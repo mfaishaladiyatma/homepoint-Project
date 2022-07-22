@@ -22,7 +22,7 @@ function Profile() {
     if (decode) {
       axios.get('https://homepoint-server-staging.herokuapp.com/api/v1/users/' + id)
         .then((response) => {
-          console.log(response.data.data)
+          // console.log(response.data.data)
           setData({
             ...data,
             name: response.data.data.name,
@@ -57,7 +57,7 @@ function Profile() {
     email: "lynntanner@gmail.com",
     hp: "No Hp",
   });
-  console.log(data.name)
+  // console.log(data.name)
   const [alamat, setAlamat] = React.useState(false);
 
   const [alamatPengguna, setAlamatPengguna] = React.useState([]);
