@@ -46,7 +46,7 @@ function SearchResult() {
             'Rating': rating,
             'Brand': brand,
             'Color': color,
-            'Page number': page,
+            'Page number': page || 1,
             'size': size
         };
         switch (sort) {
