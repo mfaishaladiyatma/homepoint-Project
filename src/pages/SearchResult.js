@@ -82,7 +82,7 @@ function SearchResult() {
                     page,
                     size,
                     sort
-        }));
+                }));
             })
             .catch((error) => {
                 //wip: display error here

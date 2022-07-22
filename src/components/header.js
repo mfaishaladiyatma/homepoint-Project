@@ -51,7 +51,6 @@ function Header({ setMenu, menu }) {
     if (decode) {
       axios.get('https://homepoint-server-staging.herokuapp.com/api/v1/users/' + id)
         .then((response) => {
-          console.log(response.data.data)
           setNamaProfil(response.data.data.name)
           // console.log(cobaGet)
         })
