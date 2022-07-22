@@ -9,11 +9,16 @@ import PaginationPage from '../components/pagination/pagination.js'
 
 function SearchResult() {
     const [searchParams, setSearchParams] = useSearchParams();
+    const [totalPage, setTotalPage] = useState(0)
     const [products, setProducts] = useState([]);
     const [brands, setBrands] = useState([]);
     const [colors, setColors] = useState([]);
     const [brandSearch, setBrandSearch] = useState('');
+    const [currentItems, setCurrentItems] = useState(null);
+    const [pageCount, setPageCount] = useState(0);
+    const [itemOffset, setItemOffset] = useState(0);
     const filteredBrand = brands.filter((val) => val.includes(brandSearch));
+    const [loading, setLoading] = useState(true)
 
     const [filterList, setFilterList] = useState({
         name: '',
@@ -28,7 +33,9 @@ function SearchResult() {
     });
 
     useEffect(() => {
+        const endOffset = itemOffset + 16;
         const name = searchParams.get('name');
+        const description = searchParams.get('description');
         const subcategory = searchParams.get('subcategory');
         const priceMin = searchParams.get('priceMin');
         const priceMax = searchParams.get('priceMax');
@@ -41,6 +48,7 @@ function SearchResult() {
         let params = {
             'Product name': name,
             'Product subcategory': subcategory,
+            'Description': description,
             'Min price': priceMin,
             'Max price': priceMax,
             'Rating': rating,
@@ -85,17 +93,21 @@ function SearchResult() {
                     size,
                     sort
                 }));
+                setTotalPage(response.data.data.totalPage)
+                // setCurrentItems(products.slice(itemOffset, endOffset));
+                setPageCount(Math.ceil(totalPage / 16));
+                setLoading(false)
             })
             .catch((error) => {
                 //wip: display error here
             });
-    }, [searchParams]);
+    }, [searchParams, itemOffset]);
 
-    const fetchWithParams = (sort = '') => {
-        let params = { sort };
+    const fetchWithParams = (sort = '', page = 1) => {
+        let params = { sort, page };
         for (const key in filterList) {
             if (filterList[key]) {
-                if (key !== 'sort') {
+                if (key !== 'sort' || key !== 'page') {
                     params[key] = encodeURIComponent(filterList[key]);
                 }
             }
@@ -117,6 +129,14 @@ function SearchResult() {
             rating: '',
             sort: ''
         });
+    }
+
+    const handlePageClick = (e) => {
+        setFilterList((prevState) => ({ ...prevState, page: e.selected }));
+        
+        // setItemOffset(newOffset);
+        console.log(e.selected)
+        fetchWithParams(filterList.sort, e.selected)
     }
 
     return (
@@ -243,67 +263,79 @@ function SearchResult() {
                     </div>
                     {/* {data.length > 0 */}
                     {/* ? */}
+                    {loading ? <div className='flex items-center justify-center h-full'> loading.... </div>
+                        :
+                        <div className='mt-5 grid grid-cols-2 md:grid-cols-3 gap-x-[0] xl:grid-cols-4 gap-[10px] md:gap-[20px] '>
 
-                    <div className='mt-5 grid grid-cols-2 md:grid-cols-3 gap-x-[0] xl:grid-cols-4 gap-[10px] md:gap-[20px] '>
-                        {products.map(each => {
-                            return (
-                                <Link className='flex justify-center' key={each.id} to={`../product/${each.id}`}>
-                                    <div className='relative border-[1px] w-full flex flex-col p-3 gap-y-5 border-light-blue-pale rounded-md shadow-shadow-custom-2'>
-                                        {each.discount == 0 ? null
-                                            :
-                                            <div className='absolute top-0 right-2'>
-                                                <img className='w-[50px] relative' src={discountTag} alt="" />
-                                                <p className='absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] text-white'>{each.discount}&#37;</p>
-                                            </div>
-                                        }
-
-                                        <img className='w-[100px] lg:w-[180px] rounded-[8px]' src={each.productImages[0].image} alt={each.name} />
-
-                                        <h3 className='text-left'>{each.name}</h3>
-                                        <div className='mt-auto'>
-                                            {each.discount == 0
-                                                ?
-                                                <h3 className='font-bold mt-auto'>Rp {each.price}</h3>
+                            {products.map(each => {
+                                return (
+                                    <Link className='flex justify-center' key={each.id} to={`../product/${each.id}`}>
+                                        <div className='relative border-[1px] w-full flex flex-col p-3 gap-y-5 border-light-blue-pale rounded-md shadow-shadow-custom-2'>
+                                            {each.discount == 0 ? null
                                                 :
-                                                <>
-                                                    <h3 className='mt-auto line-through decoration-red-600 decoration-2'>Rp {each.price}</h3>
-                                                    <h3 className='font-bold mt-auto'>Rp {each.price - (each.price * (each.discount / 100))}</h3>
-                                                </>
+                                                <div className='absolute top-0 right-2'>
+                                                    <img className='w-[50px] relative' src={discountTag} alt="" />
+                                                    <p className='absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] text-white'>{each.discount}&#37;</p>
+                                                </div>
                                             }
 
-                                            <div className='flex gap-[10px] items-center'>
-                                                <div className='flex items-center gap-[5px]'>
-                                                    <AiFillStar className='text-[#FBC646]' />
-                                                    {each.ratingAverage}
+                                            <img className='w-[100px] lg:w-[180px] rounded-[8px]' src={each.productImages[0].image} alt={each.name} />
+
+                                            <h3 className='text-left'>{each.name}</h3>
+                                            <div className='mt-auto'>
+                                                {each.discount == 0
+                                                    ?
+                                                    <h3 className='font-bold mt-auto'>Rp {each.price}</h3>
+                                                    :
+                                                    <>
+                                                        <h3 className='mt-auto line-through decoration-red-600 decoration-2'>Rp {each.price}</h3>
+                                                        <h3 className='font-bold mt-auto'>Rp {each.price - (each.price * (each.discount / 100))}</h3>
+                                                    </>
+                                                }
+
+                                                <div className='flex gap-[10px] items-center'>
+                                                    <div className='flex items-center gap-[5px]'>
+                                                        <AiFillStar className='text-[#FBC646]' />
+                                                        {each.ratingAverage}
+                                                    </div>
+                                                    <div>|</div>
+                                                    <p>Terjual {each.amountSold}</p>
                                                 </div>
-                                                <div>|</div>
-                                                <p>Terjual {each.amountSold}</p>
                                             </div>
                                         </div>
-                                    </div>
-                                </Link>
-                            )
-                        })}
-                    </div>
+                                    </Link>
+                                )
+                            })}
+
+                        </div>
+                    }
+
                     {/* :
                         <div className='mt-5'>
                             Produk tidak dapat ditemukan...
                         </div> */}
                     {/* } */}
-                    <div className='w-full flex flex-wrap mt-5'>
-                        {/* buat nampilin pagination pakai library aja */}
-                        <ReactPaginate
-                            className='border-2 border-black flex gap-x-3'
-                            breakLabel="..."
-                            nextLabel="next >"
-                            // onPageChange={handlePageClick}
-                            pageRangeDisplayed={5}
-                            // pageCount={pageCount}
-                            previousLabel="< previous"
-                            renderOnZeroPageCount={null}
-                        />
-                        {/* <PaginationPage data={data} paginate={paginate} currentPage={currentPage} productPerPage={productPerPage} totalPosts={dataProduct.length} /> */}
-                    </div>
+                    {loading ? <div className='flex items-center justify-center h-full'> loading.... </div>
+                        :
+                        <div className='w-full flex flex-wrap mt-5'>
+                            {/* buat nampilin pagination pakai library aja */}
+                            <ReactPaginate
+                                className='border-2 border-black flex gap-x-3'
+                                breakLabel="..."
+                                nextLabel="next >"
+                                onPageChange={handlePageClick}
+                                pageRangeDisplayed={5}
+                                // pageCount={pageCount}
+                                pageCount={totalPage}
+                                previousLabel="< previous"
+                                renderOnZeroPageCount={null}
+                                activeClassName='bg-red-400'
+                            // forcePage={filterList.page + 1}
+                            />
+                            {/* <PaginationPage data={data} paginate={paginate} currentPage={currentPage} productPerPage={productPerPage} totalPosts={dataProduct.length} /> */}
+                        </div>
+                    }
+
                 </div>
             </div >
         </>
