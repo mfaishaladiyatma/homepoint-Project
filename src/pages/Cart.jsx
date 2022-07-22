@@ -5,6 +5,8 @@ import axios from 'axios';
 import { useSelector } from 'react-redux/es/hooks/useSelector'
 import jwtDecode from "jwt-decode";
 import toast, { Toaster } from 'react-hot-toast';
+import { useDispatch } from "react-redux";
+import { checkout } from "../components/action";
 
 import { BsHeart, BsFillTrashFill } from "react-icons/bs";
 import { HiOutlineChevronRight } from "react-icons/hi";
@@ -13,9 +15,11 @@ import { AiFillStar } from "react-icons/ai";
 
 export default function Cart() {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const { token, name } = useSelector((state) => state)
   const idAkun = useSelector((state) => state.id)
+  const cartToCheckout = useSelector((state) => state.cart)
 
   const [rekomendasiProduct, setRekomendasiProduct] = useState([]);
   const [cart, setCart] = useState([]);
@@ -84,6 +88,17 @@ export default function Cart() {
     (resolve) => setTimeout(resolve, ms)
   )
 
+  const addToCheckout = () => {
+    if (cartItems.length > 0) {
+      dispatch(checkout(cartItems.map((item) => item), navigate))
+      bulkDelete()
+    } else {
+      toast('Keranjang masih kosong 🙏', {
+        icon: '⚠️',
+      })
+    }
+  }
+
   const handleCheckboxItem = async (e, productId, cartItemsId) => {
 
     if (e) {
@@ -139,25 +154,29 @@ export default function Cart() {
   // }
 
   const bulkDelete = () => {
-    axios({
-      method: "delete",
-      url: `https://homepoint-server-staging.herokuapp.com/api/v1/cart/items`,
-      data: deleteBulk,
-      // headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    }).then((response) => {
-      //handle success
-      // console.log(response, "<<<Add To Wishlist>>>")
-      // console.log(response, "<<< removed items")
-      checkCart()
-      checkWishlist()
-      setCartItems(cartItems.filter(item => !deleteBulk.includes(item.id)))
-      // setCheckProduct(true)
-      toast.success("Item berhasil terhapus")
-      // navigate(0)
-    }).catch((error) => {
-      //handle error
-      console.log(error)
-    })
+    if (deleteBulk.length > 0) {
+      axios({
+        method: "delete",
+        url: `https://homepoint-server-staging.herokuapp.com/api/v1/cart/items`,
+        data: deleteBulk,
+        // headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      }).then((response) => {
+        //handle success
+        // console.log(response, "<<<Add To Wishlist>>>")
+        // console.log(response, "<<< removed items")
+        checkCart()
+        checkWishlist()
+        setCartItems(cartItems.filter(item => !deleteBulk.includes(item.id)))
+        // setCheckProduct(true)
+        toast.success("Item berhasil terhapus")
+        // navigate(0)
+      }).catch((error) => {
+        //handle error
+        console.log(error)
+      })
+    } else {
+      toast.error("Tidak ada item yang dihapus")
+    }
   }
 
   const checkCart = () => {
@@ -484,9 +503,11 @@ export default function Cart() {
               <p className='font-bold text-[22px] '></p>
             }
           </div>
-          <div className='rounded-[8px] font-bold text-[14px] md:text-[16px] text-[#505050] bg-[#FBC646] h-20 md:h-12 flex justify-center items-center'>
-            Beli ({cartItems.length})
-          </div>
+          <button onClick={addToCheckout} className='font-bold text-[14px] md:text-[16px]'>
+            <div className='rounded-[8px]  text-[#505050] bg-[#FBC646] h-20 md:h-12 flex justify-center items-center'>
+              Beli ({cartItems.length})
+            </div>
+          </button>
         </section>
       </div>
 

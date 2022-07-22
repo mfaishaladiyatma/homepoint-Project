@@ -138,7 +138,7 @@ export default function Homepage() {
             <div className="flex flex-col relative items-center w-full rounded-[10px] cursor-pointer hover:shadow-shadow-custom-3 hover:-translate-y-2 ease-in-out duration-200">
               <img className="lg:w-full md:w-[350px] w-[250px] rounded-[10px]" src={kitchenwareAlatMakan} alt="" />
               <div className="absolute bottom-5 left-[50%] translate-x-[-50%] font-[700] text-[20px] md:text-[22px] xl:text-[25px] w-fit">
-                <p>Alat Makan &amp; Minuman</p>
+                <p>Perlengkapan Masak</p>
               </div>
             </div>
             <div className="flex flex-col relative items-center w-full rounded-[10px] cursor-pointer hover:shadow-shadow-custom-3 hover:-translate-y-2 ease-in-out duration-200">

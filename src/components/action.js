@@ -12,7 +12,7 @@ const loginActionAsync = (email, password, navigate, toast) => {
     const urlEncodedBody = new URLSearchParams()
     urlEncodedBody.append('email', email)
     urlEncodedBody.append('password', password)
-    
+
 
     return (dispatch, getState, baseUrlLogin) => {
         axios({
@@ -23,7 +23,7 @@ const loginActionAsync = (email, password, navigate, toast) => {
         }).then((response) => {
             //handle success
             dispatch(loginActionSuccessToken((response.data.data.token), (response.data.data.name), (response.data.data.id)))
-            console.log(response.data.data.name)
+            // console.log(response.data.data.name)
             navigate('/')
             toast.success('Login Sukses')
         }).catch((error) => {
@@ -47,11 +47,6 @@ const loginActionAsync = (email, password, navigate, toast) => {
 
     }
 }
-// `${baseUrlLogin}/api/v1/users/login`
-// const loginActionSuccess = (payload) => ({
-//     type: 'login/success',
-//     payload
-// })
 
 const loginActionSuccessToken = (payload, nama, id) => ({
     type: 'login/success-token',
@@ -67,14 +62,14 @@ const logoutAction = () => ({
 const fetchUserDetailsAsync = () => {
     return (dispatch, getState, baseUrlLogin) => {
         const { token } = getState()
-        console.log(token)
+        // console.log(token)
 
         axios.get(`${baseUrlLogin}/api/v1/users`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         }).then((response) => {
-            console.log(response)
+            // console.log(response)
         }).catch((error) => {
             console.log(error)
         })
@@ -89,12 +84,23 @@ const registerUser = (namaLengkap, email, password, navigate) => {
             email,
             password
         }).then((response) => {
-            console.log(response)
+            // console.log(response)
         }).catch((error) => {
             console.log(error)
         })
     }
 }
+
+const checkout = (cartItems, navigate) =>
+(
+    navigate('/checkout'),
+    {
+        type: 'checkout',
+        cartItems,
+    }
+)
+
+
 
 export {
     loginActionAsync,
@@ -102,5 +108,6 @@ export {
     loginActionSuccessToken,
     fetchUserDetailsAsync,
     registerUser,
-    logoutAction
+    logoutAction,
+    checkout,
 }

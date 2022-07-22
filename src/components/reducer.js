@@ -3,11 +3,12 @@ const inistialState = {
     password: '',
     token: '',
     name: '',
-    id: ''
+    id: '',
+    cart: [],
 }
 
 export default function userReducer(state = inistialState, action) {
-    const { type, payload, nama, id } = action
+    const { type, payload, nama, id, cartItems } = action
 
     switch (type) {
         case 'login/success':
@@ -24,12 +25,17 @@ export default function userReducer(state = inistialState, action) {
                 id
             }
         case 'logout':
-
             return {
                 ...state,
                 token: '',
                 name: '',
-                id: ''
+                id: '',
+                cart: []
+            }
+        case 'checkout':
+            return{
+                ...state,
+                cart: [...state.cart, ...cartItems]
             }
         default:
             return state

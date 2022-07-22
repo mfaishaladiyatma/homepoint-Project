@@ -60,9 +60,9 @@ export default function Register() {
           {showModal ?
             <div className="absolute flex items-center justify-center top-0 right-0 w-full h-full bg-black/50 z-20">
               <div className="flex flex-col items-center justify-center border-2 border-black w-[700px] h-[300px] rounded-[8px] bg-white/90">
-                <p className="font-semibold">Email konfirmasi sudah terkirim ke alamat email anda</p>
+                <p className="font-semibold text-[14px] md:text-[16px]">Email konfirmasi sudah terkirim ke alamat email anda</p>
                 <button onClick={() => navigate('/login')} className="bg-[#FBC646] w-[50%] mx-auto py-3 rounded-[10px] mt-3">
-                  <p className="font-bold w-full">Login</p>
+                  <p className="font-bold w-full text-[14px] md:text-[16px]">Login</p>
                 </button>
               </div>
             </div>
