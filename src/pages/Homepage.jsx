@@ -125,7 +125,7 @@ export default function Homepage() {
             <h2 className="font-[500] text-center md:text-left text-[30px] md:text-[40px]">Kitchenware Weeks</h2>
           </div>
           <div className="text-white grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 h-fit gap-y-3  gap-x-5 ">
-            <button onClick={() => navigate('/search?Description=Peralatan Dapur')}>
+            <button onClick={() => navigate('/search?description=Peralatan Dapur')}>
             <div className="flex flex-col relative  items-center  w-full rounded-[10px] cursor-pointer hover:shadow-shadow-custom-3 hover:-translate-y-2 ease-in-out duration-200">
               <img className="lg:w-full md:w-[350px] w-[250px] rounded-[10px]" src={kitchenwarePeralatanDapur} alt="" />
               <div className="absolute bottom-5 left-[50%] translate-x-[-50%] font-[700] text-[20px] md:text-[22px] xl:text-[25px] w-fit">

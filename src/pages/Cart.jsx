@@ -386,7 +386,7 @@ export default function Cart() {
                       <div className='flex flex-col'>
                         <h4 className='text-[16px] md:text-[18px]'>{item.products.name}</h4>
 
-                        <h4 className='font-bold text-[16px] md:text-[18px]'>{item.products.discount == 0 ? new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 9 }).format(item.products.price) : new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 9 }).format(item.products.price - (item.products.price * (item.products.discount / 100)))}</h4>
+                        <h4 className='font-bold text-[16px] md:text-[18px]'>{item.products.discount == 0 ? new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 12 }).format(item.products.price) : new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 12 }).format(item.products.price - (item.products.price * (item.products.discount / 100)))}</h4>
 
                       </div>
                       <div className='flex flex-row justify-between'>
@@ -447,7 +447,7 @@ export default function Cart() {
                       <React.Fragment key={index}>
                         <div className='flex justify-between'>
                           <p className='text-[14px] md:text-[16px]'>Total harga ({item.quantity} barang)</p>
-                          <p className='text-[14px] md:text-[16px]'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 9 }).format(
+                          <p className='text-[14px] md:text-[16px]'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 12 }).format(
 
                             item.products.price * item.quantity
 
@@ -460,7 +460,7 @@ export default function Cart() {
                       <React.Fragment key={index}>
                         <div className='flex justify-between'>
                           <p className='text-[14px] md:text-[16px]'>Total harga ({item.quantity} barang)</p>
-                          <p className='text-[14px] md:text-[16px]'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 9 }).format(
+                          <p className='text-[14px] md:text-[16px]'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 12 }).format(
 
                             (item.products.price - (item.products.price * (item.products.discount / 100))) * item.quantity
 
@@ -493,7 +493,7 @@ export default function Cart() {
               ?
               <>
                 <p className='font-bold text-[20px] md:text-[22px]'>Total Harga</p>
-                <p className='font-bold text-[20px] md:text-[22px]'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 9 }).format(
+                <p className='font-bold text-[20px] md:text-[22px]'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 12 }).format(
 
                   calcTotal()
 
@@ -535,12 +535,12 @@ export default function Cart() {
 
                       {item.products.discount === 0 ?
 
-                        <h4 className='font-bold text-[18px] text-left mt-8'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(item.products.price)}</h4>
+                        <h4 className='font-bold text-[18px] text-left mt-8'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 12 }).format(item.products.price)}</h4>
                         :
                         <>
-                          <h4 className='text-[14px] text-gray-500 line-through decoration-red-600 decoration-2 text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(item.products.price)}</h4>
+                          <h4 className='text-[14px] text-gray-500 line-through decoration-red-600 decoration-2 text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 12 }).format(item.products.price)}</h4>
 
-                          <h3 className='font-bold text-[18px] text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(item.products.price - (item.products.price * (item.products.discount / 100)))}</h3>
+                          <h3 className='font-bold text-[18px] text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 12 }).format(item.products.price - (item.products.price * (item.products.discount / 100)))}</h3>
                         </>
                       }
 
@@ -584,12 +584,12 @@ export default function Cart() {
                   <div className='flex flex-col gap-y-3'>
                     {item.discount === 0 ?
 
-                      <h4 className='font-bold text-[18px] text-left mt-8'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(item.price)}</h4>
+                      <h4 className='font-bold text-[18px] text-left mt-8'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 12 }).format(item.price)}</h4>
                       :
                       <>
-                        <h4 className='text-[14px] text-gray-500 line-through decoration-red-600 decoration-2 text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(item.price)}</h4>
+                        <h4 className='text-[14px] text-gray-500 line-through decoration-red-600 decoration-2 text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 12 }).format(item.price)}</h4>
 
-                        <h3 className='font-bold text-[18px] text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(item.price - (item.price * (item.discount / 100)))}</h3>
+                        <h3 className='font-bold text-[18px] text-left'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 12 }).format(item.price - (item.price * (item.discount / 100)))}</h3>
                       </>
                     }
 
