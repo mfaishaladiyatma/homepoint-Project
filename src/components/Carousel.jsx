@@ -1,8 +1,8 @@
 import React from 'react'
 
-import heroBanner from '../images/bannerHero-1.svg'
-import heroBanner2 from '../images/bannerHero-2.svg'
-import heroBanner3 from '../images/bannerHero-3.svg'
+import heroBanner from '../images/Frame 15.svg'
+import heroBanner2 from '../images/Frame 16.svg'
+import heroBanner3 from '../images/Frame 17.svg'
 import arrowRight from '../images/arrow-right-white.svg'
 import arrowLeft from '../images/arrow-left-white.svg'
 

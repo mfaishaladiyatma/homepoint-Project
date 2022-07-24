@@ -27,7 +27,7 @@ import kitchenwarePenyimpananMakanan from "../images/kitchenware-penyimpananMaka
 import waLogo from "../images/waLogo.svg";
 
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux/es/exports";
 import { useSelector } from "react-redux/es/exports";
 import jwtDecode from "jwt-decode";
@@ -40,41 +40,51 @@ export default function Homepage() {
 
   const { token } = useSelector((state) => state);
   const decode = token ? jwtDecode(token) : null;
+  const [subCategories, setSubCategories] = useState([]);
   // console.log(decode ? decode.sub : "no token");
+
+  useEffect(() => {
+    axios.get('https://homepoint-server-staging.herokuapp.com/api/v1/product-subcategories')
+      .then((response) => {
+        setSubCategories(response.data.data);
+      }).catch((error) => {
+        console.log(error)
+      })
+  }, [])
 
   return (
     <>
       <Carousel />
 
       <Toaster
-                position='bottom-right'
-                reverseOrder={false}
+        position='bottom-right'
+        reverseOrder={false}
 
-                toastOptions={{
-                  duration: 5000,
-                  style: {
-                    backgroundColor: '#FBC646',
-                    color: '#22364A',
-                    fontWeight: 'bold',
-                  },
+        toastOptions={{
+          duration: 5000,
+          style: {
+            backgroundColor: '#FBC646',
+            color: '#22364A',
+            fontWeight: 'bold',
+          },
 
-                  success: {
-                    duration: 5000,
-                    theme: {
-                      primary: 'blue',
-                      secondary: 'yellow'
-                    }
-                  },
+          success: {
+            duration: 5000,
+            theme: {
+              primary: 'blue',
+              secondary: 'yellow'
+            }
+          },
 
-                  error: {
-                    duration: 5000,
-                    theme: {
-                      primary: 'red',
-                      secondary: 'yellow'
-                    }
-                  }
-                }}
-              />
+          error: {
+            duration: 5000,
+            theme: {
+              primary: 'red',
+              secondary: 'yellow'
+            }
+          }
+        }}
+      />
 
       <section className="font-Inter flex flex-col justify-center mt-10 gap-y-3 px-5  h-fit">
         <h2 className=" md:text-left text-center text-[30px] md:text-[40px] font-medium">Pilihan Kategori</h2>
@@ -82,40 +92,17 @@ export default function Homepage() {
           <div className="border-2 border-gray-200 rounded-[8px] w-full h-full flex justify-center items-center">
             <img src={kategoriImage} alt="" />
           </div>
-          <div className="border-2 border-gray-200 rounded-[8px] w-full h-full flex justify-center items-center">
-            <img src={peralatanMasakLogo} alt="" />
-          </div>
-          <div className="border-2 border-gray-200 rounded-[8px] w-full h-full flex justify-center items-center">
-            <img src={aksesorisDapurLogo} alt="" />
-          </div>
-          <div className="border-2 border-gray-200 rounded-[8px] w-full h-full flex justify-center items-center">
-            <img src={perlengkapanMasakLogo} alt="" />
-          </div>
-          <div className="border-2 border-gray-200 rounded-[8px] w-full h-full flex justify-center items-center">
-            <img src={interiorLogo} alt="" />
-          </div>
-          <div className="border-2 border-gray-200 rounded-[8px] w-full h-full flex justify-center items-center">
-            <img src={eksteriorLogo} alt="" />
-          </div>
-          <div className="border-2 border-gray-200 rounded-[8px] w-full h-full flex justify-center items-center">
-            <img src={kebersihanRumahLogo} alt="" />
-          </div>
-          <div className="border-2 border-gray-200 rounded-[8px] w-full h-full flex justify-center items-center">
-            <img src={kebersihanDapurLogo} alt="" />
-          </div>
-          <div className="border-2 border-gray-200 rounded-[8px] w-full h-full flex justify-center items-center">
-            <img src={kebersihanToiletLogo} alt="" />
-          </div>
-          <div className="border-2 border-gray-200 rounded-[8px] w-full h-full flex justify-center items-center">
-            <img src={elektronikDapurLogo} alt="" />
-          </div>
-          <div className="border-2 border-gray-200 rounded-[8px] w-full h-full flex justify-center items-center">
-            <img src={elektronikKebersihanLogo} alt="" />
-          </div>
-          <div className="border-2 border-gray-200 rounded-[8px] w-full h-full flex justify-center items-center">
-            <img src={perangkatElektronikLogo} alt="" />
-          </div>
-          
+          {subCategories.map((sub) => {
+            return (
+              <button key={sub.id} onClick={() => navigate(`/search?subcategory=${sub.id}`)}>
+                <div className="border-2 border-gray-200 rounded-[8px] w-full h-full flex justify-center items-center relative py-5 hover:shadow-shadow-custom-3 hover:-translate-y-2 ease-in-out duration-200">
+                  <img className="max-w-[200px]" src={sub.icon} alt="" />
+                  <p className="absolute font-semibold bottom-0 text-[14px] md:text-[16px]">{sub.name}</p>
+                </div>
+              </button>
+            )
+          })}
+
         </div>
       </section>
 
@@ -126,31 +113,37 @@ export default function Homepage() {
           </div>
           <div className="text-white grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 h-fit gap-y-3  gap-x-5 ">
             <button onClick={() => navigate('/search?description=Peralatan Dapur')}>
-            <div className="flex flex-col relative  items-center  w-full rounded-[10px] cursor-pointer hover:shadow-shadow-custom-3 hover:-translate-y-2 ease-in-out duration-200">
-              <img className="lg:w-full md:w-[350px] w-[250px] rounded-[10px]" src={kitchenwarePeralatanDapur} alt="" />
-              <div className="absolute bottom-5 left-[50%] translate-x-[-50%] font-[700] text-[20px] md:text-[22px] xl:text-[25px] w-fit">
-                <p>Peralatan Dapur</p>
+              <div className="flex flex-col relative  items-center  w-full rounded-[10px] cursor-pointer hover:shadow-shadow-custom-3 hover:-translate-y-2 ease-in-out duration-200">
+                <img className="lg:w-full md:w-[350px] w-[250px] rounded-[10px]" src={kitchenwarePeralatanDapur} alt="" />
+                <div className="absolute bottom-5 left-[50%] translate-x-[-50%] font-[700] text-[20px] md:text-[22px] xl:text-[25px] w-fit">
+                  <p>Peralatan Dapur</p>
+                </div>
               </div>
-            </div>
+            </button >
+            <button onClick={() => navigate('/search?description=Elektronik Dapur')}>
+              <div className="flex flex-col relative items-center w-full rounded-[10px] cursor-pointer hover:shadow-shadow-custom-3 hover:-translate-y-2 ease-in-out duration-200">
+                <img className="lg:w-full md:w-[350px] w-[250px] rounded-[10px]" src={kitchenwareElektronikDapur} alt="" />
+                <div className="absolute bottom-5 left-[50%] translate-x-[-50%] font-[700] text-[20px] md:text-[22px] xl:text-[25px] w-fit">
+                  <p>Elektronik Dapur</p>
+                </div>
+              </div>
             </button>
-            <div className="flex flex-col relative items-center w-full rounded-[10px] cursor-pointer hover:shadow-shadow-custom-3 hover:-translate-y-2 ease-in-out duration-200">
-              <img className="lg:w-full md:w-[350px] w-[250px] rounded-[10px]" src={kitchenwareElektronikDapur} alt="" />
-              <div className="absolute bottom-5 left-[50%] translate-x-[-50%] font-[700] text-[20px] md:text-[22px] xl:text-[25px] w-fit">
-                <p>Elektronik Dapur</p>
+            <button onClick={() => navigate('/search?description=Perlengkapan Masak')}>
+              <div className="flex flex-col relative items-center w-full rounded-[10px] cursor-pointer hover:shadow-shadow-custom-3 hover:-translate-y-2 ease-in-out duration-200">
+                <img className="lg:w-full md:w-[350px] w-[250px] rounded-[10px]" src={kitchenwareAlatMakan} alt="" />
+                <div className="absolute bottom-5 left-[50%] translate-x-[-50%] font-[700] text-[20px] md:text-[22px] xl:text-[25px] w-fit">
+                  <p>Perlengkapan Masak</p>
+                </div>
               </div>
-            </div>
-            <div className="flex flex-col relative items-center w-full rounded-[10px] cursor-pointer hover:shadow-shadow-custom-3 hover:-translate-y-2 ease-in-out duration-200">
-              <img className="lg:w-full md:w-[350px] w-[250px] rounded-[10px]" src={kitchenwareAlatMakan} alt="" />
-              <div className="absolute bottom-5 left-[50%] translate-x-[-50%] font-[700] text-[20px] md:text-[22px] xl:text-[25px] w-fit">
-                <p>Perlengkapan Masak</p>
+            </button>
+            <button onClick={() => navigate('/search?description=Aksesoris Dapur')}>
+              <div className="flex flex-col relative items-center w-full rounded-[10px] cursor-pointer hover:shadow-shadow-custom-3 hover:-translate-y-2 ease-in-out duration-200">
+                <img className="lg:w-full md:w-[350px] w-[250px] rounded-[10px]" src={kitchenwarePenyimpananMakanan} alt="" />
+                <div className="absolute bottom-5 left-[50%] translate-x-[-50%] font-[700] text-[20px] md:text-[22px] xl:text-[25px] w-fit">
+                  <p>Aksesoris Dapur</p>
+                </div>
               </div>
-            </div>
-            <div className="flex flex-col relative items-center w-full rounded-[10px] cursor-pointer hover:shadow-shadow-custom-3 hover:-translate-y-2 ease-in-out duration-200">
-              <img className="lg:w-full md:w-[350px] w-[250px] rounded-[10px]" src={kitchenwarePenyimpananMakanan} alt="" />
-              <div className="absolute bottom-5 left-[50%] translate-x-[-50%] font-[700] text-[20px] md:text-[22px] xl:text-[25px] w-fit">
-                <p>Penyimpanan Makanan</p>
-              </div>
-            </div>
+            </button>
           </div>
         </div>
       </section>

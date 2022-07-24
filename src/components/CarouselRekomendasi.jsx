@@ -5,6 +5,7 @@ import axios from 'axios'
 
 import promo from '../images/promoBuy1Get1.svg'
 import gelasKacaBiru from '../images/gelasKacaBeningBiru.svg'
+import discountTag from '../images/discountTag.svg'
 import arrowRight from '../images/arrow-right-white.svg'
 import arrowLeft from '../images/arrow-left-white.svg'
 import { AiFillStar } from "react-icons/ai";
@@ -43,7 +44,9 @@ export default function CarouselRekomendasi() {
                 <section className='mt-10 container px-5 flex flex-col gap-y-10'>
                     <div className='flex flex-col md:flex-row justify-between items-center'>
                         <h2 className='font-[500] text-[30px] md:text-[40px]'>Rekomendasi Untukmu</h2>
-                        <p className='text-[#316093] text-[20px] font-[600]'>Lihat Selengkapnya &gt;</p>
+                        <button onClick={() => navigate('/search?sort=latest')}>
+                            <p className='text-[#316093] text-[20px] font-[600]'>Lihat Selengkapnya &gt;</p>
+                        </button>
                     </div>
                     <div className='flex container  h-full  '>
                         <div className=' h-[400px] w-full  '>
@@ -88,6 +91,13 @@ export default function CarouselRekomendasi() {
                                             <button onClick={() => navigate('/product/' + item.id)} className='flex w-full'>
 
                                                 <div className='flex flex-col items-center md:items-start w-full  h-full p-3'>
+                                                    {item.discount === 0 ? null
+                                                        :
+                                                        <div className='absolute top-0 right-2'>
+                                                            <img className='w-[50px] relative' src={discountTag} alt="" />
+                                                            <p className='absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] text-white'>{item.discount}&#37;</p>
+                                                        </div>
+                                                    }
                                                     <div className='w-full flex justify-center'>
                                                         <img className='h-[180px] w-full rounded-[8px]' src={item.productImages[0].image} alt="" />
                                                     </div>
