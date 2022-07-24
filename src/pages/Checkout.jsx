@@ -62,13 +62,44 @@ export default function Checkout() {
 
   const [checked, setChecked] = useState([])
 
+  // const handleAsuransi = (e, idCartItem) => {
+  //   if (e) {
+  //     setChecked([...checked, idCartItem])
+
+  //     cartToCheckout.map((item) => {item.products.discount === 0 ?
+  //       setTotalAsuransi(totalAsuransi + (cartToCheckout.find(item => item.id === idCartItem).products.price * (1/100)))
+  //       :
+  //       setTotalAsuransi(totalAsuransi + ((cartToCheckout.find(item => item.id === idCartItem).products.price -(cartToCheckout.find(item => item.id === idCartItem).products.price * (cartToCheckout.find(item => item.id === idCartItem).products.discount / 100))) * (1/100)))
+  //     })
+
+  //   } else {
+  //     setChecked(checked.filter(item => item !== idCartItem))
+
+  //     cartToCheckout.map((item) => {item.products.discount === 0 ? 
+  //       setTotalAsuransi(totalAsuransi - (cartToCheckout.find(item => item.id === idCartItem).products.price * (1/100)))
+  //       :
+  //       setTotalAsuransi(totalAsuransi - ((cartToCheckout.find(item => item.id === idCartItem).products.price -(cartToCheckout.find(item => item.id === idCartItem).products.price * (cartToCheckout.find(item => item.id === idCartItem).products.discount / 100))) * (1/100)))
+  //     })
+  //   }
+  // }
+
   const handleAsuransi = (e, idCartItem) => {
     if (e) {
       setChecked([...checked, idCartItem])
+
+      if(cartToCheckout.map((item) => item.products.discount === 0)){
       setTotalAsuransi(totalAsuransi + (cartToCheckout.find(item => item.id === idCartItem).products.price * (1/100)))
+      }else{
+        setTotalAsuransi(totalAsuransi + (cartToCheckout.find(item => item.id === idCartItem).products.price -(cartToCheckout.find(item => item.id === idCartItem).products.price * (cartToCheckout.find(item => item.id === idCartItem).products.discount / 100)) * (1/100)))
+      }
     } else {
       setChecked(checked.filter(item => item !== idCartItem))
+      
+      if(cartToCheckout.map((item) => item.products.discount === 0)){
       setTotalAsuransi(totalAsuransi - (cartToCheckout.find(item => item.id === idCartItem).products.price * (1/100)))
+      }else{
+        setTotalAsuransi(totalAsuransi - (cartToCheckout.find(item => item.id === idCartItem).products.price -(cartToCheckout.find(item => item.id === idCartItem).products.price * (cartToCheckout.find(item => item.id === idCartItem).products.discount / 100)) * (1/100)))
+      }
     }
   }
 
@@ -229,6 +260,7 @@ export default function Checkout() {
               <div className='flex flex-row justify-between'>
                 <p>Biaya asuransi ({checked.length} produk)</p>
                 {/* <p>{calcTotalAsuransi()}</p> */}
+                <p>{totalAsuransi}</p>
               </div>
             </div>
           </div>
