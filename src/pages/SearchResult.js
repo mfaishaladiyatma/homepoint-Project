@@ -14,11 +14,11 @@ function SearchResult() {
     const [brands, setBrands] = useState([]);
     const [colors, setColors] = useState([]);
     const [brandSearch, setBrandSearch] = useState('');
-    const [currentItems, setCurrentItems] = useState(null);
-    const [pageCount, setPageCount] = useState(0);
-    const [itemOffset, setItemOffset] = useState(0);
+    const [loading, setLoading] = useState(true);
+    const [isMounted, setIsMounted] = useState(false);
+    const [tempParams, setTempParams] = useState({});
+
     const filteredBrand = brands.filter((val) => val.includes(brandSearch));
-    const [loading, setLoading] = useState(true)
 
     const [filterList, setFilterList] = useState({
         name: '',
@@ -33,7 +33,6 @@ function SearchResult() {
     });
 
     useEffect(() => {
-        const endOffset = itemOffset + 16;
         const name = searchParams.get('name');
         const description = searchParams.get('description');
         const subcategory = searchParams.get('subcategory');
@@ -72,6 +71,18 @@ function SearchResult() {
                 break;
             default:
         }
+        setFilterList((prevState) => ({
+            ...prevState,
+            name,
+            priceMin,
+            priceMax,
+            rating,
+            brand,
+            color,
+            page,
+            size,
+            sort
+        }));
         axios({
             method: 'GET',
             url: 'https://homepoint-server-staging.herokuapp.com/api/v1/products',
@@ -79,46 +90,34 @@ function SearchResult() {
         })
             .then((response) => {
                 setProducts(response.data.data.products);
-                setBrands(response.data.data.brands);
-                setColors(response.data.data.colors);
-                setFilterList((prevState) => ({
-                    ...prevState,
-                    name,
-                    priceMin,
-                    priceMax,
-                    rating,
-                    brand,
-                    color,
-                    page,
-                    size,
-                    sort
-                }));
-                setTotalPage(response.data.data.totalPage)
-                // setCurrentItems(products.slice(itemOffset, endOffset));
-                setPageCount(Math.ceil(totalPage / 16));
-                setLoading(false)
+                if (!isMounted) {
+                    setBrands(response.data.data.brands);
+                    setColors(response.data.data.colors);
+                }
+                setIsMounted(true);
+                setTotalPage(response.data.data.totalPage);
+                setLoading(false);
             })
             .catch((error) => {
                 //wip: display error here
             });
-    }, [searchParams, itemOffset]);
+    }, [searchParams]);
 
-    const fetchWithParams = (sort = '', page = 1) => {
-        let params = { sort, page };
-        for (const key in filterList) {
-            if (filterList[key]) {
-                if (key !== 'sort' || key !== 'page') {
+    useEffect(() => {
+        if (isMounted) {
+            const params = {};
+            for (const key in filterList) {
+                if (filterList[key]) {
                     params[key] = encodeURIComponent(filterList[key]);
                 }
             }
+            setTempParams(params);
         }
-        setSearchParams(params);
-    };
+    }, [filterList]);
 
     const handleSort = (sort) => {
         setFilterList((prevState) => ({ ...prevState, sort }));
-        fetchWithParams(sort);
-    }
+    };
 
     const resetButton = () => {
         setFilterList({
@@ -129,15 +128,15 @@ function SearchResult() {
             rating: '',
             sort: ''
         });
-    }
+    };
 
     const handlePageClick = (e) => {
         setFilterList((prevState) => ({ ...prevState, page: e.selected }));
-        
-        // setItemOffset(newOffset);
-        console.log(e.selected)
-        fetchWithParams(filterList.sort, e.selected)
-    }
+    };
+
+    const handleApplyButton = () => {
+        setSearchParams(tempParams);
+    };
 
     return (
         <>
@@ -247,7 +246,7 @@ function SearchResult() {
                                 </input>
                             ))}
                         </div>
-                        <button onClick={fetchWithParams} className='mt-[30px] p-2 font-semibold w-[85%] rounded-md mx-auto bg-[#FBC646]'>Terapkan</button>
+                        <button onClick={handleApplyButton} className='mt-[30px] p-2 font-semibold w-[85%] rounded-md mx-auto bg-[#FBC646]'>Terapkan</button>
                     </div>
                 </div>
                 <div className='p-5 h-full flex flex-col lg:p-0 lg:mx-5'>
@@ -271,7 +270,7 @@ function SearchResult() {
                                 return (
                                     <Link className='flex justify-center' key={each.id} to={`../product/${each.id}`}>
                                         <div className='relative border-[1px] w-full flex flex-col p-3 gap-y-5 border-light-blue-pale rounded-md shadow-shadow-custom-2'>
-                                            {each.discount == 0 ? null
+                                            {each.discount === 0 ? null
                                                 :
                                                 <div className='absolute top-0 right-2'>
                                                     <img className='w-[50px] relative' src={discountTag} alt="" />
@@ -330,7 +329,7 @@ function SearchResult() {
                                 previousLabel="< previous"
                                 renderOnZeroPageCount={null}
                                 activeClassName='bg-red-400'
-                            // forcePage={filterList.page + 1}
+                                forcePage={filterList.page}
                             />
                             {/* <PaginationPage data={data} paginate={paginate} currentPage={currentPage} productPerPage={productPerPage} totalPosts={dataProduct.length} /> */}
                         </div>
