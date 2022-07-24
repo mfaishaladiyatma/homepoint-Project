@@ -65,8 +65,10 @@ export default function Checkout() {
   const handleAsuransi = (e, idCartItem) => {
     if (e) {
       setChecked([...checked, idCartItem])
+      setTotalAsuransi(totalAsuransi + (cartToCheckout.find(item => item.id === idCartItem).products.price * (1/100)))
     } else {
       setChecked(checked.filter(item => item !== idCartItem))
+      setTotalAsuransi(totalAsuransi - (cartToCheckout.find(item => item.id === idCartItem).products.price * (1/100)))
     }
   }
 
@@ -98,14 +100,15 @@ export default function Checkout() {
 
           <div className='h-[10px] w-full bg-slate-400/30 rounded-full'></div>
 
-          <div className='flex flex-col gap-y-8'>
+          <div className='flex flex-col gap-y-8 mt-5 mb-10'>
 
             <h2 className='font-medium text-[24px]'>Daftar Pesananmu</h2>
             {cartToCheckout.map((item) => {
 
               return (
                 <React.Fragment key={item.id}>
-                  <div className='flex flex-row gap-x-5'>
+                  {/* <div className='h-[2px] w-full bg-slate-400/30'></div> */}
+                  <div className='flex flex-row gap-x-5  '>
                     <img className='w-[200px] rounded-[8px] border-[1px] border-slate-400' src={item.products.productImages[0].image} alt="" />
                     <div className='flex flex-col max-h-[50%] justify-between'>
                       <p className='font-medium text-[16px]'>{item.products.name}</p>
@@ -244,7 +247,7 @@ export default function Checkout() {
 
       </div>
 
-      {modalCheckout ? <ModalCheckout setModalCheckout={setModalCheckout} /> : null}
+      {modalCheckout ? <ModalCheckout checked={checked} cartToCheckout={cartToCheckout} setModalCheckout={setModalCheckout} /> : null}
 
     </div>
   )

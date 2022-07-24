@@ -5,7 +5,7 @@ import kurirReguler from '../images/kurirReguler.svg'
 import kurirHomepoint from '../images/kurirHomepoint.svg'
 import ambilDiTempat from '../images/ambilDiTempat.svg'
 
-export default function ModalCheckout({setModalCheckout}) {
+export default function ModalCheckout({ setModalCheckout, checked, cartToCheckout }) {
   return (
     <section className='fixed bg-slate-400/70 top-0 left-0 right-0 bottom-0 z-30'>
 
@@ -25,12 +25,23 @@ export default function ModalCheckout({setModalCheckout}) {
         <div className='flex flex-col gap-y-5'>
           <h4 className='font-medium text-[18px]'>Detail Pesananmu</h4>
 
-          <div className='flex flex-row justify-between'>
-            <p>1x</p>
-            <p className='max-w-[300px]'>Penggorengan Elektronik tanpa minyak / Air Fryer 2.5 L / Microwave Ori</p>
-            <p className='font-semibold'>Rp 529.000</p>
-          </div>
-          <div className='h-[2px] bg-slate-400/30 w-full'></div>
+          {cartToCheckout.map((item) => {
+            return (
+              <>
+                <div className='flex flex-row justify-between'>
+                  <p>{item.quantity}x</p>
+                  <p className='max-w-[300px]'>{item.products.name}</p>
+                  {item.products.discount === 0 ?
+                    <p className='font-semibold'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 12 }).format(item.products.price * item.quantity)}</p>
+                    :
+                    <p className='font-semibold'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 12 }).format((item.products.price - (item.products.price * (item.products.discount / 100))) * item.quantity)}</p>
+                  }
+                </div>
+                <div className='h-[2px] bg-slate-400/30 w-full'></div>
+              </>
+            )
+          })}
+
         </div>
 
         <div className='flex flex-row justify-between'>
