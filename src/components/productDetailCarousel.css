@@ -1,0 +1,33 @@
+.carouselProductDetail {
+  @apply  h-full flex justify-center  px-5 py-2  min-w-[280px] w-full
+}
+
+.carouselProductDetail .swiper-wrapper {
+  @apply container
+}
+
+.carouselProductDetail .swiper-slide {
+  @apply text-left text-[18px] bg-transparent flex justify-center items-center w-fit 
+}
+
+.carouselProductDetail .swiper-pagination {
+  @apply w-fit flex gap-x-2 items-center justify-center ml-5
+}
+
+.carouselProductDetail .swiper-pagination-bullet {
+  @apply w-[6px] md:w-[12px] h-[6px] md:h-[12px] bg-slate-500 opacity-[.4]
+}
+
+.carouselProductDetail .swiper-pagination-bullet-active {
+  @apply bg-black w-[30px] h-[6px] md:h-[12px]  opacity-[1] rounded-full
+}
+
+.carouselProductDetail .swiper-button-next {
+  @apply after:hidden 
+  bg-[#22364A] rounded-full w-[25px] h-[25px] md:w-[40px] md:h-[40px]
+}
+
+.carouselProductDetail .swiper-button-prev {
+  @apply after:hidden 
+  bg-[#22364A] rounded-full w-[25px] h-[25px] md:w-[40px] md:h-[40px]
+}

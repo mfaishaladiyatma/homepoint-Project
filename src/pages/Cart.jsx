@@ -158,7 +158,9 @@ export default function Cart() {
       axios({
         method: "delete",
         url: `https://homepoint-server-staging.herokuapp.com/api/v1/cart/items`,
-        data: deleteBulk,
+        data: {
+          "cartItemIds": deleteBulk,
+        },
         // headers: { "Content-Type": "application/x-www-form-urlencoded" },
       }).then((response) => {
         //handle success

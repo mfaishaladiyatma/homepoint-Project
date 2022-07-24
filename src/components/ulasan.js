@@ -32,7 +32,7 @@ function Ulasan({ product }) {
             })
     },[])
     return (
-        <div className="ulasan flex flex-col font-Inter mb-20">
+        <div className="ulasan flex flex-col font-Inter mt-10 mb-20">
 
             <div className='flex flex-col gap-y-5 justify-center m-auto w-fit items-center'>
                 <h2 className='text-left w-full text-[20px] font-medium'>Penilaian Pembeli</h2>
@@ -96,7 +96,7 @@ function Ulasan({ product }) {
                     <h3 className='font-bold text-[30px]'>Produk lainnya</h3>
                     <h4 className='text-[16px] text-[#316093]'>Lihat Selengkapnya &gt;</h4>
                 </div>
-                <div className='grid gap-x-3 grid-cols-6'>
+                <div className='grid gap-x-3 gap-y-5 grid-cols-3 md:grid-cols-3 lg:grid-cols-6'>
                     {otherProduct.slice(0,6).map((product) => {
                         return (
                             <button key={product.id} onClick={() => navigate('/product/' + product.id)}>

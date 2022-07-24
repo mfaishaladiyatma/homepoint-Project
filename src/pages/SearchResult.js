@@ -140,7 +140,7 @@ function SearchResult() {
 
     return (
         <>
-            <div className='px-4 lg:px-16 flex flex-col items-center lg:flex-row lg:items-start py-5'>
+            <div className='px-4 lg:px-16 flex flex-col items-center lg:flex-row lg:items-start font-Inter py-5'>
                 <div className='border-[1px] w-full lg:w-max border-blue-pale rounded-md shadow-shadow-custom-1'>
                     <div className='p-5'>
                         <div className='flex justify-between'>
@@ -280,7 +280,7 @@ function SearchResult() {
 
                                             <img className='w-[100px] lg:w-[180px] rounded-[8px]' src={each.productImages[0].image} alt={each.name} />
 
-                                            <h3 className='text-left'>{each.name}</h3>
+                                            <h3 className='text-left font-medium'>{each.name}</h3>
                                             <div className='mt-auto'>
                                                 {each.discount == 0
                                                     ?

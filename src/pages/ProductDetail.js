@@ -6,6 +6,15 @@ import jwtDecode from "jwt-decode";
 
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai'
 import toast, { Toaster } from 'react-hot-toast';
+import { Swiper, SwiperSlide } from "swiper/react";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
+
+import '../components/productDetailCarousel.css'
+
+import { Navigation, Autoplay } from "swiper";
 
 import heartRed from '../images/heartRed.svg'
 import icon1 from '../assets/icon1.png'
@@ -17,6 +26,8 @@ import shareIcon from '../images/shareIcon.svg'
 import instagramLogo from '../images/Instagram.svg'
 import facebookLogo from '../images/Facebook.svg'
 import waLogo from '../images/waLogo.svg'
+import arrowRight from '../images/arrow-right-white.svg'
+import arrowLeft from '../images/arrow-left-white.svg'
 // import { addressContext } from '../context/context'
 
 function ProductDetail() {
@@ -29,7 +40,7 @@ function ProductDetail() {
 
     const [stock, setStock] = useState()
     const [qty, setQty] = useState(1)
-    const [icon, setIcon] = useState(false)
+    const [productImage, setProductImage] = useState([])
     const [wishlistIcon, setWishlistIcon] = useState(loveOutline)
     const [loading, setLoading] = useState(true);
     const [product, setProduct] = useState({});
@@ -40,6 +51,8 @@ function ProductDetail() {
     const urlProduct = `https://homepoint-server-staging.herokuapp.com/api/v1/products/${id}`
 
 
+
+
     useEffect(() => {
 
         const fetchData = async () => {
@@ -47,6 +60,7 @@ function ProductDetail() {
                 .then((response) => {
                     setProduct({ ...response.data.data });
                     setStock(response.data.data.stock)
+                    setProductImage(response.data.data.productImages)
                     setLoading(false);
                 })
                 .catch((error) => {
@@ -90,14 +104,14 @@ function ProductDetail() {
         }
     }
 
-    const addToWishlist =  () => {
+    const addToWishlist = () => {
         if (!idAkun) {
             navigate('/login')
-            toast('Silahkan login terlebih dahulu',{
+            toast('Silahkan login terlebih dahulu', {
                 icon: '⚠️',
             })
         } else {
-            
+
             axios({
                 method: "post",
                 url: `https://homepoint-server-staging.herokuapp.com/api/v1/wishlist/items/${idAkun}/${id}`,
@@ -117,26 +131,26 @@ function ProductDetail() {
                 //handle error
                 console.log(error)
             })
-            
+
         }
     }
 
     const checkProductInWishlist = () => {
         axios.get(`https://homepoint-server-staging.herokuapp.com/api/v1/wishlist/items/${idAkun}/${id}`)
-                .then((response) => {
-                    setCheckProduct(response.data.data);
-                    console.log(response.data.data)
-                    // console.log(checkProduct)
-                    setLoading(false);
-                })
-                .catch((error) => {
-                    setLoading(false);
-                    console.log(error)
-                    //wip: display error here
-                })
+            .then((response) => {
+                setCheckProduct(response.data.data);
+                console.log(response.data.data)
+                // console.log(checkProduct)
+                setLoading(false);
+            })
+            .catch((error) => {
+                setLoading(false);
+                console.log(error)
+                //wip: display error here
+            })
     }
 
-    const removeFromWishlist =  () => {
+    const removeFromWishlist = () => {
         axios({
             method: "delete",
             url: ('https://homepoint-server-staging.herokuapp.com/api/v1/wishlist/items/' + checkProduct.id),
@@ -156,10 +170,10 @@ function ProductDetail() {
     const addToCart = () => {
         if (!idAkun) {
             navigate('/login')
-            toast('Silahkan login terlebih dahulu',{
+            toast('Silahkan login terlebih dahulu', {
                 icon: '⚠️',
             })
-        } else if (qty == 0){
+        } else if (qty == 0) {
             toast.error("Jumlah produk tidak boleh 0");
         } else {
             axios({
@@ -183,8 +197,8 @@ function ProductDetail() {
     const handleAddQty = () => {
         if ((qty || 0) < stock) {
             setQty(qty + 1)
-        }else{
-            toast('Tidak bisa melebihi stock',{
+        } else {
+            toast('Tidak bisa melebihi stock', {
                 icon: '⚠️',
             })
         }
@@ -193,7 +207,7 @@ function ProductDetail() {
     const handleDecQty = () => {
         if (qty === 1 || qty === 0) {
             setQty(0)
-            toast('Tidak bisa kurang dari 0',{
+            toast('Tidak bisa kurang dari 0', {
                 icon: '⚠️',
             })
         }
@@ -222,7 +236,47 @@ function ProductDetail() {
                     </div>
                     <div className='w-full md:py-12 flex flex-col'>
                         <div className='flex flex-col lg:flex-row gap-[20px] justify-between'>
-                            <img className="max-w-[200px] md:max-w-[400px] max-h-[400px] rounded-[10px] shadow-shadow-custom-2" src={product.productImages[0].image} alt="" />
+
+                            <Swiper
+                                spaceBetween={30}
+                                pagination={{
+                                    clickable: true,
+                                }}
+                                loop={true}
+                                navigation={{
+                                    nextEl: ".button-next",
+                                    prevEl: ".button-prev",
+                                }}
+                                autoplay={{
+                                    delay: 3000,
+                                    disableOnInteraction: false,
+                                }}
+                                modules={[Navigation, Autoplay]}
+                                speed={700}
+                                centeredSlides={true}
+                                className="carouselProductDetail"
+                            >
+                                {productImage.map((image) => (
+                                    <React.Fragment key={image.id}>
+                                    <SwiperSlide>
+                                        <div className='h-fit w-fit  '>
+                                            <img className='w-full min-w-[250px] rounded-[10px] shadow-shadow-custom-2' src={image.image} alt="" />
+                                        </div>
+                                    </SwiperSlide>
+                                    </React.Fragment>
+                                ))}
+
+
+                                <div className='swiper-button-next button-next'>
+                                    <img src={arrowRight} alt="" />
+                                </div>
+                                <div className='swiper-button-prev button-prev'>
+                                    <img src={arrowLeft} alt="" />
+                                </div>
+                            </Swiper>
+
+                            {/* <img className="max-w-[200px] md:max-w-[400px] max-h-[400px] rounded-[10px] shadow-shadow-custom-2" src={product.productImages[0].image} alt="" /> */}
+
                             <div>
                                 <h1 className='text-2xl font-semibold'>{product.name}</h1>
                                 <div className='flex flex-row md:items-center text-sm md py-4'>
@@ -250,15 +304,15 @@ function ProductDetail() {
                                 {product.discount === 0 ?
                                     <div className='flex items-center'>
 
-                                        <h1 className='text-2xl font-bold'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(product.price)}</h1>
+                                        <h1 className='text-2xl font-bold'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 12 }).format(product.price)}</h1>
 
                                     </div>
 
                                     :
                                     <div className='flex items-center'>
 
-                                        <h1 className='line-through  text-lg'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(product.price)}</h1>
-                                        <h1 className='text-2xl font-bold ml-2'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format((product.price - (product.price * (product.discount / 100))))}</h1>
+                                        <h1 className='line-through  text-lg'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 12 }).format(product.price)}</h1>
+                                        <h1 className='text-2xl font-bold ml-2'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 12 }).format((product.price - (product.price * (product.discount / 100))))}</h1>
                                     </div>
                                 }
 
@@ -306,21 +360,16 @@ function ProductDetail() {
                             </div>
                             <div className='w-full flex flex-col justify-start items-center '>
 
-                                <div className='p-3 w-fit flex flex-col max-h-[425px] ml-4 border-[#6999B8] border-2 rounded-md shadow-shadow-custom-2'>
-                                    <div className='flex justify-center rounded-md gap-[20px] items-center p-3 border-black border-2'>
-                                        <div className='text-[#316093]'>{`<`}</div>
-                                        <img src={product.productImages[0].image} className="max-w-[100px]" alt="" />
-                                        <div className='text-[#316093]'>{`>`}</div>
-                                    </div>
+                                <div className='p-3 w-fit flex flex-col max-h-[425px]  border-[#6999B8] border-2 rounded-md shadow-shadow-custom-2'>
 
                                     {product.discount === 0 ?
                                         <div className='flex flex-col'>
-                                            <h1 className='font-bold text-2xl'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(product.price)}</h1>
+                                            <h1 className='font-bold text-2xl'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 12 }).format(product.price)}</h1>
                                         </div>
                                         :
                                         <div className='flex flex-col'>
-                                            <h1 className='py-5 line-through'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format(product.price)}</h1>
-                                            <h1 className='font-bold text-2xl'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 6 }).format((product.price - (product.price * (product.discount / 100))))}</h1>
+                                            <h1 className='py-5 line-through text-lg'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 12 }).format(product.price)}</h1>
+                                            <h1 className='font-bold text-2xl'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 12 }).format((product.price - (product.price * (product.discount / 100))))}</h1>
                                         </div>
                                     }
 
@@ -343,9 +392,9 @@ function ProductDetail() {
                                     </div>
                                     <h1 className='text-sm'>Pembelian Maksimal {product.stock} pcs</h1>
                                     <div className='mt-5'>
-                                        <button onClick={addToCart} className={` ${ qty == 0 ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#FBC646]'} ' flex items-center justify-center px-5 py-3 text-center font-bold w-[100%]  rounded-[8px] ' `}>+ Keranjang</button>
+                                        <button onClick={addToCart} className={` ${qty == 0 ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#FBC646]'} ' flex items-center justify-center px-5 py-3 text-center font-bold w-[100%]  rounded-[8px] ' `}>+ Keranjang</button>
 
-                                        <Toaster 
+                                        <Toaster
                                             position='bottom-right'
                                             reverseOrder={false}
 
@@ -359,7 +408,7 @@ function ProductDetail() {
 
                                                 success: {
                                                     duration: 5000,
-                                                    theme:{
+                                                    theme: {
                                                         primary: 'blue',
                                                         secondary: 'yellow'
                                                     }
@@ -367,7 +416,7 @@ function ProductDetail() {
 
                                                 error: {
                                                     duration: 5000,
-                                                    theme:{
+                                                    theme: {
                                                         primary: 'red',
                                                         secondary: 'yellow'
                                                     }
@@ -378,14 +427,16 @@ function ProductDetail() {
                                     </div>
                                 </div>
                                 <div className=' mt-3 flex gap-x-3 items-center'>
-                                    <button onClick={handleClickWishlist}>
+                                    <button className='rounded-[8px] border-2 border-[#6999B8] flex items-center gap-x-3 px-3 py-2' onClick={handleClickWishlist}>
                                         <img src={checkProduct ? heartRed : loveOutline} alt="" />
+                                        <p className='text-[#6999B8]'>Wishlist</p>
                                     </button>
-                                    <div className='group cursor-pointer transition relative w-[30px] flex items-center '>
-                                        <button >
+                                    <div className='group cursor-pointer transition relative flex items-center rounded-[8px] border-2 border-[#6999B8] px-3 py-2'>
+                                        <button className='flex gap-x-3' >
                                             <img src={shareIcon} alt="" />
+                                            <p className='text-[#6999B8]'>Bagikan</p>
                                         </button>
-                                        <div className='absolute  top-full left-0 bg-white  w-[180px] h-fit flex gap-x-3 p-2 invisible  opacity-0 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 translate-y-[-50%] group-hover:ease-in-out group-hover:duration-500 rounded-[8px] shadow-shadow-custom-1'>
+                                        <div className='absolute  top-full left-0 bg-white  w-fit h-fit flex gap-x-3 p-2 invisible  opacity-0 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 translate-y-[-50%] group-hover:ease-in-out group-hover:duration-500 rounded-[8px] shadow-shadow-custom-1'>
                                             <button className='hover:shadow-shadow-custom-2 rounded-full '>
                                                 <img className='w-[30px]' src={instagramLogo} alt="" />
                                             </button>
@@ -396,9 +447,6 @@ function ProductDetail() {
                                                 <a target="_blank" href={`https://api.whatsapp.com/send?phone=628111462878&text=${urlProduct}%0AHalo%20Homepoint%F0%9F%99%8C%F0%9F%8F%BB%0AAda%20yang%20ingin%20Saya%20tanyakan%2C%20nih!%0A%0A(Tuliskan%20pertanyaanmu%20disini%20ya!)`} rel="noopener noreferrer">
                                                     <img className="w-[30px]" src={waLogo} alt="test" />
                                                 </a>
-                                            </button>
-                                            <button className='hover:shadow-shadow-custom-2 rounded-full '>
-                                                <img className='w-[30px]' src={facebookLogo} alt="" />
                                             </button>
                                         </div>
                                     </div>
