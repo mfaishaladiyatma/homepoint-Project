@@ -50,7 +50,7 @@ function ProductDetail() {
 
     const urlProduct = `https://homepoint-server-staging.herokuapp.com/api/v1/products/${id}`
 
-    const productWaUrl = `https://homepoint-project.vercel.app/products/${id}`
+    const productWaUrl = `https://homepoint-project.vercel.app/product/${id}`
 
 
 
