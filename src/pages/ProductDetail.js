@@ -48,7 +48,9 @@ function ProductDetail() {
 
     const decode = token ? jwtDecode(token) : null;
 
-    const urlProduct = `https://homepoint-project.vercel.app/products/${id}`
+    const urlProduct = `https://homepoint-server-staging.herokuapp.com/api/v1/products/${id}`
+
+    const productWaUrl = `https://homepoint-project.vercel.app/products/${id}`
 
 
 
@@ -444,7 +446,7 @@ function ProductDetail() {
                                                 <img className='w-[30px]' src={facebookLogo} alt="" />
                                             </button>
                                             <button className='hover:shadow-shadow-custom-2 rounded-full'>
-                                                <a target="_blank" href={`https://api.whatsapp.com/send?phone=628111462878&text=${urlProduct}%0AHalo%20Homepoint%F0%9F%99%8C%F0%9F%8F%BB%0AAda%20yang%20ingin%20Saya%20tanyakan%2C%20nih!%0A%0A(Tuliskan%20pertanyaanmu%20disini%20ya!)`} rel="noopener noreferrer">
+                                                <a target="_blank" href={`https://api.whatsapp.com/send?phone=628111462878&text=${productWaUrl}%0AHalo%20Homepoint%F0%9F%99%8C%F0%9F%8F%BB%0AAda%20yang%20ingin%20Saya%20tanyakan%2C%20nih!%0A%0A(Tuliskan%20pertanyaanmu%20disini%20ya!)`} rel="noopener noreferrer">
                                                     <img className="w-[30px]" src={waLogo} alt="test" />
                                                 </a>
                                             </button>
