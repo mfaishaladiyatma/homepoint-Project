@@ -257,13 +257,13 @@ function ProductDetail() {
                                 className="carouselProductDetail"
                             >
                                 {productImage.map((image) => (
-                                    <React.Fragment key={image.id}>
-                                    <SwiperSlide>
+                                    
+                                    <SwiperSlide key={image.id}>
                                         <div className='h-fit w-fit  '>
                                             <img className='w-full min-w-[250px] rounded-[10px] shadow-shadow-custom-2' src={image.image} alt="" />
                                         </div>
                                     </SwiperSlide>
-                                    </React.Fragment>
+                                    
                                 ))}
 
 

@@ -25,6 +25,7 @@ export default function Checkout() {
   const [modalCheckout, setModalCheckout] = useState(false)
   const [userProfile, setUserProfile] = useState([])
   const [totalAsuransi, setTotalAsuransi] = useState(0)
+  
 
   useEffect(() => {
     if (decode) {
@@ -42,6 +43,7 @@ export default function Checkout() {
     }
   }, [])
 
+
   const calcTotal = () => {
 
     const total = cartToCheckout.map(item => item.products.discount == 0 ?
@@ -53,55 +55,29 @@ export default function Checkout() {
     return total
   }
 
-  // const calcTotalAsuransi = (checked) => {
-  //   const totalAsuransi = checked.filter(item => cartToCheckout.map(each => each.id).includes(item)).map(items => items.products.price * (1/100)).reduce((a, b) => {
-  //     return a + parseInt(b, 10)
-  //   },0)
-  //   return totalAsuransi
-  // }
-
   const [checked, setChecked] = useState([])
-
-  // const handleAsuransi = (e, idCartItem) => {
-  //   if (e) {
-  //     setChecked([...checked, idCartItem])
-
-  //     cartToCheckout.map((item) => {item.products.discount === 0 ?
-  //       setTotalAsuransi(totalAsuransi + (cartToCheckout.find(item => item.id === idCartItem).products.price * (1/100)))
-  //       :
-  //       setTotalAsuransi(totalAsuransi + ((cartToCheckout.find(item => item.id === idCartItem).products.price -(cartToCheckout.find(item => item.id === idCartItem).products.price * (cartToCheckout.find(item => item.id === idCartItem).products.discount / 100))) * (1/100)))
-  //     })
-
-  //   } else {
-  //     setChecked(checked.filter(item => item !== idCartItem))
-
-  //     cartToCheckout.map((item) => {item.products.discount === 0 ? 
-  //       setTotalAsuransi(totalAsuransi - (cartToCheckout.find(item => item.id === idCartItem).products.price * (1/100)))
-  //       :
-  //       setTotalAsuransi(totalAsuransi - ((cartToCheckout.find(item => item.id === idCartItem).products.price -(cartToCheckout.find(item => item.id === idCartItem).products.price * (cartToCheckout.find(item => item.id === idCartItem).products.discount / 100))) * (1/100)))
-  //     })
-  //   }
-  // }
 
   const handleAsuransi = (e, idCartItem) => {
     if (e) {
       setChecked([...checked, idCartItem])
 
-      if(cartToCheckout.map((item) => item.products.discount === 0)){
+      if(cartToCheckout.find(item => item.id === idCartItem).products.discount === 0){
       setTotalAsuransi(totalAsuransi + (cartToCheckout.find(item => item.id === idCartItem).products.price * (1/100)))
       }else{
-        setTotalAsuransi(totalAsuransi + (cartToCheckout.find(item => item.id === idCartItem).products.price -(cartToCheckout.find(item => item.id === idCartItem).products.price * (cartToCheckout.find(item => item.id === idCartItem).products.discount / 100)) * (1/100)))
+        setTotalAsuransi(totalAsuransi + ((cartToCheckout.find(item => item.id === idCartItem).products.price -(cartToCheckout.find(item => item.id === idCartItem).products.price * (cartToCheckout.find(item => item.id === idCartItem).products.discount / 100))) * (1/100)))
       }
     } else {
       setChecked(checked.filter(item => item !== idCartItem))
       
-      if(cartToCheckout.map((item) => item.products.discount === 0)){
+      if(cartToCheckout.find(item => item.id === idCartItem).products.discount === 0){
       setTotalAsuransi(totalAsuransi - (cartToCheckout.find(item => item.id === idCartItem).products.price * (1/100)))
       }else{
-        setTotalAsuransi(totalAsuransi - (cartToCheckout.find(item => item.id === idCartItem).products.price -(cartToCheckout.find(item => item.id === idCartItem).products.price * (cartToCheckout.find(item => item.id === idCartItem).products.discount / 100)) * (1/100)))
+        setTotalAsuransi(totalAsuransi - (((cartToCheckout.find(item => item.id === idCartItem).products.price) -(cartToCheckout.find(item => item.id === idCartItem).products.price * (cartToCheckout.find(item => item.id === idCartItem).products.discount / 100))) * (1/100)))
       }
     }
   }
+
+  const totalSemua = calcTotal() + totalAsuransi
 
   return (
     <div className='flex flex-col gap-y-10 px-16 py-3 font-Inter'>
@@ -255,19 +231,19 @@ export default function Checkout() {
               })} */}
               <div className='flex flex-row justify-between'>
                 <p>Total harga ({cartToCheckout.length} produk)</p>
-                <p>{calcTotal()}</p>
+                <p>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 12 }).format(calcTotal())}</p>
               </div>
               <div className='flex flex-row justify-between'>
                 <p>Biaya asuransi ({checked.length} produk)</p>
                 {/* <p>{calcTotalAsuransi()}</p> */}
-                <p>{totalAsuransi}</p>
+                <p>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 12 }).format(totalAsuransi)}</p>
               </div>
             </div>
           </div>
           <div className='h-[2px] w-full bg-blue-300'></div>
           <div className='flex flex-row justify-between'>
             <p className='font-bold text-[22px]'>Total Harga</p>
-            <p className='font-bold text-[22px]'>Rp. 1.000.000</p>
+            <p className='font-bold text-[22px]'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 12 }).format(totalSemua)}</p>
           </div>
 
           <button onClick={() => setModalCheckout(!modalCheckout)}>
@@ -279,7 +255,7 @@ export default function Checkout() {
 
       </div>
 
-      {modalCheckout ? <ModalCheckout checked={checked} cartToCheckout={cartToCheckout} setModalCheckout={setModalCheckout} /> : null}
+      {modalCheckout ? <ModalCheckout idAkun={idAkun} totalSemua={totalSemua} totalAsuransi={totalAsuransi} checked={checked} cartToCheckout={cartToCheckout} setModalCheckout={setModalCheckout} totalHargaBarang={calcTotal()} /> : null}
 
     </div>
   )
