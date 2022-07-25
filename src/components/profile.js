@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux/es/exports'
 import { useState, Fragment, useEffect } from 'react'
 import axios from "axios";
 import jwtDecode from 'jwt-decode'
+import toast, { Toaster } from 'react-hot-toast';
 
 
 function Profile() {
@@ -23,6 +24,7 @@ function Profile() {
       axios.get('https://homepoint-server-staging.herokuapp.com/api/v1/users/' + id)
         .then((response) => {
           // console.log(response.data.data)
+          setUserLengkap(response.data.data)
           setData({
             ...data,
             name: response.data.data.name,
@@ -50,6 +52,7 @@ function Profile() {
   //     })
   // }, [])
 
+
   const [data, setData] = React.useState({
     name: "Lynn Tanner",
     birth: "Tanggal Lahir",
@@ -62,6 +65,7 @@ function Profile() {
 
   const [alamatPengguna, setAlamatPengguna] = React.useState([]);
 
+  const [userLengkap, setUserLengkap] = React.useState({});
   const [state, setState] = React.useState(true);
   const [modal, setModal] = React.useState(false);
   const [birth, setBirth] = React.useState(false);
@@ -76,15 +80,44 @@ function Profile() {
       {birth ? <Birth setBirth={setBirth} setData={setData} data={data} /> : ""}
       {gender ? <Gender setGender={setGender} setData={setData} data={data} /> : ""}
       {nomor ? <Nomor setNomor={setNomor} setData={setData} data={data} /> : ""}
-      {address ? <Address setAddress={setAddress} setAlamat={setAlamat} setAlamatPengguna={setAlamatPengguna} alamatPengguna={alamatPengguna} /> : ""}
+      {address ? <Address userLengkap={userLengkap} setAddress={setAddress} setAlamat={setAlamat} setAlamatPengguna={setAlamatPengguna} alamatPengguna={alamatPengguna} /> : ""}
+
+      <Toaster
+        position='bottom-right'
+        reverseOrder={false}
+
+        toastOptions={{
+          duration: 5000,
+          style: {
+            backgroundColor: '#FBC646',
+            color: '#22364A',
+            fontWeight: 'bold',
+          },
+
+          success: {
+            duration: 5000,
+            theme: {
+              primary: 'blue',
+              secondary: 'yellow'
+            }
+          },
+
+          error: {
+            duration: 5000,
+            theme: {
+              primary: 'red',
+              secondary: 'yellow'
+            }
+          }
+        }}
+      />
+
       <div className="flex flex-col md:flex-row gap-[20px]">
         <h1 className="text-2xl md:hidden font-bold py-6">Profil</h1>
         <div className="flex flex-col sm:flex-row gap-5">
-          <div className="p-3 flex h-fit flex-col max-w-fit border-[#98B6C9] border-[1px] rounded-md">
-            <img className="p-12 md:p-24 bg-[#F2F2F2]" src={profileIcon} alt="" />
-            <h1 className="font-bold">Lynn Tanner</h1>
-            <h2 className="text-sm pb-2">Bergabung sejak Jan 2022</h2>
-            <div className="mt-auto flex w-full">
+          <div className="p-3 flex h-fit flex-col max-w-fit border-[#98B6C9] border-[1px] rounded-md gap-y-5">
+            <h1 className="font-bold text-[24px]">{data.name}</h1>
+            <div className="flex w-full">
               <button className="flex w-full justify-center items-center border-[1px] border-[#22364A] rounded-md px-5 py-2 gap-[20px]">
                 <img src={secureIcon} alt="" />
                 <h1 className="font-bold text-[#22364A]">Ubah Kata Sandi</h1>
