@@ -48,7 +48,7 @@ function ProductDetail() {
 
     const decode = token ? jwtDecode(token) : null;
 
-    const urlProduct = `https://homepoint-server-staging.herokuapp.com/api/v1/products/${id}`
+    const urlProduct = `https://homepoint-project.vercel.app/products/${id}`
 
 
 
