@@ -9,6 +9,7 @@ import SearchResult from "./pages/SearchResult";
 import Profile from "./components/profile";
 import ProductDetail from "./pages/ProductDetail";
 import Wishlist from "./pages/Wishlist";
+import Payment from "./pages/Payment";
 
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -41,6 +42,7 @@ function App() {
           <Route path="/pesanan" element={<ComponentLayout><RiwayatPesanan/></ComponentLayout>}></Route>
           <Route path="/wishlist-:id" element={<ComponentLayout><Wishlist/></ComponentLayout>}></Route>
           <Route path="/checkout" element={<ComponentLayout><Checkout/></ComponentLayout>}></Route>
+          <Route path="/payment" element={<Payment />}></Route>
         </Routes>
       
     </div>

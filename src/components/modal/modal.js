@@ -38,6 +38,16 @@ function Modal({ setModal, setData, data }) {
 
     }
 
+    const getUserById = () => {
+        axios.get('https://homepoint-server-staging.herokuapp.com/api/v1/users/' + id)
+            .then((response) => {
+                setUserData(response.data.data);
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -67,7 +77,7 @@ function Modal({ setModal, setData, data }) {
                 <h1 className='text-center font-bold text-[#316093]'>Ubah Nama Lengkap</h1>
                 <div className='p-2 mt-6 w-full rounded-md border-[1px] border-[#316093]'>
                     <h1 className='text-[#316093] text-sm'>Nama Lengkap</h1>
-                    <input onChange={handleChangeName} className='w-full' placeholder='Masukkan Nama' />
+                    <input defaultValue={userData.name} onChange={handleChangeName} className='w-full' placeholder='Masukkan Nama' />
                 </div>
                 <button type="submit" className='p-2 font-semibold px-12 rounded-md mt-6 bg-[#FBC646]'>Simpan</button>
             </form>

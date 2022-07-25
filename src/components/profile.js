@@ -25,6 +25,7 @@ function Profile() {
         .then((response) => {
           // console.log(response.data.data)
           setUserLengkap(response.data.data)
+          setAlamatPengguna(response.data.data.addresses)
           setData({
             ...data,
             name: response.data.data.name,
@@ -35,11 +36,11 @@ function Profile() {
         .catch((error) => {
           console.log(error)
         })
-      } else {
-        return 
-      }
-    }, [])
-    
+    } else {
+      return
+    }
+  }, [])
+
   // useEffect(() => {
   //   axios.get('https://homepoint-server-staging.herokuapp.com/api/v1/products/discount')
   //     .then((response) => {
@@ -75,7 +76,7 @@ function Profile() {
   const [address, setAddress] = React.useState(false);
 
   return (
-    <div className="w-full h-full px-4 md:py-24 flex flex-col justify-center md:items-center">
+    <div className="w-full font-Inter h-full px-4 md:py-24 flex flex-col justify-center md:items-center">
       {modal ? <Modal setModal={setModal} setData={setData} data={data} /> : ""}
       {birth ? <Birth setBirth={setBirth} setData={setData} data={data} /> : ""}
       {gender ? <Gender setGender={setGender} setData={setData} data={data} /> : ""}
@@ -117,6 +118,7 @@ function Profile() {
         <div className="flex flex-col sm:flex-row gap-5">
           <div className="p-3 flex h-fit flex-col max-w-fit border-[#98B6C9] border-[1px] rounded-md gap-y-5">
             <h1 className="font-bold text-[24px]">{data.name}</h1>
+            <h1 className="font-bold text-[24px]">{userLengkap.addresses.phoneNumber}</h1>
             <div className="flex w-full">
               <button className="flex w-full justify-center items-center border-[1px] border-[#22364A] rounded-md px-5 py-2 gap-[20px]">
                 <img src={secureIcon} alt="" />
@@ -141,7 +143,6 @@ function Profile() {
                 <h1 className="text-[#316093] font-bold">Informasi Biodata</h1>
                 <div className="flex justify-between p-3 bg-[#F7F7F7] items-center">
                   <div>
-                    <h1 className="text-sm text-[#316093]">Label</h1>
                     <h1 className="font-bold">{data.name}</h1>
                   </div>
                   <div>
@@ -190,41 +191,27 @@ function Profile() {
               </div>
             ) : (
               <div className={`h-full ${alamat ? "" : "items-center justify-center"} flex flex-col gap-[10px]`}>
-                {alamat ? (
-                  <div className="px-5 py-3">
-                    <div className="flex justify-center  pb-3 border-b-[1px] border-blue-pale items-center w-full">
-                      <h1 className="text-[#316093] font-bold">Pilih Alamat Pengiriman</h1>
-                    </div>
-                    <div>
-                      <button onClick={() => setAddress(true)} className="bg-[#FBC646] font-bold rounded-md py-2 w-full my-3">
-                        Tambah Alamat Baru
-                      </button>
-                    </div>
-                    <div className="flex flex-col gap-5">
-                      {alamatPengguna.map((each) => {
-                        return (
-                          <div className="flex px-3 border-[1px] border-blue-pale p-3 flex-col">
-                            <h1 className="text-xl">
-                              <span className="font-bold">{each.userAddress.namaLengkap}</span> ({each.userAddress.labelAlamat}){" "}
-                              {each.userAddress.alamatUtama ? <span className="p-1 bg-blue-pale rounded-xl ml-2 text-sm text-white px-2">Utama</span> : ""}
-                            </h1>
-                            <h1>{each.userAddress.noHp}</h1>
-                            <h1>{each.userAddress.alamatLengkap}</h1>
-                            <h1>
-                              {each.userAddress.provinsi} , {each.userAddress.kabupaten} , {each.userAddress.kecamatan} , {each.userAddress.kodePos}{" "}
-                            </h1>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                ) : (
-                  <div>
-                    <button onClick={() => setAddress(true)} className="text-[#22364A] p-2 border-[#22364A] border-[1px] rounded-md">
-                      Tambahkan Informasi Alamat
-                    </button>
-                  </div>
-                )}
+                {alamat ?
+                  null
+                  :
+                  alamatPengguna.length > 0 ?
+                    (alamatPengguna.map((item) => {
+                      return (
+                        <div key={item.id}>
+                          <h3>{item.fullAddress}, {item.village}, {item.districts}, {item.city}, {item.province}, {item.zipCode}</h3>
+                        </div>
+                      )
+                    }))
+                    :
+                    (
+                      <div>
+                        <button onClick={() => setAddress(true)} className="text-[#22364A] p-2 border-[#22364A] border-[1px] rounded-md">
+                          Tambahkan Informasi Alamat
+                        </button>
+                      </div>
+
+                    )
+                }
               </div>
             )}
           </div>

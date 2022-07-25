@@ -165,6 +165,9 @@ function Header({ setMenu, menu }) {
                 <button onClick={() => {navigate('/pesanan'); setIsClickedLogin(!isClickedLogin);}}>
                   <div  className='h-[40px] px-2 flex justify-start items-center rounded-[8px] hover:bg-sky-200 hover:font-medium'>Pesanan</div>
                 </button>
+                <button onClick={() => {navigate('/checkout'); setIsClickedLogin(!isClickedLogin);}}>
+                  <div  className='h-[40px] px-2 flex justify-start items-center rounded-[8px] hover:bg-sky-200 hover:font-medium'>Checkout</div>
+                </button>
                 <button onClick={() => { dispatch(logoutAction()); setIsClickedLogin(!isClickedLogin); }}>
                   <div className='h-[40px] px-2 flex justify-start items-center rounded-[8px] hover:bg-sky-200 hover:font-medium'>Keluar</div>
                 </button>

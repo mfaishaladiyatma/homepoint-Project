@@ -24,8 +24,9 @@ export default function Checkout() {
   const [subtotalClicked, setSubtotalClicked] = useState(true)
   const [modalCheckout, setModalCheckout] = useState(false)
   const [userProfile, setUserProfile] = useState([])
+  const [addresses, setAddresses] = useState([])
   const [totalAsuransi, setTotalAsuransi] = useState(0)
-  
+
 
   useEffect(() => {
     if (decode) {
@@ -33,6 +34,7 @@ export default function Checkout() {
         .then((response) => {
           // console.log(response.data.data)
           setUserProfile(response.data.data)
+          setAddresses(response.data.data.addresses)
           // console.log(cobaGet)
         })
         .catch((error) => {
@@ -61,18 +63,18 @@ export default function Checkout() {
     if (e) {
       setChecked([...checked, idCartItem])
 
-      if(cartToCheckout.find(item => item.id === idCartItem).products.discount === 0){
-      setTotalAsuransi(totalAsuransi + (cartToCheckout.find(item => item.id === idCartItem).products.price * (1/100)))
-      }else{
-        setTotalAsuransi(totalAsuransi + ((cartToCheckout.find(item => item.id === idCartItem).products.price -(cartToCheckout.find(item => item.id === idCartItem).products.price * (cartToCheckout.find(item => item.id === idCartItem).products.discount / 100))) * (1/100)))
+      if (cartToCheckout.find(item => item.id === idCartItem).products.discount === 0) {
+        setTotalAsuransi(totalAsuransi + (cartToCheckout.find(item => item.id === idCartItem).products.price * (1 / 100)))
+      } else {
+        setTotalAsuransi(totalAsuransi + ((cartToCheckout.find(item => item.id === idCartItem).products.price - (cartToCheckout.find(item => item.id === idCartItem).products.price * (cartToCheckout.find(item => item.id === idCartItem).products.discount / 100))) * (1 / 100)))
       }
     } else {
       setChecked(checked.filter(item => item !== idCartItem))
-      
-      if(cartToCheckout.find(item => item.id === idCartItem).products.discount === 0){
-      setTotalAsuransi(totalAsuransi - (cartToCheckout.find(item => item.id === idCartItem).products.price * (1/100)))
-      }else{
-        setTotalAsuransi(totalAsuransi - (((cartToCheckout.find(item => item.id === idCartItem).products.price) -(cartToCheckout.find(item => item.id === idCartItem).products.price * (cartToCheckout.find(item => item.id === idCartItem).products.discount / 100))) * (1/100)))
+
+      if (cartToCheckout.find(item => item.id === idCartItem).products.discount === 0) {
+        setTotalAsuransi(totalAsuransi - (cartToCheckout.find(item => item.id === idCartItem).products.price * (1 / 100)))
+      } else {
+        setTotalAsuransi(totalAsuransi - (((cartToCheckout.find(item => item.id === idCartItem).products.price) - (cartToCheckout.find(item => item.id === idCartItem).products.price * (cartToCheckout.find(item => item.id === idCartItem).products.discount / 100))) * (1 / 100)))
       }
     }
   }
@@ -100,8 +102,13 @@ export default function Checkout() {
             </div>
 
             <p className='font-medium'>08211313131</p>
+            {addresses.map((item) => {
 
-            <p className='text-[#505050]'>JL. Buah batu permai no 100 Blok A5 deket masjid agung, Desa Batu, Kec. Batu, Kota Bandung. Batu, Kota Bandung, 34131</p>
+              return (
+                <p key={item.id} className='text-[#505050]'>{item.fullAddress}</p>
+              )
+            })}
+
 
           </div>
 
@@ -255,7 +262,7 @@ export default function Checkout() {
 
       </div>
 
-      {modalCheckout ? <ModalCheckout idAkun={idAkun} totalSemua={totalSemua} totalAsuransi={totalAsuransi} checked={checked} cartToCheckout={cartToCheckout} setModalCheckout={setModalCheckout} totalHargaBarang={calcTotal()} /> : null}
+      {modalCheckout ? <ModalCheckout addresses={addresses} idAkun={idAkun} totalSemua={totalSemua} totalAsuransi={totalAsuransi} checked={checked} cartToCheckout={cartToCheckout} setModalCheckout={setModalCheckout} totalHargaBarang={calcTotal()} /> : null}
 
     </div>
   )

@@ -9,7 +9,7 @@ import kurirReguler from '../images/kurirReguler.svg'
 import kurirHomepoint from '../images/kurirHomepoint.svg'
 import ambilDiTempat from '../images/ambilDiTempat.svg'
 
-export default function ModalCheckout({ setModalCheckout, checked, cartToCheckout, totalAsuransi, totalSemua, idAkun, totalHargaBarang }) {
+export default function ModalCheckout({ setModalCheckout, checked, cartToCheckout, totalAsuransi, totalSemua, idAkun, totalHargaBarang, addresses }) {
 
   const [loading, setLoading] = useState(true);
   const [selectedToko, setSelectedToko] = useState('');
@@ -52,44 +52,43 @@ export default function ModalCheckout({ setModalCheckout, checked, cartToCheckou
     fetchData();
 
   }, []);
+  const fullAddress = addresses.map(item => (
+    item.fullAddress + ' ' + item.village + ' ' + item.districts + ' ' + item.city + ' ' + item.province + ' ' + item.zipCode
+  )).toString()
+  // console.log(fullAddress)
 
-  const checkoutItem = [cartToCheckout.map((item) => (
+  const addressId = addresses.map(item => (
+    item.id
+  )).toString()
+
+  const checkoutItem = cartToCheckout.map((item) => (
     {
       "discount": item.products.discount,
-      "id": item.id,
       "isInsurance": checked.includes(item.id) ? true : false,
       "price": item.products.price,
       "productId": item.products.id,
       "quantity": item.quantity,
     }
-  ))]
+  ))
 
-  // console.log(checkoutItem)
+  console.log(checkoutItem)
 
   const handleCheckout = () => {
     axios({
-      method: "delete",
-      url: `https://homepoint-server-staging.herokuapp.com/api/v1/cart/items`,
+      method: "post",
+      url: `https://homepoint-server-staging.herokuapp.com/api/v1/transaction`,
       data: {
-        "addressesId": "string",
+        "addressesId": addressId,
         "bankId": selectedBank,
         "shippingServicesId": selectedShippingService,
-        "storeLocation": selectedShippingService === 'ce200561-20bd-4a6c-8fbe-9f015074e5b8' ? selectedToko : '',
+        "storeLocation": selectedShippingService === 'ce200561-20bd-4a6c-8fbe-9f015074e5b8' ? selectedToko : ' ',
         "totalPrice": totalSemua,
-        "transactionItems": [
-          {
-            "discount": 0,
-            "id": "string",
-            "isInsurance": true,
-            "price": 0,
-            "productId": "string",
-            "quantity": 0
-          }
-        ],
+        "transactionItems": checkoutItem,
         "userId": idAkun
       },
-      // headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      headers: { "Content-Type": "application/json" }
     }).then((response) => {
+
     }).catch((error) => {
       //handle error
       console.log(error)
@@ -264,7 +263,7 @@ export default function ModalCheckout({ setModalCheckout, checked, cartToCheckou
 
 
 
-        <button>
+        <button onClick={() => handleCheckout()}>
           <div className='rounded-[8px] font-bold text-[#505050] bg-[#FBC646] h-10 flex justify-center items-center'>
             Bayar
           </div>

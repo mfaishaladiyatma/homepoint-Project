@@ -3,22 +3,9 @@ import Carousel from "../components/Carousel";
 import CarouselBestOffer from "../components/CarouselBestOffer";
 import CarouselRekomendasi from "../components/CarouselRekomendasi";
 
-import peralatanDapurBanner from "../images/peralatanDapur.svg";
-import peralatanKebersihanBanner from "../images/peralatanKebersihan.svg";
-import interiorFurnitureBanner from "../images/interiorFurniture.svg";
-import elektronikBanner from "../images/elektronik.svg";
+
 import kategoriImage from "../images/kategoriImage.svg";
-import peralatanMasakLogo from "../images/peralatanMasakLogo.svg";
-import aksesorisDapurLogo from '../images/aksesorisDapurLogo.svg';
-import perlengkapanMasakLogo from '../images/perlengkapanMasakLogo.svg';
-import interiorLogo from '../images/interiorLogo.svg';
-import eksteriorLogo from '../images/eksteriorLogo.svg';
-import kebersihanRumahLogo from '../images/kebersihanRumahLogo.svg';
-import kebersihanDapurLogo from '../images/kebersihanDapurLogo.svg';
-import kebersihanToiletLogo from '../images/kebersihanToiletLogo.svg';
-import elektronikDapurLogo from '../images/elektronikDapurLogo.svg';
-import elektronikKebersihanLogo from '../images/elektronikKebersihanLogo.svg';
-import perangkatElektronikLogo from '../images/perangkatElektronikLogo.svg';
+
 
 import kitchenwarePeralatanDapur from "../images/kitchenware-peralatanDapur.svg";
 import kitchenwareElektronikDapur from "../images/kitchenware-elektronikDapur.svg";

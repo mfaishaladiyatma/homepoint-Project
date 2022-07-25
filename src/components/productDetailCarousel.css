@@ -24,10 +24,10 @@
 
 .carouselProductDetail .swiper-button-next {
   @apply after:hidden 
-  bg-[#22364A] rounded-full w-[25px] h-[25px] md:w-[40px] md:h-[40px]
+  bg-[#22364A] rounded-full w-[25px] h-[25px] md:w-[30px] md:h-[30px]
 }
 
 .carouselProductDetail .swiper-button-prev {
   @apply after:hidden 
-  bg-[#22364A] rounded-full w-[25px] h-[25px] md:w-[40px] md:h-[40px]
+  bg-[#22364A] rounded-full w-[25px] h-[25px] md:w-[30px] md:h-[30px]
 }
