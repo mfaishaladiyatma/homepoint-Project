@@ -22,10 +22,10 @@ function Payment() {
     setFile(image)
   }
 
-  const FormData = require('form-data');
-  // Create a new form instance
-  const imageFile = new FormData();
-  imageFile.append("proofPayment", file.name, )
+  // const FormData = require('form-data');
+  // // Create a new form instance
+  // const imageFile = new FormData();
+  // imageFile.append("proofPayment", file.name, )
 
 
 
@@ -46,19 +46,19 @@ function Payment() {
   }, [])
 
   const handleImageUpload = () => {
-    axios({
-      method: "put",
-      url: `https://homepoint-server-staging.herokuapp.com/api/v1/transaction/payment-confirmation/${transaction[0].id}`,
-      data: {
-        paymentProof: imageFile
-      },
-      headers: { "Content-Type": "multipart/form-data" },
-    }).then((response) => {
-      navigate('/')
-    }).catch((error) => {
-      //handle error
-      console.log(error)
-    })
+    // axios({
+    //   method: "put",
+    //   url: `https://homepoint-server-staging.herokuapp.com/api/v1/transaction/payment-confirmation/${transaction[0].id}`,
+    //   data: {
+    //     paymentProof: imageFile
+    //   },
+    //   headers: { "Content-Type": "multipart/form-data" },
+    // }).then((response) => {
+    //   navigate('/')
+    // }).catch((error) => {
+    //   //handle error
+    //   console.log(error)
+    // })
   }
 
 

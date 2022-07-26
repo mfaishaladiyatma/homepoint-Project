@@ -518,7 +518,7 @@ export default function Cart() {
         <section className='mb-20 flex flex-col '>
           <div className=' flex flex-col md:flex-row justify-start items-start md:justify-between md:items-center'>
             <h4 className='text-[22px] md:text-[30px] font-medium'>Wishlist</h4>
-            <button onClick={() => navigate('/wishlist-' + idAkun)}>
+            <button onClick={() => navigate('/wishlist')}>
               <p className='text-[#316093] text-[14px] md:text-[16px] font-[600]'>Lihat Selengkapnya &gt;</p>
             </button>
           </div>

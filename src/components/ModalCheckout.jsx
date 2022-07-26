@@ -20,8 +20,9 @@ export default function ModalCheckout({ setModalCheckout, checked, cartToCheckou
   const [bank, setBank] = useState([]);
   const [shippingService, setShippingService] = useState([]);
   const [selectedShippingService, setSelectedShippingService] = useState('');
+  
 
-  const totalSemuaFinal = shippingService === 'ce200561-20bd-4a6c-8fbe-9f015074e5b8' ? totalSemua + 25000 : totalSemua;
+  const totalSemuaFinal = totalSemua;
 
   useEffect(() => {
 
@@ -74,7 +75,7 @@ export default function ModalCheckout({ setModalCheckout, checked, cartToCheckou
     }
   ))
 
-  console.log(checkoutItem)
+  // console.log(checkoutItem)
 
   const handleCheckout = () => {
     axios({
@@ -226,7 +227,13 @@ export default function ModalCheckout({ setModalCheckout, checked, cartToCheckou
 
         <div className='flex flex-row justify-between'>
           <p className='font-semibold'>Total</p>
-          <p className='font-semibold'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 12 }).format(totalSemuaFinal)}</p>
+          {selectedShippingService === '9e174a08-a523-49fb-86c0-72c4cf32a425' ?
+          
+            <p className='font-semibold'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 12 }).format(totalSemuaFinal + 25000)}</p>
+            :
+            <p className='font-semibold'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 12 }).format(totalSemuaFinal)}</p>
+          }
+
         </div>
 
         <div className='flex flex-col'>
@@ -261,7 +268,7 @@ export default function ModalCheckout({ setModalCheckout, checked, cartToCheckou
             </div>
           </div>
           :
-        null
+          null
         }
 
 
