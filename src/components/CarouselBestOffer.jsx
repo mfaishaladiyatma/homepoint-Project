@@ -44,7 +44,9 @@ export default function CarouselBestOffer() {
         <section className='mt-10 container px-5 flex flex-col gap-y-10'>
           <div className='flex flex-col md:flex-row justify-between items-center'>
             <h2 className='font-[500] text-[30px] md:text-[40px]'>Penawaran Terbaik</h2>
+            <button onClick={() => navigate('/search?sort=discount')}>
             <p className='text-[#316093] text-[20px] font-[600]'>Lihat Selengkapnya &gt;</p>
+            </button>
           </div>
           <div className='flex flex-col justify-start md:flex-row container md:items-center  h-full  relative'>
             <div>

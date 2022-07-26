@@ -69,6 +69,9 @@ function SearchResult() {
             case 'price-desc':
                 params['Sort by price desc'] = true;
                 break;
+            case 'discount':
+                params['Sort by discount'] = true;
+                break;
             default:
         }
         setFilterList((prevState) => ({
@@ -252,8 +255,9 @@ function SearchResult() {
                 <div className='p-5 h-full flex flex-col lg:p-0 lg:mx-5'>
                     <div className='flex items-center'>
                         <h3 className='font-bold'>Urutkan</h3>
-                        <select value={filterList.sort} onChange={(e) => handleSort(e.target.value)} className='ml-5 outline-none p-3 rounded-md border-[1px] border-light-blue-pale'>
+                        <select value={filterList.sort} onChange={(e) => handleSort(e.target.value)} className='cursor-pointer ml-5 outline-none p-3 rounded-md border-[1px] border-light-blue-pale'>
                             <option value="''">Urutkan</option>{/* <-- harus diubah, tanya ke UI/UX */}
+                            <option value="discount">Diskon</option>
                             <option value="best-seller">Produk Terlaris</option>
                             <option value="latest">Produk Terbaru</option>
                             <option value="price-desc">Produk Termahal</option>
@@ -284,11 +288,11 @@ function SearchResult() {
                                             <div className='mt-auto'>
                                                 {each.discount == 0
                                                     ?
-                                                    <h3 className='font-bold mt-auto'>Rp {each.price}</h3>
+                                                    <h3 className='font-bold mt-auto'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 12 }).format(each.price)}</h3>
                                                     :
                                                     <>
-                                                        <h3 className='mt-auto line-through decoration-red-600 decoration-2'>Rp {each.price}</h3>
-                                                        <h3 className='font-bold mt-auto'>Rp {each.price - (each.price * (each.discount / 100))}</h3>
+                                                        <h3 className='mt-auto line-through decoration-red-600 decoration-2'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 12 }).format(each.price)}</h3>
+                                                        <h3 className='font-bold mt-auto'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 12 }).format(each.price - (each.price * (each.discount / 100))) }</h3>
                                                     </>
                                                 }
 
@@ -319,7 +323,7 @@ function SearchResult() {
                         <div className='w-full flex flex-wrap mt-5'>
                             {/* buat nampilin pagination pakai library aja */}
                             <ReactPaginate
-                                className='border-2 border-black flex gap-x-3'
+                                className='border-2 border-sky-400/40 rounded-[8px] py-2 px-2 flex gap-x-3 font-medium'
                                 breakLabel="..."
                                 nextLabel="next >"
                                 onPageChange={handlePageClick}
@@ -328,8 +332,8 @@ function SearchResult() {
                                 pageCount={totalPage}
                                 previousLabel="< previous"
                                 renderOnZeroPageCount={null}
-                                activeClassName='bg-red-400'
-                                forcePage={filterList.page}
+                                activeClassName='bg-sky-200 rounded-[2px] flex items-center justify-center w-[20px]'
+                                // forcePage={filterList.page}
                             />
                             {/* <PaginationPage data={data} paginate={paginate} currentPage={currentPage} productPerPage={productPerPage} totalPosts={dataProduct.length} /> */}
                         </div>
