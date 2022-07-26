@@ -27,7 +27,8 @@ export default function Login() {
 
   const { token } = useSelector((state) => state);
 
-  const handleLogin = () => {
+  const handleLogin = (e) => {
+    e.preventDefault()
     if (email !== "" && password !== "") {
       dispatch(loginActionAsync(email, password, navigate, toast));
     } else {

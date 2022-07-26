@@ -129,7 +129,7 @@ function Header({ setMenu, menu }) {
           </div>
         </div>
         <div className="hidden w-fit lg:flex gap-x-10  xl:gap-x-14 items-center">
-          <button className="flex w-[30px] items-center justify-center" onClick={() => navigate(`/wishlist-${id}`)}>
+          <button className="flex w-[30px] items-center justify-center" onClick={() => navigate(`/wishlist`)}>
           <img className=" h-[23px]" src={love} alt="love" />
           </button>
 
@@ -211,7 +211,7 @@ function Header({ setMenu, menu }) {
                 </form>
               </div>
             </div>
-          <Link to={`../wishlist-${id}`}>Wishlist</Link>
+          <Link to={`../wishlist`}>Wishlist</Link>
           <Link to={`../cart`}>Cart</Link>
           <Link to="/">Notification</Link>
           <Link to={`../profile`}>Profile</Link>

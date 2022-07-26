@@ -41,7 +41,7 @@ export default function Wishlist() {
     const fetchData = async () => {
       if (decode) {
         setLoading(true)
-        const getWishlistItems = await axios.get('https://homepoint-server-staging.herokuapp.com/api/v1/wishlist/' + id)
+        const getWishlistItems = await axios.get('https://homepoint-server-staging.herokuapp.com/api/v1/wishlist/' + idAkun)
           .then((response) => {
             // setDataWishlist((prevState) =>([
             //   ...prevState,
@@ -102,7 +102,7 @@ export default function Wishlist() {
   }
 
   const getWishlistData = () => {
-    axios.get('https://homepoint-server-staging.herokuapp.com/api/v1/wishlist/' + id)
+    axios.get('https://homepoint-server-staging.herokuapp.com/api/v1/wishlist/' + idAkun)
       .then((response) => {
         // setDataWishlist((prevState) =>([
         //   ...prevState,
