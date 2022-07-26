@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { useParams, useSearchParams, useNavigate } from 'react-router-dom'
 
 
 import { HiOutlineChevronRight, HiChevronDown, HiChevronUp, HiOutlineX } from "react-icons/hi";
@@ -10,6 +11,8 @@ import kurirHomepoint from '../images/kurirHomepoint.svg'
 import ambilDiTempat from '../images/ambilDiTempat.svg'
 
 export default function ModalCheckout({ setModalCheckout, checked, cartToCheckout, totalAsuransi, totalSemua, idAkun, totalHargaBarang, addresses }) {
+
+  const navigate = useNavigate()
 
   const [loading, setLoading] = useState(true);
   const [selectedToko, setSelectedToko] = useState('');
@@ -88,7 +91,7 @@ export default function ModalCheckout({ setModalCheckout, checked, cartToCheckou
       },
       headers: { "Content-Type": "application/json" }
     }).then((response) => {
-
+      navigate('/payment')
     }).catch((error) => {
       //handle error
       console.log(error)
