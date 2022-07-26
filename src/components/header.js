@@ -139,7 +139,6 @@ function Header({ setMenu, menu }) {
             </button>
           
 
-          <img className=" h-[23px]" src={bell} alt="bell" />
 
           <div className='relative flex flex-row items-center '>
             <button className="flex flex-row items-center gap-x-3" onClick={() => {setIsClickedLogin(!isClickedLogin); setIsClicked(false);}}>

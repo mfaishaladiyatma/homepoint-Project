@@ -2,6 +2,7 @@ import React from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch } from "react-redux/es/exports";
+import toast, { Toaster } from 'react-hot-toast';
 
 import { registerUser } from "../components/action";
 
@@ -25,23 +26,15 @@ export default function Register() {
 
   console.log(isChecked);
 
-  const handleRegister = () => {
-    if (isChecked && email && password && namaLengkap) {
+  const handleRegister = (e) => {
+    e.preventDefault();
+    if (isChecked) {
       dispatch(registerUser(namaLengkap, email, password, navigate));
       setShowModal(!showModal);
+    }else{
+      toast.error("Mohon centang checkbox");
     }
-    if (isChecked && !email) {
-      alert("Email tidak boleh kosong");
-    }
-    if (isChecked && !password) {
-      alert("Password tidak boleh kosong");
-    }
-    if (isChecked && !namaLengkap) {
-      alert("Nama tidak boleh kosong");
-    }
-    if (!isChecked) {
-      alert("Silahkan centang checkbox");
-    }
+    
   };
 
   return (
@@ -52,6 +45,36 @@ export default function Register() {
             <AiOutlineArrowLeft className="text-[26px] md:text-[32px]" />
           </button>
         </div>
+
+        <Toaster
+          position='bottom-right'
+          reverseOrder={false}
+
+          toastOptions={{
+            duration: 5000,
+            style: {
+              backgroundColor: '#FBC646',
+              color: '#22364A',
+              fontWeight: 'bold',
+            },
+
+            success: {
+              duration: 5000,
+              theme: {
+                primary: 'blue',
+                secondary: 'yellow'
+              }
+            },
+
+            error: {
+              duration: 5000,
+              theme: {
+                primary: 'red',
+                secondary: 'yellow'
+              }
+            }
+          }}
+        />
 
         {/* mid-section or form */}
 
@@ -75,10 +98,11 @@ export default function Register() {
               <h2 className="font-bold md:text-[48px] text-[32px] text-[#22364A]">Daftar akun</h2>
             </div>
 
-            <div className="w-full">
+            <form onSubmit={handleRegister} className="w-full">
               <div className="flex flex-col gap-y-3 p-2 justify-between rounded-[10px] w-full">
                 <p className="px-1 font-bold text-[14px] md:text-[16px]">Nama Lengkap</p>
                 <input
+                  required
                   value={namaLengkap}
                   onChange={(e) => setNamaLengkap(e.target.value)}
                   className="focus:outline-none focus:border-[#316093] focus:ring-2 focus:ring-[#316093] focus:bg-white caret-[#6999B8] px-2 h-24 md:h-12 rounded-[8px] bg-[#DADADA] md:text-[14px] text-[12px]"
@@ -89,16 +113,18 @@ export default function Register() {
               <div className="flex flex-col gap-y-3 p-2 justify-between rounded-[10px] w-full">
                 <p className="px-1 font-bold text-[14px] md:text-[16px]">Email</p>
                 <input
+                  required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="focus:outline-none focus:border-[#316093] focus:ring-2 focus:ring-[#316093] focus:bg-white caret-[#6999B8] px-2 h-24 md:h-12 rounded-[8px] bg-[#DADADA] md:text-[14px] text-[12px]"
                   placeholder="Email"
-                  type="text"
+                  type="email"
                 />
               </div>
               <div className="flex flex-col gap-y-3 p-2 justify-between rounded-[10px] w-full">
                 <p className="px-1 font-bold text-[14px] md:text-[16px]">Kata Sandi</p>
                 <input
+                  required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="focus:outline-none focus:border-[#316093] focus:ring-2 focus:ring-[#316093] focus:bg-white caret-[#6999B8] px-2 h-24 md:h-12 rounded-[8px] bg-[#DADADA] md:text-[14px] text-[12px]"
@@ -106,30 +132,30 @@ export default function Register() {
                   type="password"
                 />
               </div>
-            </div>
-
-            <div className="flex items-start w-full gap-x-5 my-10 px-3">
-              <input value={isChecked} onChange={(e) => setIsChecked(e.target.checked)} className="accent-[#FBC646] w-[20px] h-[30px] scale-[1.3] md:scale-[1.5]" type="checkbox" />
-              <div className="text-[12px] md:text-[16px]">
-                Dengan mendaftar, Anda menyetujui <span>Syarat &amp; Ketentuan</span> serta <span>Kebijakan Privasi</span> Homepoint
+              <div className="flex items-start w-full gap-x-5 my-10 px-3">
+                <input value={isChecked} onChange={(e) => setIsChecked(e.target.checked)} className="accent-[#FBC646] w-[20px] h-[30px] scale-[1.3] md:scale-[1.5]" type="checkbox" />
+                <div className="text-[12px] md:text-[16px]">
+                  Dengan mendaftar, Anda menyetujui <span>Syarat &amp; Ketentuan</span> serta <span>Kebijakan Privasi</span> Homepoint
+                </div>
               </div>
-            </div>
+              <button  type='submit' className="bg-[#FBC646] w-[100%] mx-auto py-3 rounded-[10px] mt-3">
+                <p className="font-bold w-full text-[14px] md:text-[16px]">Daftar</p>
+              </button>
+            </form>
 
-            <button onClick={handleRegister} className="bg-[#FBC646] w-[95%] mx-auto py-3 rounded-[10px] mt-3">
-              <p className="font-bold w-full text-[14px] md:text-[16px]">Daftar</p>
-            </button>
 
-            <div className="my-3 text-center mx-auto w-[95%] text-[14px] md:text-[16px]">Atau</div>
 
-            <div className="flex gap-[20px] justify-center  w-full px-5 my-3">
+            {/* <div className="my-3 text-center mx-auto w-[95%] text-[14px] md:text-[16px]">Atau</div> */}
+
+            {/* <div className="flex gap-[20px] justify-center  w-full px-5 my-3">
               <button className=" py-6 h-[30px] w-fit sm:h-[40px] bg-white/50 flex gap-x-3 px-5 justify-center items-center rounded-[10px]">
                 <img className="w-[20px] h-[20px] sm:w-[40px] sm:h-[40px]" src={Google} alt="" />
                 <p className="text-[12px] md:text-[16px] ">Masuk dengan akun google</p>
               </button>
-              {/* <button className=" w-[100px] py-6 h-[30px] sm:w-full sm:h-[40px] bg-white/30 flex justify-center items-center rounded-[10px]">
+              <button className=" w-[100px] py-6 h-[30px] sm:w-full sm:h-[40px] bg-white/30 flex justify-center items-center rounded-[10px]">
                 <img className="w-[20px] h-[20px] sm:w-[40px] sm:h-[40px]" src={Facebook} alt="" />
-              </button> */}
-            </div>
+              </button>
+            </div> */}
 
             <div className="flex justify-center w-[95%] my-10">
               <div className="text-[14px] md:text-[16px]">
