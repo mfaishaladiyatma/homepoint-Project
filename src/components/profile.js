@@ -118,7 +118,7 @@ function Profile() {
         <div className="flex flex-col sm:flex-row gap-5">
           <div className="p-3 flex h-fit flex-col max-w-fit border-[#98B6C9] border-[1px] rounded-md gap-y-5">
             <h1 className="font-bold text-[24px]">{data.name}</h1>
-            <h1 className="font-bold text-[24px]">{userLengkap.addresses.phoneNumber}</h1>
+            {/* <h1 className="font-bold text-[24px]">{userLengkap.addresses.phoneNumber}</h1> */}
             <div className="flex w-full">
               <button className="flex w-full justify-center items-center border-[1px] border-[#22364A] rounded-md px-5 py-2 gap-[20px]">
                 <img src={secureIcon} alt="" />

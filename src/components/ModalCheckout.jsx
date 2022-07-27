@@ -86,7 +86,7 @@ export default function ModalCheckout({ setModalCheckout, checked, cartToCheckou
         "bankId": selectedBank,
         "shippingServicesId": selectedShippingService,
         "storeLocation": selectedShippingService === 'ce200561-20bd-4a6c-8fbe-9f015074e5b8' ? selectedToko : ' ',
-        "totalPrice": totalSemua,
+        "totalPrice": selectedShippingService === '9e174a08-a523-49fb-86c0-72c4cf32a425' ? totalSemuaFinal + 25000 : totalSemuaFinal ,
         "transactionItems": checkoutItem,
         "userId": idAkun
       },
